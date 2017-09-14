@@ -1,1 +1,5 @@
-Hello
+This is an individual branch for my own research. 
+It is a good practice to create own branches to work / research on our own, so that we can have documented code / tracking even for our own junk code + research. 
+At the end, if we think our functionality should be added (merge) to the main project, thats where the 'master' branch comes in, that contains the main project files and no experimentation / testing is done on the master.
+
+However, It is OK if all of you want to work on the master branch only (instead of all separate branches) and are able to add changes without disrupting the implementation that would be in the master branch for every iteration.
