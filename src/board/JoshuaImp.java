@@ -1,3 +1,4 @@
+package board;
 /**
  * Very limited whiteboard implementation, as a starting point.
  * Limited functionality: draw rectangle, ellipse and line.
@@ -20,14 +21,11 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
 
-public class Whiteboard extends JFrame { //implements MouseListener { //, MouseMotionListener {
-	public static final int WIDTH = 900;
-    public static final int HEIGHT = 500;
-
-	// variables to hold the coordinates where the mouse is pressed
+public class whiteboard extends JFrame { //implements MouseListener { //, MouseMotionListener {
 	private int startX = -1;
 	private int startY = -1;
-
+	public static final int WIDTH = 900;
+    public static final int HEIGHT = 500;
 	private ArrayList<Rectangle2D> rects = new ArrayList<Rectangle2D>();
     private ArrayList<Ellipse2D> circs = new ArrayList<Ellipse2D>();
     private ArrayList<Line2D> lines = new ArrayList<Line2D>();
@@ -42,12 +40,12 @@ public class Whiteboard extends JFrame { //implements MouseListener { //, MouseM
     private BrushStyle activeStyle = BrushStyle.valueOf("ELLIPSE");
 
     public static void main(String[] args) {
-        Whiteboard whiteboard = new Whiteboard();
+    	whiteboard wb = new whiteboard();
     }
 
 
-	public Whiteboard() {
-		super("Whiteboard");
+	public whiteboard() {
+		super("whiteboard");
 		setSize(WIDTH, HEIGHT);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -155,18 +153,15 @@ public class Whiteboard extends JFrame { //implements MouseListener { //, MouseM
         }
     
         public void mouseEntered(MouseEvent e) {
-            //Do nothing
-            //System.out.println("Mouse entered");
+            
         }
     
         public void mouseExited(MouseEvent e) {
-            //Do nothing
-            //System.out.println("Mouse exited");
+            
         }
         
         public void mouseClicked(MouseEvent e) {
-            //Do nothing
-            //System.out.println("Mouse clicked");
+            
         }
     } // end of CanvasPanel class
 
