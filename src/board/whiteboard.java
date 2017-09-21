@@ -1,6 +1,5 @@
 //Integration of Joshua's implementation and some GUI changes.
 //Pending Stuff: no images are drawing at the moment due to no paint override method implementation
-
 package board;
 
 import java.awt.Color;
@@ -26,7 +25,7 @@ public class whiteboard extends javax.swing.JFrame
     private BrushStyle activeStyle = BrushStyle.valueOf("RECTANGLE");
     private Color activeColor = Color.BLACK;
     private ArrayList<ColoredShape> shapes = new ArrayList<ColoredShape>();
-    
+
     private enum BrushStyle
     {
         CIRCLE,
@@ -40,7 +39,6 @@ public class whiteboard extends javax.swing.JFrame
         initComponents();
         jColorChooser.setColor(activeColor);
     }
-
 
     public static void main(String[] args)
     {
@@ -71,7 +69,7 @@ public class whiteboard extends javax.swing.JFrame
         clearBtn = new javax.swing.JButton();
         selectionLabel = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        WhitePanel = new WhitePanel();
+        WhitePanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -206,6 +204,13 @@ public class whiteboard extends javax.swing.JFrame
 
         WhitePanel.setBackground(new java.awt.Color(255, 255, 255));
         WhitePanel.setBorder(javax.swing.BorderFactory.createCompoundBorder());
+        WhitePanel.addMouseMotionListener(new java.awt.event.MouseMotionAdapter()
+        {
+            public void mouseDragged(java.awt.event.MouseEvent evt)
+            {
+                WhitePanelMouseDragged(evt);
+            }
+        });
         WhitePanel.addMouseListener(new java.awt.event.MouseAdapter()
         {
             public void mousePressed(java.awt.event.MouseEvent evt)
@@ -265,23 +270,23 @@ public class whiteboard extends javax.swing.JFrame
     private void RectangleBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RectangleBtnActionPerformed
     {//GEN-HEADEREND:event_RectangleBtnActionPerformed
         activeStyle = BrushStyle.valueOf(evt.getActionCommand().toUpperCase());
-        String value = BrushStyle.valueOf(evt.getActionCommand().toUpperCase()).toString(); 
+        String value = BrushStyle.valueOf(evt.getActionCommand().toUpperCase()).toString();
         selectionLabel.setText(value);
     }//GEN-LAST:event_RectangleBtnActionPerformed
-    
+
     private void lineBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_lineBtnActionPerformed
     {//GEN-HEADEREND:event_lineBtnActionPerformed
         activeStyle = BrushStyle.valueOf(evt.getActionCommand().toUpperCase());
-        String value = BrushStyle.valueOf(evt.getActionCommand().toUpperCase()).toString(); 
+        String value = BrushStyle.valueOf(evt.getActionCommand().toUpperCase()).toString();
         selectionLabel.setText(value);
     }//GEN-LAST:event_lineBtnActionPerformed
 
     private void CircleBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_CircleBtnActionPerformed
     {//GEN-HEADEREND:event_CircleBtnActionPerformed
         activeStyle = BrushStyle.valueOf(evt.getActionCommand().toUpperCase());
-        String value = BrushStyle.valueOf(evt.getActionCommand().toUpperCase()).toString(); 
+        String value = BrushStyle.valueOf(evt.getActionCommand().toUpperCase()).toString();
         selectionLabel.setText(value);
-          
+
     }//GEN-LAST:event_CircleBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_clearBtnActionPerformed
@@ -293,10 +298,8 @@ public class whiteboard extends javax.swing.JFrame
 
     private void WhitePanelMousePressed(java.awt.event.MouseEvent evt)//GEN-FIRST:event_WhitePanelMousePressed
     {//GEN-HEADEREND:event_WhitePanelMousePressed
-        //Color newColor = jColorChooser.getColor();
         startX = evt.getX();
         startY = evt.getY();
-    
     }//GEN-LAST:event_WhitePanelMousePressed
 
     private void WhitePanelMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_WhitePanelMouseReleased
@@ -308,34 +311,40 @@ public class whiteboard extends javax.swing.JFrame
         int rectWidth = Math.abs(startX - finX);
         int rectHeight = Math.abs(startY - finY);
         activeColor = jColorChooser.getColor();
-        switch(activeStyle) {
+        switch (activeStyle)
+        {
+
             case CIRCLE:
                 shapes.add(new ColoredShape(
-                    new Ellipse2D.Double(topX, topY, rectWidth, rectHeight),
-                    activeColor));
+                        new Ellipse2D.Double(topX, topY, rectWidth, rectHeight),
+                        activeColor));
                 break;
 
             case RECTANGLE:
                 shapes.add(new ColoredShape(
-                    new Rectangle2D.Double(topX, topY, rectWidth, rectHeight),
-                    activeColor));
+                        new Rectangle2D.Double(topX, topY, rectWidth, rectHeight),
+                        activeColor));
                 break;
-                
+
             case LINE:
                 shapes.add(new ColoredShape(
-                    new Line2D.Double(startX, startY, finX, finY),
-                    activeColor));
+                        new Line2D.Double(startX, startY, finX, finY),
+                        activeColor));
                 break;
         }
         repaint();
     }//GEN-LAST:event_WhitePanelMouseReleased
 
-    
+    private void WhitePanelMouseDragged(java.awt.event.MouseEvent evt)//GEN-FIRST:event_WhitePanelMouseDragged
+    {//GEN-HEADEREND:event_WhitePanelMouseDragged
+        //Draw event.
+    }//GEN-LAST:event_WhitePanelMouseDragged
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton CircleBtn;
     private javax.swing.JButton RectangleBtn;
-    private WhitePanel WhitePanel;
+    private javax.swing.JPanel WhitePanel;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton clearBtn;
     private javax.swing.JColorChooser jColorChooser;
@@ -349,37 +358,48 @@ public class whiteboard extends javax.swing.JFrame
     private javax.swing.JRadioButton smrdBtn;
     // End of variables declaration//GEN-END:variables
 
-
-
-    private class WhitePanel extends JPanel {
-        
-        public WhitePanel() 
+    private class WhitePanel extends JPanel
+    {
+        public WhitePanel()
         {
             super();
         }
 
         @Override
-        protected void paintComponent(Graphics g) {
+        protected void paintComponent(Graphics g)
+        {
             super.paintComponent(g); //paints the background and image
             Graphics2D g2 = (Graphics2D) g;
 
-            for (ColoredShape shape : shapes) {
+            for (ColoredShape shape : shapes)
+            {
                 g2.setColor(shape.getColor());
                 g2.draw(shape.getShape());
             }
         }
-    } // end of WhitePanel class
+    }
 
-    private class ColoredShape {
+    private class ColoredShape
+    {
         Shape shape;
         Color color;
 
-        public ColoredShape(Shape shape, Color color) {
+        public ColoredShape(Shape shape, Color color)
+        {
             this.shape = shape;
             this.color = color;
         }
 
-        public Shape getShape() { return shape; };
-        public Color getColor() { return color; };
-    }
+        public Shape getShape()
+        {
+            return shape;
+        }
+
+        ;
+        public Color getColor()
+        {
+            return color;
+        }
+    ;
+}
 }
