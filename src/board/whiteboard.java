@@ -1,7 +1,7 @@
 //Integration of Joshua's implementation and some GUI changes.
 //Pending Stuff: no images are drawing at the moment due to no paint override method implementation
 
-//package board;
+package board;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -25,11 +25,6 @@ public class whiteboard extends javax.swing.JFrame
     private int startY = -1;
     private BrushStyle activeStyle = BrushStyle.valueOf("RECTANGLE");
     private Color activeColor = Color.BLACK;
-    public static final int WIDTH = 900;
-    public static final int HEIGHT = 500;
-    /*private ArrayList<Rectangle2D> rects = new ArrayList<Rectangle2D>();
-    private ArrayList<Ellipse2D> circs = new ArrayList<Ellipse2D>();
-    private ArrayList<Line2D> lines = new ArrayList<Line2D>();*/
     private ArrayList<ColoredShape> shapes = new ArrayList<ColoredShape>();
     
     private enum BrushStyle
@@ -43,6 +38,7 @@ public class whiteboard extends javax.swing.JFrame
     public whiteboard()
     {
         initComponents();
+        jColorChooser.setColor(activeColor);
     }
 
 
@@ -291,7 +287,6 @@ public class whiteboard extends javax.swing.JFrame
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_clearBtnActionPerformed
     {//GEN-HEADEREND:event_clearBtnActionPerformed
         selectionLabel.setText("Cleared");
-        // this way leaves no way to "undo" a clear...
         shapes = new ArrayList<ColoredShape>();
         WhitePanel.updateUI();
     }//GEN-LAST:event_clearBtnActionPerformed
@@ -301,20 +296,8 @@ public class whiteboard extends javax.swing.JFrame
         //Color newColor = jColorChooser.getColor();
         startX = evt.getX();
         startY = evt.getY();
-        //System.out.println("Mouse pressed: (" + startX + ", " + startY + ")");
+    
     }//GEN-LAST:event_WhitePanelMousePressed
-
-    /*protected void paintComponent(Graphics g)
-    {
-        super.paintComponent(g); //paints the background and image
-        Graphics2D g2 = (Graphics2D) g;
-        for (Rectangle2D rect : rects)
-            g2.draw(rect);
-        for (Ellipse2D circ : circs)
-            g2.draw(circ);
-        for (Line2D line : lines)
-            g2.draw(line);
-    }*/
 
     private void WhitePanelMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_WhitePanelMouseReleased
     {//GEN-HEADEREND:event_WhitePanelMouseReleased
@@ -325,9 +308,6 @@ public class whiteboard extends javax.swing.JFrame
         int rectWidth = Math.abs(startX - finX);
         int rectHeight = Math.abs(startY - finY);
         activeColor = jColorChooser.getColor();
-        //System.out.println("Mouse released: (" + finX + ", " + finY + ")");
-
-        //switch on active brush
         switch(activeStyle) {
             case CIRCLE:
                 shapes.add(new ColoredShape(
@@ -348,7 +328,6 @@ public class whiteboard extends javax.swing.JFrame
                 break;
         }
         repaint();
-
     }//GEN-LAST:event_WhitePanelMouseReleased
 
     
@@ -374,7 +353,8 @@ public class whiteboard extends javax.swing.JFrame
 
     private class WhitePanel extends JPanel {
         
-        public WhitePanel() {
+        public WhitePanel() 
+        {
             super();
         }
 
