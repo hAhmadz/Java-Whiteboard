@@ -8,9 +8,9 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="whiteboard.jar" size="18101" download="eager" />
+    <jar href="whiteboard.jar" size="13290" download="eager" />
   </resources>
-  <application-desc main-class="board.whiteboard"  name="whiteboard" >
+  <application-desc main-class="Whiteboard"  name="whiteboard" >
   </application-desc>
   <update check="always"/>
 </jnlp>
