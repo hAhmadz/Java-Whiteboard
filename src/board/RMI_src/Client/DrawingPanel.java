@@ -229,10 +229,13 @@ public class DrawingPanel extends JPanel {
 
     	public void mouseReleased(MouseEvent e)
     	{	
-        	// add the most recently dragged shape
-        	addColoredShape(dragShape.clone());
-        	// set the dragShape temporary variable back to null
-        	dragShape = null;
+            if (dragShape != null) 
+            {
+        	   // add the most recently dragged shape
+        	   addColoredShape(dragShape.clone());
+        	   // set the dragShape temporary variable back to null
+        	   dragShape = null;
+            }
     	}
     }
 }
