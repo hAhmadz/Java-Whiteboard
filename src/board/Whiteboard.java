@@ -1,50 +1,52 @@
-//Integration of Joshua's implementation and some GUI changes.
-//Pending Stuff: no images are drawing at the moment due to no paint override method implementation
+/**
+ * Whiteboard class handles GUI for a single
+ *
+ * To do: button for (at least) freehand drawing and eraser.
+ *
+ *
+ * last modified: 23rd September 2017
+ */
 
-//package board;
-
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.event.MouseEvent;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
-import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JRadioButton;
 import javax.swing.JPanel;
+import javax.swing.JLabel;
+import javax.swing.JColorChooser;
+import javax.swing.colorchooser.ColorSelectionModel;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.MouseInputAdapter;
 
-public class whiteboard extends javax.swing.JFrame
+public class Whiteboard extends javax.swing.JFrame
 {
-    private int startX = -1;
-    private int startY = -1;
-    private BrushStyle activeStyle = BrushStyle.valueOf("RECTANGLE");
-    private Color activeColor = Color.BLACK;
-    public static final int WIDTH = 900;
-    public static final int HEIGHT = 500;
-    /*private ArrayList<Rectangle2D> rects = new ArrayList<Rectangle2D>();
-    private ArrayList<Ellipse2D> circs = new ArrayList<Ellipse2D>();
-    private ArrayList<Line2D> lines = new ArrayList<Line2D>();*/
-    private ArrayList<ColoredShape> shapes = new ArrayList<ColoredShape>();
-    
-    private enum BrushStyle
-    {
-        CIRCLE,
-        RECTANGLE,
-        LINE,
-        ERASER
-    };
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private JButton freehandBtn;
+    private JButton circleBtn;
+    private JButton rectangleBtn;
+    private JButton lineBtn;
+    private JButton eraserBtn;
+    private DrawingPanel drawingPanel;
+    private ButtonGroup buttonGroup1;
+    private JButton clearBtn;
+    private JColorChooser jColorChooser;
+    private JLabel jLabel1;
+    private JPanel jPanel1;
+    private JPanel jPanel2;
+    private JRadioButton lgrdBtn;
+    private JRadioButton mmrdBtn;
+    private JLabel selectionLabel;
+    private JRadioButton smrdBtn;
+    // End of variables declaration//GEN-END:variables
 
-    public whiteboard()
+    public Whiteboard()
     {
         initComponents();
     }
-
 
     public static void main(String[] args)
     {
@@ -52,7 +54,7 @@ public class whiteboard extends javax.swing.JFrame
         {
             public void run()
             {
-                new whiteboard().setVisible(true);
+                new Whiteboard().setVisible(true);
             }
         });
     }
@@ -62,42 +64,43 @@ public class whiteboard extends javax.swing.JFrame
     private void initComponents()
     {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
-        jPanel1 = new javax.swing.JPanel();
-        RectangleBtn = new javax.swing.JButton();
-        CircleBtn = new javax.swing.JButton();
-        lineBtn = new javax.swing.JButton();
-        jColorChooser = new javax.swing.JColorChooser();
-        jPanel2 = new javax.swing.JPanel();
-        lgrdBtn = new javax.swing.JRadioButton();
-        mmrdBtn = new javax.swing.JRadioButton();
-        smrdBtn = new javax.swing.JRadioButton();
-        clearBtn = new javax.swing.JButton();
-        selectionLabel = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        WhitePanel = new WhitePanel();
+        buttonGroup1 = new ButtonGroup();
+        jPanel1 = new JPanel();
+        rectangleBtn = new JButton();
+        circleBtn = new JButton();
+        lineBtn = new JButton();
+        jColorChooser = new JColorChooser(Color.BLACK);
+        jPanel2 = new JPanel();
+        lgrdBtn = new JRadioButton();
+        mmrdBtn = new JRadioButton();
+        smrdBtn = new JRadioButton();
+        clearBtn = new JButton();
+        selectionLabel = new JLabel();
+        jLabel1 = new JLabel();
+        drawingPanel = new DrawingPanel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Toolbar"));
 
-        RectangleBtn.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        RectangleBtn.setText("Rectangle");
-        RectangleBtn.addActionListener(new java.awt.event.ActionListener()
+
+        rectangleBtn.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        rectangleBtn.setText("Rectangle");
+        rectangleBtn.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                RectangleBtnActionPerformed(evt);
+                brushBtnActionPerformed(evt);
             }
         });
 
-        CircleBtn.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        CircleBtn.setText("Circle");
-        CircleBtn.addActionListener(new java.awt.event.ActionListener()
+        circleBtn.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        circleBtn.setText("Circle");
+        circleBtn.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                CircleBtnActionPerformed(evt);
+                brushBtnActionPerformed(evt);
             }
         });
 
@@ -107,9 +110,19 @@ public class whiteboard extends javax.swing.JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                lineBtnActionPerformed(evt);
+                brushBtnActionPerformed(evt);
             }
         });
+
+
+        // send color selections to the drawing panel instance.
+        ColorSelectionModel model = jColorChooser.getSelectionModel();
+        ChangeListener changeListener = new ChangeListener() {
+            public void stateChanged(ChangeEvent changeEvent) {
+                drawingPanel.setActiveColor(jColorChooser.getColor());
+            }
+        };
+        model.addChangeListener(changeListener);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Brush Size"));
 
@@ -175,8 +188,8 @@ public class whiteboard extends javax.swing.JFrame
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(clearBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lineBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(CircleBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(RectangleBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
+                            .addComponent(circleBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(rectangleBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -190,9 +203,9 @@ public class whiteboard extends javax.swing.JFrame
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(RectangleBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(rectangleBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(CircleBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(circleBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(lineBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(16, 16, 16)
@@ -208,28 +221,18 @@ public class whiteboard extends javax.swing.JFrame
         jLabel1.setForeground(new java.awt.Color(0, 0, 102));
         jLabel1.setText("Distributed Whiteboard");
 
-        WhitePanel.setBackground(new java.awt.Color(255, 255, 255));
-        WhitePanel.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-        WhitePanel.addMouseListener(new java.awt.event.MouseAdapter()
-        {
-            public void mousePressed(java.awt.event.MouseEvent evt)
-            {
-                WhitePanelMousePressed(evt);
-            }
-            public void mouseReleased(java.awt.event.MouseEvent evt)
-            {
-                WhitePanelMouseReleased(evt);
-            }
-        });
+        drawingPanel.setBackground(Color.WHITE);
+        drawingPanel.setBorder(javax.swing.BorderFactory.createCompoundBorder());
 
-        javax.swing.GroupLayout WhitePanelLayout = new javax.swing.GroupLayout(WhitePanel);
-        WhitePanel.setLayout(WhitePanelLayout);
-        WhitePanelLayout.setHorizontalGroup(
-            WhitePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+
+        javax.swing.GroupLayout drawingPanelLayout = new javax.swing.GroupLayout(drawingPanel);
+        drawingPanel.setLayout(drawingPanelLayout);
+        drawingPanelLayout.setHorizontalGroup(
+            drawingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 939, Short.MAX_VALUE)
         );
-        WhitePanelLayout.setVerticalGroup(
-            WhitePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        drawingPanelLayout.setVerticalGroup(
+            drawingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
@@ -243,7 +246,7 @@ public class whiteboard extends javax.swing.JFrame
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(WhitePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(drawingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jLabel1)))
@@ -259,147 +262,32 @@ public class whiteboard extends javax.swing.JFrame
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(WhitePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(drawingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void RectangleBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RectangleBtnActionPerformed
+    private void brushBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RectangleBtnActionPerformed
     {//GEN-HEADEREND:event_RectangleBtnActionPerformed
-        activeStyle = BrushStyle.valueOf(evt.getActionCommand().toUpperCase());
-        String value = BrushStyle.valueOf(evt.getActionCommand().toUpperCase()).toString(); 
-        selectionLabel.setText(value);
+        String style = evt.getActionCommand();
+        drawingPanel.setActiveStyle(style);
+        selectionLabel.setText(style);
+        // reverts back to selected color in case eraser was the last selected brush
+        drawingPanel.setActiveColor(jColorChooser.getColor());
     }//GEN-LAST:event_RectangleBtnActionPerformed
-    
-    private void lineBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_lineBtnActionPerformed
-    {//GEN-HEADEREND:event_lineBtnActionPerformed
-        activeStyle = BrushStyle.valueOf(evt.getActionCommand().toUpperCase());
-        String value = BrushStyle.valueOf(evt.getActionCommand().toUpperCase()).toString(); 
-        selectionLabel.setText(value);
-    }//GEN-LAST:event_lineBtnActionPerformed
 
-    private void CircleBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_CircleBtnActionPerformed
-    {//GEN-HEADEREND:event_CircleBtnActionPerformed
-        activeStyle = BrushStyle.valueOf(evt.getActionCommand().toUpperCase());
-        String value = BrushStyle.valueOf(evt.getActionCommand().toUpperCase()).toString(); 
-        selectionLabel.setText(value);
-          
-    }//GEN-LAST:event_CircleBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_clearBtnActionPerformed
     {//GEN-HEADEREND:event_clearBtnActionPerformed
         selectionLabel.setText("Cleared");
-        // this way leaves no way to "undo" a clear...
-        shapes = new ArrayList<ColoredShape>();
-        WhitePanel.updateUI();
+        drawingPanel.clear();
     }//GEN-LAST:event_clearBtnActionPerformed
 
-    private void WhitePanelMousePressed(java.awt.event.MouseEvent evt)//GEN-FIRST:event_WhitePanelMousePressed
-    {//GEN-HEADEREND:event_WhitePanelMousePressed
-        //Color newColor = jColorChooser.getColor();
-        startX = evt.getX();
-        startY = evt.getY();
-        //System.out.println("Mouse pressed: (" + startX + ", " + startY + ")");
-    }//GEN-LAST:event_WhitePanelMousePressed
-
-    /*protected void paintComponent(Graphics g)
-    {
-        super.paintComponent(g); //paints the background and image
-        Graphics2D g2 = (Graphics2D) g;
-        for (Rectangle2D rect : rects)
-            g2.draw(rect);
-        for (Ellipse2D circ : circs)
-            g2.draw(circ);
-        for (Line2D line : lines)
-            g2.draw(line);
-    }*/
-
-    private void WhitePanelMouseReleased(java.awt.event.MouseEvent evt)//GEN-FIRST:event_WhitePanelMouseReleased
-    {//GEN-HEADEREND:event_WhitePanelMouseReleased
-        int finX = evt.getX();
-        int finY = evt.getY();
-        int topX = Math.min(startX, finX);
-        int topY = Math.min(startY, finY);
-        int rectWidth = Math.abs(startX - finX);
-        int rectHeight = Math.abs(startY - finY);
-        activeColor = jColorChooser.getColor();
-        //System.out.println("Mouse released: (" + finX + ", " + finY + ")");
-
-        //switch on active brush
-        switch(activeStyle) {
-            case CIRCLE:
-                shapes.add(new ColoredShape(
-                    new Ellipse2D.Double(topX, topY, rectWidth, rectHeight),
-                    activeColor));
-                break;
-
-            case RECTANGLE:
-                shapes.add(new ColoredShape(
-                    new Rectangle2D.Double(topX, topY, rectWidth, rectHeight),
-                    activeColor));
-                break;
-                
-            case LINE:
-                shapes.add(new ColoredShape(
-                    new Line2D.Double(startX, startY, finX, finY),
-                    activeColor));
-                break;
-        }
-        repaint();
-
-    }//GEN-LAST:event_WhitePanelMouseReleased
-
-    
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton CircleBtn;
-    private javax.swing.JButton RectangleBtn;
-    private WhitePanel WhitePanel;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton clearBtn;
-    private javax.swing.JColorChooser jColorChooser;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton lgrdBtn;
-    private javax.swing.JButton lineBtn;
-    private javax.swing.JRadioButton mmrdBtn;
-    private javax.swing.JLabel selectionLabel;
-    private javax.swing.JRadioButton smrdBtn;
-    // End of variables declaration//GEN-END:variables
+//GEN-LAST:event_WhitePanelMouseDragged
 
 
 
-    private class WhitePanel extends JPanel {
-        
-        public WhitePanel() {
-            super();
-        }
-
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g); //paints the background and image
-            Graphics2D g2 = (Graphics2D) g;
-
-            for (ColoredShape shape : shapes) {
-                g2.setColor(shape.getColor());
-                g2.draw(shape.getShape());
-            }
-        }
-    } // end of WhitePanel class
-
-    private class ColoredShape {
-        Shape shape;
-        Color color;
-
-        public ColoredShape(Shape shape, Color color) {
-            this.shape = shape;
-            this.color = color;
-        }
-
-        public Shape getShape() { return shape; };
-        public Color getColor() { return color; };
-    }
 }
+
