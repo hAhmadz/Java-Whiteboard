@@ -1,12 +1,4 @@
 package Client;
-/* Whiteboard class handles GUI for a single
-*
-* To do: button for (at least) freehand drawing and eraser.
-*
-*
-* last modified: 23rd September 2017
-*/
-
 import javax.swing.JButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JRadioButton;
@@ -15,76 +7,52 @@ import javax.swing.JLabel;
 import javax.swing.JColorChooser;
 import javax.swing.colorchooser.ColorSelectionModel;
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-
+import javax.swing.event.MouseInputAdapter;
 public class ClientWhiteboard extends javax.swing.JFrame
 {
-   // Variables declaration - do not modify//GEN-BEGIN:variables
-   private JButton freehandBtn;
-   private JButton circleBtn;
-   private JButton rectangleBtn;
-   private JButton lineBtn;
-   private JButton eraserBtn;
-   private DrawingPanel drawingPanel;
-   private ButtonGroup buttonGroup1;
-   private JButton clearBtn;
-   private JColorChooser jColorChooser;
-   private JLabel jLabel1;
-   private JPanel jPanel1;
-   private JPanel jPanel2;
-   private JRadioButton lgrdBtn;
-   private JRadioButton mmrdBtn;
-   private JLabel selectionLabel;
-   private JRadioButton smrdBtn;
-   
-   //static RemoteShapeList shapes; //private with gettters/setters?
-   // End of variables declaration//GEN-END:variables
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton circleBtn;
+	private javax.swing.JButton rectangleBtn;
+    //private javax.swing.JPanel WhitePanel;
+    private javax.swing.ButtonGroup buttonGroup1;
+	private DrawingPanel drawingPanel;
+    private javax.swing.JButton clearBtn;
+    private javax.swing.JColorChooser jColorChooser;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JRadioButton lgrdBtn;
+    private javax.swing.JButton lineBtn;
+    private javax.swing.JRadioButton mmrdBtn;
+    private javax.swing.JLabel selectionLabel;
+    private javax.swing.JRadioButton smrdBtn;
+    // End of variables declaration//GEN-END:variables
 
-   public ClientWhiteboard()//RemoteShapeListServant subject)
-   {
-       initComponents();
-       //this.subject = subject;
-       //this.subject.attach(this);
-       /**Probably not going to be able to do observer pattern as seen:
-        * https://www.tutorialspoint.com/design_pattern/observer_pattern.htm
-        * 
-        * establish list of clients on Servant after connection established
-        * Organise meeting time/place with team
-        * 
-        * */
-   }
+    public ClientWhiteboard()
+    {
+        initComponents(); // Auto generated for GUI.
+    }
 
-   public static void main(String[] args)
-   {
-       java.awt.EventQueue.invokeLater(new Runnable()
-       {
-           public void run()
-           {
-               new ClientWhiteboard().setVisible(true);
-           }
-       });
-       
-       
-       /**try{ 
-    	   if(System.getSecurityManager() == null) {
-          	   System.setSecurityManager(new SecurityManager());
-    	   }
-    	   LocateRegistry.getRegistry("localhost");
-    	   Registry registry = LocateRegistry.getRegistry(null); 
-    	   shapes = (RemoteShapeList) registry.lookup("shapeList");
-    	   
-       } catch(Exception e) {
-    	   System.out.println(e);
-       }*/
-       
-       
-   }
+    public static void main(String[] args)
+    {
+        java.awt.EventQueue.invokeLater(new Runnable()
+        {
+            public void run()
+            {
+                new ClientWhiteboard().setVisible(true);
+            }
+        });
+    }
 
-   @SuppressWarnings("unchecked")
-   // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-   private void initComponents()
-   {
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents()
+    {
 
        buttonGroup1 = new ButtonGroup();
        jPanel1 = new JPanel();
@@ -291,41 +259,19 @@ public class ClientWhiteboard extends javax.swing.JFrame
        pack();
    }// </editor-fold>//GEN-END:initComponents
 
-   private void brushBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RectangleBtnActionPerformed
-   {//GEN-HEADEREND:event_RectangleBtnActionPerformed
-       String style = evt.getActionCommand();
-       drawingPanel.setActiveStyle(style);
-       selectionLabel.setText(style);
-       // reverts back to selected color in case eraser was the last selected brush
-       drawingPanel.setActiveColor(jColorChooser.getColor());
-   }//GEN-LAST:event_RectangleBtnActionPerformed
+    private void brushBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_RectangleBtnActionPerformed
+    {//GEN-HEADEREND:event_RectangleBtnActionPerformed
+        String style = evt.getActionCommand();
+        drawingPanel.setActiveStyle(style);
+        selectionLabel.setText(style);
+        drawingPanel.setActiveColor(jColorChooser.getColor());
+    }//GEN-LAST:event_RectangleBtnActionPerformed
 
 
-   private void clearBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_clearBtnActionPerformed
-   {//GEN-HEADEREND:event_clearBtnActionPerformed
-       selectionLabel.setText("Cleared");
-       drawingPanel.clear();
-   }//GEN-LAST:event_clearBtnActionPerformed
-
-   /*public static RemoteShapeList getShapes() {
-	   return shapes;
-   }
-
-   public void setShapes(RemoteShapeList shapes) {
-	   ClientWhiteboard.shapes = shapes;
-   }*/
-
-//GEN-LAST:event_WhitePanelMouseDragged
-
-
-   
-   
-   /** Observer pattern stuff */
-   //private RemoteShapeListServant subject;
-   
-   //public void update() {
-	   
-//   }
+    private void clearBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_clearBtnActionPerformed
+    {//GEN-HEADEREND:event_clearBtnActionPerformed
+        selectionLabel.setText("Cleared");
+        drawingPanel.clear();
+    }//GEN-LAST:event_clearBtnActionPerformed
 
 }
-

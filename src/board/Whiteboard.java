@@ -284,10 +284,5 @@ public class Whiteboard extends javax.swing.JFrame
         selectionLabel.setText("Cleared");
         drawingPanel.clear();
     }//GEN-LAST:event_clearBtnActionPerformed
-
-//GEN-LAST:event_WhitePanelMouseDragged
-
-
-
 }
 
