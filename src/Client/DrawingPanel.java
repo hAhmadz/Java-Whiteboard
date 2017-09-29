@@ -29,11 +29,13 @@ public class DrawingPanel extends JPanel
 
     private enum BrushStyle
     {
-        SELECT,
         FREEHAND,
-        RECTANGLE,
-        CIRCLE,
+        RECTANGLEHOLLOW,
+        RECTANGLESOLID,
+        CIRCLEHOLLOW,
+        CIRCLESOLID,
         LINE,
+        TEXT,
         ERASER
     };
 
@@ -121,7 +123,6 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         //shapes.add(shape);
@@ -140,7 +141,6 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         repaint();
@@ -159,7 +159,6 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException e)
         {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -213,18 +212,29 @@ public class DrawingPanel extends JPanel
                             activeColor);
                     addColoredShape(dragShape);
                     repaint();
-                    // move the starting point along the just drawn line
                     startX = finX;
                     startY = finY;
                     break;
 
-                case CIRCLE:
+                case CIRCLEHOLLOW:
+                    dragShape = new ColoredShape(
+                            new Ellipse2D.Double(topX, topY, rectWidth, rectHeight),
+                            activeColor);
+                    break;
+                    
+                case CIRCLESOLID:
                     dragShape = new ColoredShape(
                             new Ellipse2D.Double(topX, topY, rectWidth, rectHeight),
                             activeColor);
                     break;
 
-                case RECTANGLE:
+                case RECTANGLEHOLLOW:
+                    dragShape = new ColoredShape(
+                            new Rectangle2D.Double(topX, topY, rectWidth, rectHeight),
+                            activeColor);
+                    break;
+                
+                case RECTANGLESOLID:
                     dragShape = new ColoredShape(
                             new Rectangle2D.Double(topX, topY, rectWidth, rectHeight),
                             activeColor);
@@ -234,6 +244,9 @@ public class DrawingPanel extends JPanel
                     dragShape = new ColoredShape(
                             new Line2D.Double(startX, startY, finX, finY),
                             activeColor);
+                    break;
+                case TEXT:
+                    //Text Implementation
                     break;
             }
             repaint();
@@ -245,7 +258,6 @@ public class DrawingPanel extends JPanel
             {
                 // add the most recently dragged shape
                 addColoredShape(dragShape.clone());
-                // set the dragShape temporary variable back to null
                 dragShape = null;
             }
         }

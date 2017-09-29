@@ -48,8 +48,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
     
     public ClientWhiteboard()
     {
-        initComponents(); // Auto generated for GUI.
-        //selectionLabel.setText("\uf0c0");
+        initComponents(); //Auto generated UI ONLY
         myComp();
     }
 
@@ -64,6 +63,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         });
     }
     
+    //old drawing panel components that have to be integrated instead of the WhitePanel
     public void myComp()
     {
         //another method to initialise custom components -- only cuz my netbeans does not allow me to handle default components easily :P
@@ -127,18 +127,39 @@ public class ClientWhiteboard extends javax.swing.JFrame
         rectangleBtnHollow.setForeground(new java.awt.Color(102, 102, 102));
         rectangleBtnHollow.setText("Rectangle");
         rectangleBtnHollow.setToolTipText("Creates a hollow rectangle");
+        rectangleBtnHollow.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                brushBtnActionPerformed(evt);
+            }
+        });
 
         circleBtnHollow.setBackground(new java.awt.Color(207, 207, 207));
         circleBtnHollow.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         circleBtnHollow.setForeground(new java.awt.Color(102, 102, 102));
         circleBtnHollow.setText("Circle");
         circleBtnHollow.setToolTipText("Creates a hollow circle");
+        circleBtnHollow.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                brushBtnActionPerformed(evt);
+            }
+        });
 
         lineBtn.setBackground(new java.awt.Color(207, 207, 207));
         lineBtn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lineBtn.setForeground(new java.awt.Color(102, 102, 102));
         lineBtn.setText("Line");
         lineBtn.setToolTipText("Creates a line");
+        lineBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                brushBtnActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBackground(new java.awt.Color(223, 223, 223));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Size"));
@@ -184,6 +205,13 @@ public class ClientWhiteboard extends javax.swing.JFrame
         eraseBtn.setForeground(new java.awt.Color(102, 102, 102));
         eraseBtn.setText("Erase");
         eraseBtn.setToolTipText("Erases the content");
+        eraseBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                brushBtnActionPerformed(evt);
+            }
+        });
 
         rectangleBtnFilled.setBackground(new java.awt.Color(207, 207, 207));
         rectangleBtnFilled.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -191,12 +219,26 @@ public class ClientWhiteboard extends javax.swing.JFrame
         rectangleBtnFilled.setText("Filled Rec");
         rectangleBtnFilled.setToolTipText("Creates a filled rectangle");
         rectangleBtnFilled.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        rectangleBtnFilled.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                brushBtnActionPerformed(evt);
+            }
+        });
 
         circleBtnFilled.setBackground(new java.awt.Color(207, 207, 207));
         circleBtnFilled.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         circleBtnFilled.setForeground(new java.awt.Color(102, 102, 102));
         circleBtnFilled.setText("Filled Cir");
         circleBtnFilled.setToolTipText("Creates a filled circle");
+        circleBtnFilled.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                brushBtnActionPerformed(evt);
+            }
+        });
 
         textDrawBtn.setBackground(new java.awt.Color(207, 207, 207));
         textDrawBtn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -268,7 +310,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 378, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 48)); // NOI18N
@@ -286,7 +328,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         );
         WhitePanelLayout.setVerticalGroup(
             WhitePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 445, Short.MAX_VALUE)
+            .addGap(0, 435, Short.MAX_VALUE)
         );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -397,9 +439,10 @@ public class ClientWhiteboard extends javax.swing.JFrame
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
                         .addComponent(WhitePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -430,7 +473,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
 
     private void exitBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_exitBtnActionPerformed
     {//GEN-HEADEREND:event_exitBtnActionPerformed
-        //exit
+        System.exit(0);
     }//GEN-LAST:event_exitBtnActionPerformed
 
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_saveBtnActionPerformed

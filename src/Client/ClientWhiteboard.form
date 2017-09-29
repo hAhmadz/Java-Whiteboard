@@ -125,9 +125,10 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" pref="61" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Component id="WhitePanel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel3" max="-2" attributes="0"/>
@@ -227,7 +228,7 @@
                   <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jColorChooser" min="-2" pref="378" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace pref="45" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -247,6 +248,9 @@
             <Property name="text" type="java.lang.String" value="Rectangle"/>
             <Property name="toolTipText" type="java.lang.String" value="Creates a hollow rectangle"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brushBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="circleBtnHollow">
           <Properties>
@@ -262,6 +266,9 @@
             <Property name="text" type="java.lang.String" value="Circle"/>
             <Property name="toolTipText" type="java.lang.String" value="Creates a hollow circle"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brushBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="lineBtn">
           <Properties>
@@ -277,6 +284,9 @@
             <Property name="text" type="java.lang.String" value="Line"/>
             <Property name="toolTipText" type="java.lang.String" value="Creates a line"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brushBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JColorChooser" name="jColorChooser">
         </Component>
@@ -365,6 +375,9 @@
             <Property name="text" type="java.lang.String" value="Erase"/>
             <Property name="toolTipText" type="java.lang.String" value="Erases the content"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brushBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="rectangleBtnFilled">
           <Properties>
@@ -383,6 +396,9 @@
               <Color id="Default Cursor"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brushBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="circleBtnFilled">
           <Properties>
@@ -398,6 +414,9 @@
             <Property name="text" type="java.lang.String" value="Filled Cir"/>
             <Property name="toolTipText" type="java.lang.String" value="Creates a filled circle"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brushBtnActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="textDrawBtn">
           <Properties>
@@ -462,7 +481,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="445" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="435" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
