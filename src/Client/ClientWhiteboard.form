@@ -229,7 +229,7 @@
                       </Group>
                       <Component id="jPanel2" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="34" max="32767" attributes="0"/>
+                  <EmptySpace pref="35" max="32767" attributes="0"/>
                   <Component id="jColorChooser" min="-2" pref="288" max="-2" attributes="0"/>
                   <EmptySpace pref="216" max="32767" attributes="0"/>
               </Group>
@@ -248,7 +248,6 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Rectangle"/>
             <Property name="toolTipText" type="java.lang.String" value="Creates a hollow rectangle"/>
           </Properties>
           <Events>
@@ -256,7 +255,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(icon)"/>
-            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.FLOPPY_O, 18);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.SQUARE_O, 28);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="circleBtnHollow">
@@ -270,7 +269,6 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Circle"/>
             <Property name="toolTipText" type="java.lang.String" value="Creates a hollow circle"/>
           </Properties>
           <Events>
@@ -278,7 +276,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(icon)"/>
-            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.FLOPPY_O, 18);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.CIRCLE_O, 28);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="lineBtn">
@@ -299,7 +297,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(icon)"/>
-            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.LONG_ARROW_RIGHT, 24);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.LONG_ARROW_RIGHT, 28);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JColorChooser" name="jColorChooser">
@@ -388,7 +386,6 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Erase"/>
             <Property name="toolTipText" type="java.lang.String" value="Erases the content"/>
           </Properties>
           <Events>
@@ -396,7 +393,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(icon)"/>
-            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.FLOPPY_O, 18);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.ERASER, 30);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="rectangleBtnFilled">
@@ -410,7 +407,6 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Filled Rec"/>
             <Property name="toolTipText" type="java.lang.String" value="Creates a filled rectangle"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Default Cursor"/>
@@ -421,7 +417,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(icon)"/>
-            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.FLOPPY_O, 18);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.SQUARE, 28);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="circleBtnFilled">
@@ -435,7 +431,6 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Filled Cir"/>
             <Property name="toolTipText" type="java.lang.String" value="Creates a filled circle"/>
           </Properties>
           <Events>
@@ -443,7 +438,7 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(icon)"/>
-            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.FLOPPY_O, 18);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.CIRCLE, 28);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="textDrawBtn">
@@ -452,7 +447,7 @@
               <Color blue="cf" green="cf" red="cf" type="rgb"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new java.awt.Font(&quot;Times New Roman&quot;, 1, 24)" type="code"/>
+              <Connection code="new java.awt.Font(&quot;Times New Roman&quot;, 1, 28)" type="code"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="66" green="66" red="66" type="rgb"/>
@@ -476,7 +471,7 @@
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(icon)"/>
-            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.PENCIL, 24);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.PENCIL, 28);"/>
           </AuxValues>
         </Component>
       </SubComponents>

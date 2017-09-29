@@ -81,24 +81,24 @@ public class ClientWhiteboard extends javax.swing.JFrame
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
-        icon = IconFontSwing.buildIcon(FontAwesome.FLOPPY_O, 18);
+        icon = IconFontSwing.buildIcon(FontAwesome.SQUARE_O, 28);
         rectangleBtnHollow = new javax.swing.JButton(icon);
-        icon = IconFontSwing.buildIcon(FontAwesome.FLOPPY_O, 18);
+        icon = IconFontSwing.buildIcon(FontAwesome.CIRCLE_O, 28);
         circleBtnHollow = new javax.swing.JButton(icon);
-        icon = IconFontSwing.buildIcon(FontAwesome.LONG_ARROW_RIGHT, 24);
+        icon = IconFontSwing.buildIcon(FontAwesome.LONG_ARROW_RIGHT, 28);
         lineBtn = new javax.swing.JButton(icon);
         jColorChooser = new javax.swing.JColorChooser();
         jPanel2 = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
         clearBtn = new javax.swing.JButton();
-        icon = IconFontSwing.buildIcon(FontAwesome.FLOPPY_O, 18);
+        icon = IconFontSwing.buildIcon(FontAwesome.ERASER, 30);
         eraseBtn = new javax.swing.JButton(icon);
-        icon = IconFontSwing.buildIcon(FontAwesome.FLOPPY_O, 18);
+        icon = IconFontSwing.buildIcon(FontAwesome.SQUARE, 28);
         rectangleBtnFilled = new javax.swing.JButton(icon);
-        icon = IconFontSwing.buildIcon(FontAwesome.FLOPPY_O, 18);
+        icon = IconFontSwing.buildIcon(FontAwesome.CIRCLE, 28);
         circleBtnFilled = new javax.swing.JButton(icon);
         textDrawBtn = new javax.swing.JButton();
-        icon = IconFontSwing.buildIcon(FontAwesome.PENCIL, 24);
+        icon = IconFontSwing.buildIcon(FontAwesome.PENCIL, 28);
         drawFreeHandBtn = new javax.swing.JButton(icon);
         jLabel1 = new javax.swing.JLabel();
         WhitePanel = new javax.swing.JPanel();
@@ -123,7 +123,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
         rectangleBtnHollow.setBackground(new java.awt.Color(207, 207, 207));
         rectangleBtnHollow.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         rectangleBtnHollow.setForeground(new java.awt.Color(102, 102, 102));
-        rectangleBtnHollow.setText("Rectangle");
         rectangleBtnHollow.setToolTipText("Creates a hollow rectangle");
         rectangleBtnHollow.addActionListener(new java.awt.event.ActionListener()
         {
@@ -136,7 +135,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
         circleBtnHollow.setBackground(new java.awt.Color(207, 207, 207));
         circleBtnHollow.setFont(new java.awt.Font("Tahoma", 0, 18));
         circleBtnHollow.setForeground(new java.awt.Color(102, 102, 102));
-        circleBtnHollow.setText("Circle");
         circleBtnHollow.setToolTipText("Creates a hollow circle");
         circleBtnHollow.addActionListener(new java.awt.event.ActionListener()
         {
@@ -198,7 +196,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
         eraseBtn.setBackground(new java.awt.Color(207, 207, 207));
         eraseBtn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         eraseBtn.setForeground(new java.awt.Color(102, 102, 102));
-        eraseBtn.setText("Erase");
         eraseBtn.setToolTipText("Erases the content");
         eraseBtn.addActionListener(new java.awt.event.ActionListener()
         {
@@ -211,7 +208,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
         rectangleBtnFilled.setBackground(new java.awt.Color(207, 207, 207));
         rectangleBtnFilled.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         rectangleBtnFilled.setForeground(new java.awt.Color(102, 102, 102));
-        rectangleBtnFilled.setText("Filled Rec");
         rectangleBtnFilled.setToolTipText("Creates a filled rectangle");
         rectangleBtnFilled.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         rectangleBtnFilled.addActionListener(new java.awt.event.ActionListener()
@@ -225,7 +221,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
         circleBtnFilled.setBackground(new java.awt.Color(207, 207, 207));
         circleBtnFilled.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         circleBtnFilled.setForeground(new java.awt.Color(102, 102, 102));
-        circleBtnFilled.setText("Filled Cir");
         circleBtnFilled.setToolTipText("Creates a filled circle");
         circleBtnFilled.addActionListener(new java.awt.event.ActionListener()
         {
@@ -236,7 +231,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         });
 
         textDrawBtn.setBackground(new java.awt.Color(207, 207, 207));
-        textDrawBtn.setFont(new java.awt.Font("Times New Roman", 1, 24));
+        textDrawBtn.setFont(new java.awt.Font("Times New Roman", 1, 28));
         textDrawBtn.setForeground(new java.awt.Color(102, 102, 102));
         textDrawBtn.setText("T");
         textDrawBtn.setToolTipText("Creates a text box");
@@ -303,7 +298,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
                             .addComponent(rectangleBtnHollow, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(rectangleBtnFilled, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(jColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(216, Short.MAX_VALUE))
         );
