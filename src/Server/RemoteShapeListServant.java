@@ -1,8 +1,13 @@
 package Server;
+
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import Misc.ColoredShape;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 public class RemoteShapeListServant extends UnicastRemoteObject implements RemoteShapeList
 {
@@ -47,9 +52,11 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     @Override
     public synchronized ArrayList<String> messageStream(String newMessage)
     {
-        if(!newMessage.equals("ClientJoined123"))
+        if (!newMessage.equals("ClientJoined123"))
+        {
             messages.add(newMessage);
-        
+        }
+
         return messages;
     }
 
