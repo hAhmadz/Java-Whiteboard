@@ -15,9 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 import Misc.ColoredShape;
 import Server.RemoteShapeList;
+import java.rmi.server.UnicastRemoteObject;
 
 public class DrawingPanel extends JPanel
 {
+
     private int startX = -1;
     private int startY = -1;
     private BrushStyle activeStyle = BrushStyle.valueOf("FREEHAND");
@@ -151,23 +153,23 @@ public class DrawingPanel extends JPanel
             e.printStackTrace();
         }
     }
-    
+
     public ArrayList<String> messageStream(String message)
     {
         ArrayList<String> OutputArr = new ArrayList<String>();
-        try
+        if (!message.equals("")) //start message of client
         {
-            OutputArr = shapes.messageStream(message);
-        }
-        catch (RemoteException e)
-        {
-            e.printStackTrace();
+            try
+            {
+                OutputArr = shapes.messageStream(message);
+            }
+            catch (RemoteException e)
+            {
+                e.printStackTrace();
+            }
         }
         return OutputArr;
     }
-    
-    
-    
 
     /**
      * Remove all currently drawn shapes from the drawn collection. Repaint the
@@ -215,6 +217,7 @@ public class DrawingPanel extends JPanel
             // activeColor??
             g2.setColor(dragShape.getColor());
             g2.draw(dragShape.getShape());
+
         }
     }
 
