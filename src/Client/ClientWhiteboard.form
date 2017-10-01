@@ -128,7 +128,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="IconFontSwing.register(FontAwesome.getIconFont());"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="IconFontSwing.register(FontAwesome.getIconFont());&#xd;&#xa;drawingPanel = new DrawingPanel();"/>
       </AuxValues>
 
       <Layout>
@@ -597,6 +597,9 @@
             <Property name="text" type="java.lang.String" value="Send"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sendMsgBtnActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

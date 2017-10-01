@@ -128,6 +128,47 @@ public class DrawingPanel extends JPanel
         //shapes.add(shape);
     }
 
+    public void saveDrawing()
+    {
+        try
+        {
+            shapes.saveDrawing();
+        }
+        catch (RemoteException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void openDrawing()
+    {
+        try
+        {
+            shapes.openDrawing();
+        }
+        catch (RemoteException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    
+    public ArrayList<String> messageStream(String message)
+    {
+        ArrayList<String> OutputArr = new ArrayList<String>();
+        try
+        {
+            OutputArr = shapes.messageStream(message);
+        }
+        catch (RemoteException e)
+        {
+            e.printStackTrace();
+        }
+        return OutputArr;
+    }
+    
+    
+    
+
     /**
      * Remove all currently drawn shapes from the drawn collection. Repaint the
      * drawing panel as well
@@ -221,7 +262,7 @@ public class DrawingPanel extends JPanel
                             new Ellipse2D.Double(topX, topY, rectWidth, rectHeight),
                             activeColor);
                     break;
-                    
+
                 case CIRCLESOLID:
                     dragShape = new ColoredShape(
                             new Ellipse2D.Double(topX, topY, rectWidth, rectHeight),
@@ -233,7 +274,7 @@ public class DrawingPanel extends JPanel
                             new Rectangle2D.Double(topX, topY, rectWidth, rectHeight),
                             activeColor);
                     break;
-                
+
                 case RECTANGLESOLID:
                     dragShape = new ColoredShape(
                             new Rectangle2D.Double(topX, topY, rectWidth, rectHeight),

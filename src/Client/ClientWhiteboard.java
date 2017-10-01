@@ -1,8 +1,9 @@
 package Client;
+
 import Client.jiconfont.FontAwesome;
 import Client.jiconfont.IconFontSwing;
+import java.util.ArrayList;
 import javax.swing.Icon;
-import javax.swing.JOptionPane;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 
 public class ClientWhiteboard extends javax.swing.JFrame
@@ -37,6 +38,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
     // End of variables declaration//GEN-END:variables
     private DrawingPanel drawingPanel;
     private Icon icon;
+
     public ClientWhiteboard()
     {
         initComponents(); //Auto generated UI ONLY
@@ -52,7 +54,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
             }
         });
     }
-    
+
     //old drawing panel components that have to be integrated instead of the WhitePanel
     public void myComp()
     {
@@ -63,16 +65,16 @@ public class ClientWhiteboard extends javax.swing.JFrame
         javax.swing.GroupLayout WhitePanelLayout = new javax.swing.GroupLayout(WhitePanel);
         drawingPanel.setLayout(WhitePanelLayout);
         WhitePanelLayout.setHorizontalGroup(
-            WhitePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+                WhitePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 0, Short.MAX_VALUE)
         );
         WhitePanelLayout.setVerticalGroup(
-            WhitePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 445, Short.MAX_VALUE)
+                WhitePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 445, Short.MAX_VALUE)
         );
-        
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents()
@@ -81,6 +83,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         IconFontSwing.register(FontAwesome.getIconFont());
+        drawingPanel = new DrawingPanel();
         icon = IconFontSwing.buildIcon(FontAwesome.SQUARE_O, 28);
         rectangleBtnHollow = new javax.swing.JButton(icon);
         icon = IconFontSwing.buildIcon(FontAwesome.CIRCLE_O, 28);
@@ -356,6 +359,13 @@ public class ClientWhiteboard extends javax.swing.JFrame
         sendMsgBtn.setForeground(new java.awt.Color(0, 51, 0));
         sendMsgBtn.setText("Send");
         sendMsgBtn.setToolTipText("");
+        sendMsgBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                sendMsgBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -474,16 +484,28 @@ public class ClientWhiteboard extends javax.swing.JFrame
         String menuAction = evt.getActionCommand().toUpperCase();
         switch (menuAction)
         {
-            case "SAVE": //if user is client A, then only save.
+            case "SAVE": //no check yet for: if user is client A, then only save.
+                drawingPanel.saveDrawing();
                 break;
-            case "OPEN": //if user is client A, then only open.
-                //Open file from server
+            case "OPEN": //no check yet for: if user is client A, then only open.
+                drawingPanel.openDrawing();
                 break;
-
             case "EXIT":
                 System.exit(0);
                 break;
         }
     }//GEN-LAST:event_menuBarAction
 
+    private void sendMsgBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_sendMsgBtnActionPerformed
+    {//GEN-HEADEREND:event_sendMsgBtnActionPerformed
+        String message = chatTextField.getText();
+        ArrayList<String> OutputStream = drawingPanel.messageStream(message);
+        chatTextField.setText("");
+        
+        String OutputString = "";
+        if(!OutputStream.isEmpty())
+            for (String msg : OutputStream)
+                OutputString += msg + "\n";
+        chatHistoryTextArea.setText(OutputString);
+    }//GEN-LAST:event_sendMsgBtnActionPerformed
 }
