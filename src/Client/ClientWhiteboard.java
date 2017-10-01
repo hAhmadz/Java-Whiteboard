@@ -88,10 +88,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
         icon = IconFontSwing.buildIcon(FontAwesome.LONG_ARROW_RIGHT, 28);
         lineBtn = new javax.swing.JButton(icon);
         jColorChooser = new javax.swing.JColorChooser();
-        AbstractColorChooserPanel[] customPanels = jColorChooser.getChooserPanels();
-        for (AbstractColorChooserPanel accp : customPanels)
-        if(!accp.getDisplayName().equals("Swatches"))
-        jColorChooser.removeChooserPanel(accp);
         jPanel2 = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
         clearBtn = new javax.swing.JButton();
@@ -160,6 +156,10 @@ public class ClientWhiteboard extends javax.swing.JFrame
             }
         });
 
+        AbstractColorChooserPanel[] customPanels = jColorChooser.getChooserPanels();
+        for (AbstractColorChooserPanel accp : customPanels)
+        if(!accp.getDisplayName().equals("Swatches"))
+        jColorChooser.removeChooserPanel(accp);
         jColorChooser.setColor(new java.awt.Color(0, 0, 0));
         jColorChooser.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
@@ -259,9 +259,10 @@ public class ClientWhiteboard extends javax.swing.JFrame
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -285,8 +286,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
                                             .addComponent(lineBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(circleBtnFilled, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 431, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18))
         );
         jPanel1Layout.setVerticalGroup(
@@ -391,7 +391,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                openBtnActionPerformed(evt);
+                menuBarAction(evt);
             }
         });
         jMenu1.add(openBtn);
@@ -401,7 +401,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                saveBtnActionPerformed(evt);
+                menuBarAction(evt);
             }
         });
         jMenu1.add(saveBtn);
@@ -411,7 +411,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
-                exitBtnActionPerformed(evt);
+                menuBarAction(evt);
             }
         });
         jMenu1.add(exitBtn);
@@ -469,19 +469,22 @@ public class ClientWhiteboard extends javax.swing.JFrame
         drawingPanel.clear();
     }//GEN-LAST:event_clearBtnActionPerformed
 
-    private void openBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_openBtnActionPerformed
-    {//GEN-HEADEREND:event_openBtnActionPerformed
-        
-    }//GEN-LAST:event_openBtnActionPerformed
+    private void menuBarAction(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuBarAction
+    {//GEN-HEADEREND:event_menuBarAction
+        String menuAction = evt.getActionCommand().toUpperCase();
+        switch (menuAction)
+        {
+            case "SAVE": //if user is client A, then only save.
+                //Save File on server
+                break;
+            case "OPEN": //if user is client A, then only open.
+                //Open file from server
+                break;
 
-    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_saveBtnActionPerformed
-    {//GEN-HEADEREND:event_saveBtnActionPerformed
-        
-    }//GEN-LAST:event_saveBtnActionPerformed
-
-    private void exitBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_exitBtnActionPerformed
-    {//GEN-HEADEREND:event_exitBtnActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_exitBtnActionPerformed
+            case "EXIT":
+                System.exit(0);
+                break;
+        }
+    }//GEN-LAST:event_menuBarAction
 
 }
