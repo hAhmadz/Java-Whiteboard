@@ -256,7 +256,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         drawFreeHandBtn.setBackground(new java.awt.Color(207, 207, 207));
         drawFreeHandBtn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         drawFreeHandBtn.setForeground(new java.awt.Color(102, 102, 102));
-        drawFreeHandBtn.setToolTipText("Enables the  freehand drawing mode");
+        drawFreeHandBtn.setToolTipText("Freehand drawing mode");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
