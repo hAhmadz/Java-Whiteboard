@@ -1,14 +1,7 @@
 package Server;
-
-/**
- * The Subject for the observers The skeleton/servant for the RMI server
- *
- *
- */
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-
 import Misc.ColoredShape;
 
 public class RemoteShapeListServant extends UnicastRemoteObject implements RemoteShapeList

@@ -39,7 +39,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
     private Icon icon;
     public ClientWhiteboard()
     {
-        IconFontSwing.register(FontAwesome.getIconFont());
         initComponents(); //Auto generated UI ONLY
     }
 
@@ -81,6 +80,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
+        IconFontSwing.register(FontAwesome.getIconFont());
         icon = IconFontSwing.buildIcon(FontAwesome.SQUARE_O, 28);
         rectangleBtnHollow = new javax.swing.JButton(icon);
         icon = IconFontSwing.buildIcon(FontAwesome.CIRCLE_O, 28);
@@ -475,7 +475,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
         switch (menuAction)
         {
             case "SAVE": //if user is client A, then only save.
-                //Save File on server
                 break;
             case "OPEN": //if user is client A, then only open.
                 //Open file from server

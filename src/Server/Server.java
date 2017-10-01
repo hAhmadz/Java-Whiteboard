@@ -4,11 +4,8 @@ import java.rmi.registry.Registry;
 
 public class Server
 {
-
     public static void main(String args[])
     {
-
-        //System.setSecurityManager(new SecurityManager());
         try
         {
             System.setProperty("java.rmi.server.hostname", "localhost");
@@ -22,6 +19,7 @@ public class Server
         {
             e.printStackTrace();
         }
+        //System.setSecurityManager(new SecurityManager());
         // https://stackoverflow.com/questions/15685686/java-rmi-connectexception-connection-refused-to-host-127-0-1-1
     }
 }

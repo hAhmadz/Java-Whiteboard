@@ -127,6 +127,9 @@
           </Border>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="IconFontSwing.register(FontAwesome.getIconFont());"/>
+      </AuxValues>
 
       <Layout>
         <DimensionLayout dim="0">
