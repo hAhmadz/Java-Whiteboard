@@ -2,7 +2,6 @@ package Misc;
 
 import java.awt.Color;
 import java.awt.Shape;
-import Misc.TextShape2D;
 import java.io.Serializable;
 
 public class ColoredShape implements Cloneable, Serializable
@@ -53,7 +52,6 @@ public class ColoredShape implements Cloneable, Serializable
         this.weight = other.getWeight();
         this.filled = other.getFilled();
     }
-
 
     public Shape getShape()
     {

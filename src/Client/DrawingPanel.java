@@ -20,11 +20,9 @@ import javax.swing.event.MouseInputAdapter;
 import Misc.ColoredShape;
 import Misc.TextShape2D;
 import Server.RemoteShapeList;
-import java.rmi.server.UnicastRemoteObject;
 
 public class DrawingPanel extends JPanel
 {
-
     private int startX = -1;
     private int startY = -1;
     private BrushStyle activeStyle = BrushStyle.valueOf("FREEHAND");
@@ -34,9 +32,7 @@ public class DrawingPanel extends JPanel
     private Color backgroundColor = Color.WHITE;
     private ColoredShape dragShape;
     private TextShape2D typedText;
-    //private ArrayList<ColoredShape> shapes = new ArrayList<ColoredShape>();
     RemoteShapeList shapes;
-
     DrawingListener drawing = new DrawingListener();
     TypingListener typing = new TypingListener();
 
@@ -53,28 +49,19 @@ public class DrawingPanel extends JPanel
     };
 
     /**
-     * No-argument constructor creates an instance of DrawingListener to handle
-     * drawing related mouse events
+     * handles drawing related mouse events
      */
     public DrawingPanel()
     {
-        /*DrawingListener drawing = new DrawingListener();
-        TypingListener typing = new TypingListener();*/
         addMouseListener(drawing);
         addMouseMotionListener(drawing);
         addKeyListener(typing);
 
         try
         {
-            // if(System.getSecurityManager() == null) {
-            //     System.setSecurityManager(new SecurityManager());
-            // }
-            //LocateRegistry.getRegistry("localhost");
-            //Registry registry = LocateRegistry.getRegistry(null); 
             Registry registry = LocateRegistry.getRegistry("localhost", 6000);
             shapes = (RemoteShapeList) registry.lookup("shapeList");
-
-        }
+       }
         catch (Exception e)
         {
             System.out.println(e);
@@ -84,9 +71,6 @@ public class DrawingPanel extends JPanel
 
     // these co-ordinate getters and setters aren't necessary at the moment,
     // but might come in handy for when we're dealing with multiple clients.
-    /**
-     * return the starting x-coordinate of the most recently drawn shape
-     */
     public int getStartX()
     {
         return startX;
@@ -97,9 +81,6 @@ public class DrawingPanel extends JPanel
         startX = x;
     }
 
-    /**
-     * return the starting y-coordinate of the most recently drawn shape
-     */
     public int getStartY()
     {
         return startY;
@@ -145,7 +126,6 @@ public class DrawingPanel extends JPanel
         {
             e.printStackTrace();
         }
-        //shapes.add(shape);
     }
 
     public void saveDrawing(String filename)
@@ -179,7 +159,7 @@ public class DrawingPanel extends JPanel
     public ArrayList<String> messageStream(String message)
     {
         ArrayList<String> OutputArr = new ArrayList<String>();
-        if (!message.equals("")) //start message of client
+        if (!message.equals(""))
         {
             try
             {
@@ -196,7 +176,6 @@ public class DrawingPanel extends JPanel
     /**
      * Remove all currently drawn shapes from the drawn collection. Repaint the
      * drawing panel as well
-     *
      */
     public void clear()
     {
@@ -216,7 +195,6 @@ public class DrawingPanel extends JPanel
     {
         super.paintComponent(g); //paints the background and image
         Graphics2D g2 = (Graphics2D) g;
-
         ArrayList<ColoredShape> shapeList = null;
         try
         {
@@ -229,7 +207,6 @@ public class DrawingPanel extends JPanel
 
         for (ColoredShape shape : shapeList)
         {
-
             g2.setColor(shape.getColor());
             g2.setStroke(new BasicStroke(shape.getWeight()));
             g2.setFont(defaultFont.deriveFont(7.0f * shape.getWeight()));
@@ -252,12 +229,9 @@ public class DrawingPanel extends JPanel
         // display text as it is being typed
         if (typedText != null)
         {
-            // activeColor??
             g2.setColor(activeColor);
             g2.setFont(defaultFont.deriveFont(7.0f * activeWeight));
-            //g2.setStroke(new BasicStroke(dragShape.getWeight()));
             g2.drawString(typedText.getText(), typedText.getX(), typedText.getY());
-
         }
 
         // display the shape as it is being dragged, before the mouse is released
@@ -276,10 +250,10 @@ public class DrawingPanel extends JPanel
     private class TypingListener extends KeyAdapter
     {
         boolean active = false;
-
         public void keyTyped(KeyEvent e) 
         {
-            if (active) {
+            if (active) 
+            {
                 Character c = e.getKeyChar();
                 typedText.append(c.toString());
                 repaint();
@@ -288,8 +262,8 @@ public class DrawingPanel extends JPanel
 
         public void keyPressed(KeyEvent e) 
         {
-            if (active && e.getKeyCode() == KeyEvent.VK_ENTER) {
-                //TextShape2D ts = new TextShape2D(typedText, startX, startY);
+            if (active && e.getKeyCode() == KeyEvent.VK_ENTER) 
+            {
                 ColoredShape shape = new ColoredShape(typedText, activeColor, activeWeight);
                 addColoredShape(shape.clone());
                 typedText = null;
@@ -305,27 +279,24 @@ public class DrawingPanel extends JPanel
 
     }
 
-
     /**
      * DrawingListener is a listener class to handle drawing related mouse
      * events
-     *
      */
     private class DrawingListener extends MouseInputAdapter
     {
         public void mousePressed(MouseEvent e)
         {
             requestFocusInWindow();
-
             startX = e.getX();
             startY = e.getY();
-
-
-            if (typedText != null) {
+            if (typedText != null) 
+            {
                 ColoredShape shape = new ColoredShape(typedText, activeColor, activeWeight);
                 addColoredShape(shape.clone());
             }
-            if (activeStyle.equals(BrushStyle.valueOf("TEXT"))) {
+            if (activeStyle.equals(BrushStyle.valueOf("TEXT"))) 
+            {
                 typing.setActive(true);
                 typedText = new TextShape2D("", startX, startY);
             }
@@ -403,11 +374,6 @@ public class DrawingPanel extends JPanel
                             activeColor,
                             activeWeight);
                     break;
-
-                case TEXT:
-                    
-
-                    break;
             }
             repaint();
         }
@@ -416,7 +382,6 @@ public class DrawingPanel extends JPanel
         {
             if (dragShape != null)
             {
-                // add the most recently dragged shape
                 addColoredShape(dragShape.clone());
                 dragShape = null;
             }

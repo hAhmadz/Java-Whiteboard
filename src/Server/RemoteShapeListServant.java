@@ -4,10 +4,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import Misc.ColoredShape;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 import java.io.*;
 
 public class RemoteShapeListServant extends UnicastRemoteObject implements RemoteShapeList
@@ -45,8 +43,6 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
         {
             ObjectOutputStream shapesWriter =
                 new ObjectOutputStream(new FileOutputStream(filename));
-        
-            // write the shapes list to file.
             shapesWriter.writeObject(shapes);
             shapesWriter.close();
         }
@@ -66,13 +62,11 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
         ArrayList<ColoredShape> temp = new ArrayList<ColoredShape>();
         try 
         {
-            // check that the file exists.
             File file = new File(filename);
             if (file.exists()) {
                 ObjectInputStream shapesReader =
                     new ObjectInputStream(new FileInputStream(file));
         
-                // read the shapes list from the file
                 temp = (ArrayList<ColoredShape>) shapesReader.readObject();
                 shapesReader.close();
             }
@@ -99,10 +93,7 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     public synchronized ArrayList<String> messageStream(String newMessage)
     {
         if (!newMessage.equals("ClientJoined123"))
-        {
             messages.add(newMessage);
-        }
-
         return messages;
     }
 

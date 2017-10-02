@@ -10,12 +10,15 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="File"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Segoe UI" size="18" style="0"/>
+              <Font name="Segoe UI" size="24" style="0"/>
             </Property>
           </Properties>
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="openBtn">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="24" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Open"/>
               </Properties>
               <Events>
@@ -24,6 +27,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="saveBtn">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="24" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Save"/>
               </Properties>
               <Events>
@@ -32,6 +38,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="exitBtn">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Segoe UI" size="24" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Exit"/>
               </Properties>
               <Events>
@@ -83,8 +92,8 @@
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="WhitePanel" max="32767" attributes="0"/>
                           <Component id="jPanel3" max="32767" attributes="0"/>
+                          <Component id="drawingPanel" max="32767" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -100,8 +109,8 @@
               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="WhitePanel" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" max="-2" attributes="0"/>
+                      <Component id="drawingPanel" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel3" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jPanel1" max="32767" attributes="0"/>
@@ -128,7 +137,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="IconFontSwing.register(FontAwesome.getIconFont());&#xd;&#xa;drawingPanel = new DrawingPanel();"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodePost" type="java.lang.String" value="IconFontSwing.register(FontAwesome.getIconFont());"/>
       </AuxValues>
 
       <Layout>
@@ -146,7 +155,7 @@
                                   <Component id="rectangleBtnHollow" min="-2" pref="90" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" attributes="0">
-                                  <Component id="drawFreeHandBtn" min="-2" pref="90" max="-2" attributes="0"/>
+                                  <Component id="freeHandBtn" min="-2" pref="90" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="circleBtnHollow" min="-2" pref="90" max="-2" attributes="0"/>
                               </Group>
@@ -182,7 +191,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="drawFreeHandBtn" pref="50" max="32767" attributes="0"/>
+                          <Component id="freeHandBtn" pref="50" max="32767" attributes="0"/>
                           <Component id="lineBtn" max="32767" attributes="0"/>
                       </Group>
                       <Component id="circleBtnHollow" min="-2" pref="50" max="-2" attributes="0"/>
@@ -202,7 +211,7 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jColorChooser" min="-2" pref="234" max="-2" attributes="0"/>
-                  <EmptySpace pref="260" max="32767" attributes="0"/>
+                  <EmptySpace pref="257" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -220,6 +229,7 @@
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Creates a hollow rectangle"/>
+            <Property name="actionCommand" type="java.lang.String" value="RECTANGLEHOLLOW"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brushBtnActionPerformed"/>
@@ -241,6 +251,7 @@
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Creates a hollow circle"/>
+            <Property name="actionCommand" type="java.lang.String" value="CIRCLEHOLLOW"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brushBtnActionPerformed"/>
@@ -262,13 +273,14 @@
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Creates a line"/>
+            <Property name="actionCommand" type="java.lang.String" value="LINE"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brushBtnActionPerformed"/>
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new javax.swing.JButton(icon)"/>
-            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.LONG_ARROW_RIGHT, 28);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodePre" type="java.lang.String" value="icon = IconFontSwing.buildIcon(FontAwesome.MINUS, 28);"/>
           </AuxValues>
         </Component>
         <Component class="javax.swing.JColorChooser" name="jColorChooser">
@@ -280,6 +292,9 @@
               <Color id="Default Cursor"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="ColorSelectionModel model = jColorChooser.getSelectionModel();&#xa;        ChangeListener colorChangeListener = new ChangeListener() {&#xa;            public void stateChanged(ChangeEvent e) {&#xa;                drawingPanel.setActiveColor(jColorChooser.getColor());&#xa;            }&#xa;        };&#xa;model.addChangeListener(colorChangeListener);"/>
+          </AuxValues>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel2">
           <Properties>
@@ -305,7 +320,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jSlider1" pref="280" max="32767" attributes="0"/>
+                      <Component id="brushSizeSlider" pref="280" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -313,14 +328,14 @@
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jSlider1" min="-2" max="-2" attributes="0"/>
+                      <Component id="brushSizeSlider" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="9" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JSlider" name="jSlider1">
+            <Component class="javax.swing.JSlider" name="brushSizeSlider">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="df" green="df" red="df" type="rgb"/>
@@ -341,6 +356,9 @@
                   </Border>
                 </Property>
               </Properties>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="ChangeListener sizeChangeListener = new ChangeListener() {&#xa;            public void stateChanged(ChangeEvent e) {&#xa;                JSlider source = (JSlider) e.getSource();&#xa;                drawingPanel.setActiveWeight(source.getValue());&#xa;            }&#xa;        };&#xa;        brushSizeSlider.addChangeListener(sizeChangeListener);"/>
+              </AuxValues>
             </Component>
           </SubComponents>
         </Container>
@@ -374,6 +392,7 @@
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Erases the content"/>
+            <Property name="actionCommand" type="java.lang.String" value="ERASER"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brushBtnActionPerformed"/>
@@ -395,6 +414,7 @@
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Creates a filled rectangle"/>
+            <Property name="actionCommand" type="java.lang.String" value="RECTANGLEFILLED"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Default Cursor"/>
             </Property>
@@ -419,6 +439,7 @@
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Creates a filled circle"/>
+            <Property name="actionCommand" type="java.lang.String" value="CIRCLEFILLED"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brushBtnActionPerformed"/>
@@ -441,12 +462,13 @@
             </Property>
             <Property name="text" type="java.lang.String" value="T"/>
             <Property name="toolTipText" type="java.lang.String" value="Creates a text box"/>
+            <Property name="actionCommand" type="java.lang.String" value="TEXT"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brushBtnActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="drawFreeHandBtn">
+        <Component class="javax.swing.JButton" name="freeHandBtn">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="cf" green="cf" red="cf" type="rgb"/>
@@ -458,6 +480,7 @@
               <Color blue="66" green="66" red="66" type="rgb"/>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value="Freehand drawing mode"/>
+            <Property name="actionCommand" type="java.lang.String" value="FREEHAND"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="brushBtnActionPerformed"/>
@@ -480,34 +503,6 @@
         <Property name="text" type="java.lang.String" value="Whiteboard"/>
       </Properties>
     </Component>
-    <Container class="javax.swing.JPanel" name="WhitePanel">
-      <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="ff" green="ff" red="ff" type="rgb"/>
-        </Property>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
-            <EtchetBorder bevelType="0"/>
-          </Border>
-        </Property>
-        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-          <Color id="Crosshair Cursor"/>
-        </Property>
-      </Properties>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-    </Container>
     <Container class="javax.swing.JPanel" name="jPanel3">
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
@@ -607,6 +602,29 @@
           </Events>
         </Component>
       </SubComponents>
+    </Container>
+    <Container class="Client.DrawingPanel" name="drawingPanel">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePost" type="java.lang.String" value="drawingPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));"/>
+      </AuxValues>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
     </Container>
   </SubComponents>
 </Form>

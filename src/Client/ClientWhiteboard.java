@@ -18,17 +18,17 @@ import javax.swing.event.ChangeListener;
 public class ClientWhiteboard extends javax.swing.JFrame
 {
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    //private javax.swing.JPanel drawingPanel;
-    private DrawingPanel drawingPanel;
+    private javax.swing.JSlider brushSizeSlider;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JTextArea chatHistoryTextArea;
     private javax.swing.JTextField chatTextField;
     private javax.swing.JButton circleBtnFilled;
     private javax.swing.JButton circleBtnHollow;
     private javax.swing.JButton clearBtn;
-    private javax.swing.JButton freehandBtn;
+    private Client.DrawingPanel drawingPanel;
     private javax.swing.JButton eraseBtn;
     private javax.swing.JMenuItem exitBtn;
+    private javax.swing.JButton freeHandBtn;
     private javax.swing.JColorChooser jColorChooser;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
@@ -37,7 +37,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSlider brushSizeSlider;
     private javax.swing.JButton lineBtn;
     private javax.swing.JMenuItem openBtn;
     private javax.swing.JButton rectangleBtnFilled;
@@ -46,9 +45,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
     private javax.swing.JButton sendMsgBtn;
     private javax.swing.JButton textDrawBtn;
     // End of variables declaration//GEN-END:variables
-  
     private Icon icon;
-
     public ClientWhiteboard()
     {
         initComponents(); //Auto generated UI ONLY
@@ -65,27 +62,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
         });
     }
 
-    /*
-    //old drawing panel components that have to be integrated instead of the drawingPanel
-    public void myComp()
-    {
-        //another method to initialise custom components -- only cuz my netbeans does not allow me to handle default components easily :P
-        drawingPanel = new DrawingPanel();
-        drawingPanel.setBackground(new java.awt.Color(255, 255, 255));
-        drawingPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
-        javax.swing.GroupLayout drawingPanelLayout = new javax.swing.GroupLayout(drawingPanel);
-        drawingPanel.setLayout(drawingPanelLayout);
-        drawingPanelLayout.setHorizontalGroup(
-                drawingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 0, Short.MAX_VALUE)
-        );
-        drawingPanelLayout.setVerticalGroup(
-                drawingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 445, Short.MAX_VALUE)
-        );
-
-    }*/
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents()
@@ -94,7 +70,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         IconFontSwing.register(FontAwesome.getIconFont());
-        drawingPanel = new DrawingPanel();
         icon = IconFontSwing.buildIcon(FontAwesome.SQUARE_O, 28);
         rectangleBtnHollow = new javax.swing.JButton(icon);
         icon = IconFontSwing.buildIcon(FontAwesome.CIRCLE_O, 28);
@@ -113,32 +88,33 @@ public class ClientWhiteboard extends javax.swing.JFrame
         circleBtnFilled = new javax.swing.JButton(icon);
         textDrawBtn = new javax.swing.JButton();
         icon = IconFontSwing.buildIcon(FontAwesome.PENCIL, 28);
-        freehandBtn = new javax.swing.JButton(icon);
+        freeHandBtn = new javax.swing.JButton(icon);
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         chatHistoryTextArea = new javax.swing.JTextArea();
         chatTextField = new javax.swing.JTextField();
         sendMsgBtn = new javax.swing.JButton();
+        drawingPanel = new Client.DrawingPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         openBtn = new javax.swing.JMenuItem();
         saveBtn = new javax.swing.JMenuItem();
         exitBtn = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
         setSize(new java.awt.Dimension(0, 0));
 
         jPanel1.setBackground(new java.awt.Color(223, 223, 223));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Toolbar"));
 
-        freehandBtn.setBackground(new java.awt.Color(207, 207, 207));
-        freehandBtn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        freehandBtn.setForeground(new java.awt.Color(102, 102, 102));
-        freehandBtn.setActionCommand("FREEHAND");
-        freehandBtn.setToolTipText("Freehand drawing mode");
-        freehandBtn.addActionListener(new java.awt.event.ActionListener()
+        rectangleBtnHollow.setBackground(new java.awt.Color(207, 207, 207));
+        rectangleBtnHollow.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        rectangleBtnHollow.setForeground(new java.awt.Color(102, 102, 102));
+        rectangleBtnHollow.setToolTipText("Creates a hollow rectangle");
+        rectangleBtnHollow.setActionCommand("RECTANGLEHOLLOW");
+        rectangleBtnHollow.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
@@ -149,22 +125,9 @@ public class ClientWhiteboard extends javax.swing.JFrame
         circleBtnHollow.setBackground(new java.awt.Color(207, 207, 207));
         circleBtnHollow.setFont(new java.awt.Font("Tahoma", 0, 18));
         circleBtnHollow.setForeground(new java.awt.Color(102, 102, 102));
-        circleBtnHollow.setActionCommand("CIRCLEHOLLOW");
         circleBtnHollow.setToolTipText("Creates a hollow circle");
+        circleBtnHollow.setActionCommand("CIRCLEHOLLOW");
         circleBtnHollow.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                brushBtnActionPerformed(evt);
-            }
-        });
-
-        circleBtnFilled.setBackground(new java.awt.Color(207, 207, 207));
-        circleBtnFilled.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        circleBtnFilled.setForeground(new java.awt.Color(102, 102, 102));
-        circleBtnFilled.setActionCommand("CIRCLEFILLED");
-        circleBtnFilled.setToolTipText("Creates a filled circle");
-        circleBtnFilled.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
@@ -175,8 +138,8 @@ public class ClientWhiteboard extends javax.swing.JFrame
         lineBtn.setBackground(new java.awt.Color(207, 207, 207));
         lineBtn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lineBtn.setForeground(new java.awt.Color(102, 102, 102));
-        lineBtn.setActionCommand("LINE");
         lineBtn.setToolTipText("Creates a line");
+        lineBtn.setActionCommand("LINE");
         lineBtn.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -185,89 +148,17 @@ public class ClientWhiteboard extends javax.swing.JFrame
             }
         });
 
-        textDrawBtn.setBackground(new java.awt.Color(207, 207, 207));
-        textDrawBtn.setFont(new java.awt.Font("Times New Roman", 1, 28));
-        textDrawBtn.setForeground(new java.awt.Color(102, 102, 102));
-        textDrawBtn.setText("T");
-        textDrawBtn.setActionCommand("TEXT");
-        textDrawBtn.setToolTipText("Creates a text box");
-        textDrawBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                brushBtnActionPerformed(evt);
-            }
-        });
-
-        rectangleBtnHollow.setBackground(new java.awt.Color(207, 207, 207));
-        rectangleBtnHollow.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        rectangleBtnHollow.setForeground(new java.awt.Color(102, 102, 102));
-        rectangleBtnHollow.setActionCommand("RECTANGLEHOLLOW");
-        rectangleBtnHollow.setToolTipText("Creates a hollow rectangle");
-        rectangleBtnHollow.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                brushBtnActionPerformed(evt);
-            }
-        });
-
-
-        rectangleBtnFilled.setBackground(new java.awt.Color(207, 207, 207));
-        rectangleBtnFilled.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        rectangleBtnFilled.setForeground(new java.awt.Color(102, 102, 102));
-        rectangleBtnFilled.setActionCommand("RECTANGLEFILLED");
-        rectangleBtnFilled.setToolTipText("Creates a filled rectangle");
-        rectangleBtnFilled.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        rectangleBtnFilled.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                brushBtnActionPerformed(evt);
-            }
-        });
-
-
-        eraseBtn.setBackground(new java.awt.Color(207, 207, 207));
-        eraseBtn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        eraseBtn.setForeground(new java.awt.Color(102, 102, 102));
-        eraseBtn.setActionCommand("ERASER");
-        eraseBtn.setToolTipText("Erases the content");
-        eraseBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                brushBtnActionPerformed(evt);
-            }
-        });
-
-        clearBtn.setBackground(new java.awt.Color(207, 207, 207));
-        clearBtn.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        clearBtn.setForeground(new java.awt.Color(253, 8, 8));
-        clearBtn.setText("Clear");
-        clearBtn.setToolTipText("Clear All");
-        clearBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                clearBtnActionPerformed(evt);
-            }
-        });
-
-        // display only swatch panel
         AbstractColorChooserPanel[] customPanels = jColorChooser.getChooserPanels();
-        for (AbstractColorChooserPanel accp : customPanels) {
-            if(!accp.getDisplayName().equals("Swatches"))
-                jColorChooser.removeChooserPanel(accp);
-        }
-        // black is the default color
+        for (AbstractColorChooserPanel accp : customPanels)
+        if(!accp.getDisplayName().equals("Swatches"))
+        jColorChooser.removeChooserPanel(accp);
         jColorChooser.setColor(new java.awt.Color(0, 0, 0));
         jColorChooser.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        // send color selections to the drawing panel instance.
         ColorSelectionModel model = jColorChooser.getSelectionModel();
-        ChangeListener colorChangeListener = new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
+        ChangeListener colorChangeListener = new ChangeListener()
+        {
+            public void stateChanged(ChangeEvent e)
+            {
                 drawingPanel.setActiveColor(jColorChooser.getColor());
             }
         };
@@ -286,17 +177,15 @@ public class ClientWhiteboard extends javax.swing.JFrame
         brushSizeSlider.setSnapToTicks(true);
         brushSizeSlider.setValue(5);
         brushSizeSlider.setBorder(javax.swing.BorderFactory.createCompoundBorder());
-
-
-        // send size selections to the drawing panel instance.
-        ChangeListener sizeChangeListener = new ChangeListener() {
-            public void stateChanged(ChangeEvent e) {
+        ChangeListener sizeChangeListener = new ChangeListener()
+        {
+            public void stateChanged(ChangeEvent e)
+            {
                 JSlider source = (JSlider) e.getSource();
                 drawingPanel.setActiveWeight(source.getValue());
             }
         };
         brushSizeSlider.addChangeListener(sizeChangeListener);
-
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -314,6 +203,86 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 .addGap(0, 9, Short.MAX_VALUE))
         );
 
+        clearBtn.setBackground(new java.awt.Color(207, 207, 207));
+        clearBtn.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        clearBtn.setForeground(new java.awt.Color(253, 8, 8));
+        clearBtn.setText("Clear");
+        clearBtn.setToolTipText("Clear All");
+        clearBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                clearBtnActionPerformed(evt);
+            }
+        });
+
+        eraseBtn.setBackground(new java.awt.Color(207, 207, 207));
+        eraseBtn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        eraseBtn.setForeground(new java.awt.Color(102, 102, 102));
+        eraseBtn.setToolTipText("Erases the content");
+        eraseBtn.setActionCommand("ERASER");
+        eraseBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                brushBtnActionPerformed(evt);
+            }
+        });
+
+        rectangleBtnFilled.setBackground(new java.awt.Color(207, 207, 207));
+        rectangleBtnFilled.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        rectangleBtnFilled.setForeground(new java.awt.Color(102, 102, 102));
+        rectangleBtnFilled.setToolTipText("Creates a filled rectangle");
+        rectangleBtnFilled.setActionCommand("RECTANGLEFILLED");
+        rectangleBtnFilled.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        rectangleBtnFilled.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                brushBtnActionPerformed(evt);
+            }
+        });
+
+        circleBtnFilled.setBackground(new java.awt.Color(207, 207, 207));
+        circleBtnFilled.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        circleBtnFilled.setForeground(new java.awt.Color(102, 102, 102));
+        circleBtnFilled.setToolTipText("Creates a filled circle");
+        circleBtnFilled.setActionCommand("CIRCLEFILLED");
+        circleBtnFilled.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                brushBtnActionPerformed(evt);
+            }
+        });
+
+        textDrawBtn.setBackground(new java.awt.Color(207, 207, 207));
+        textDrawBtn.setFont(new java.awt.Font("Times New Roman", 1, 28));
+        textDrawBtn.setForeground(new java.awt.Color(102, 102, 102));
+        textDrawBtn.setText("T");
+        textDrawBtn.setToolTipText("Creates a text box");
+        textDrawBtn.setActionCommand("TEXT");
+        textDrawBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                brushBtnActionPerformed(evt);
+            }
+        });
+
+        freeHandBtn.setBackground(new java.awt.Color(207, 207, 207));
+        freeHandBtn.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        freeHandBtn.setForeground(new java.awt.Color(102, 102, 102));
+        freeHandBtn.setToolTipText("Freehand drawing mode");
+        freeHandBtn.setActionCommand("FREEHAND");
+        freeHandBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                brushBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -329,7 +298,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(rectangleBtnHollow, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(freehandBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(freeHandBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(circleBtnHollow, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -355,7 +324,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(freehandBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                        .addComponent(freeHandBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                         .addComponent(lineBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(circleBtnHollow, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(circleBtnFilled, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -371,27 +340,12 @@ public class ClientWhiteboard extends javax.swing.JFrame
                     .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(260, Short.MAX_VALUE))
+                .addContainerGap(257, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
         jLabel1.setText("Whiteboard");
-
-        drawingPanel.setBackground(Color.WHITE);
-        drawingPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
-        drawingPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
-
-        javax.swing.GroupLayout drawingPanelLayout = new javax.swing.GroupLayout(drawingPanel);
-        drawingPanel.setLayout(drawingPanelLayout);
-        drawingPanelLayout.setHorizontalGroup(
-            drawingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        drawingPanelLayout.setVerticalGroup(
-            drawingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -454,9 +408,24 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jMenu1.setText("File");
-        jMenu1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        drawingPanel.setBackground(new java.awt.Color(255, 255, 255));
+        drawingPanel.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
 
+        javax.swing.GroupLayout drawingPanelLayout = new javax.swing.GroupLayout(drawingPanel);
+        drawingPanel.setLayout(drawingPanelLayout);
+        drawingPanelLayout.setHorizontalGroup(
+            drawingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        drawingPanelLayout.setVerticalGroup(
+            drawingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jMenu1.setText("File");
+        jMenu1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+
+        openBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         openBtn.setText("Open");
         openBtn.addActionListener(new java.awt.event.ActionListener()
         {
@@ -467,6 +436,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         });
         jMenu1.add(openBtn);
 
+        saveBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         saveBtn.setText("Save");
         saveBtn.addActionListener(new java.awt.event.ActionListener()
         {
@@ -477,6 +447,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         });
         jMenu1.add(saveBtn);
 
+        exitBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         exitBtn.setText("Exit");
         exitBtn.addActionListener(new java.awt.event.ActionListener()
         {
@@ -505,8 +476,8 @@ public class ClientWhiteboard extends javax.swing.JFrame
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(drawingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(drawingPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -548,7 +519,8 @@ public class ClientWhiteboard extends javax.swing.JFrame
             case "SAVE": //no check yet for: if user is client A, then only save.
                 JFileChooser saveChooser = new JFileChooser();
                 int saveValue = saveChooser.showSaveDialog(drawingPanel);
-                if (saveValue == JFileChooser.APPROVE_OPTION) {
+                if (saveValue == JFileChooser.APPROVE_OPTION)
+                {
                     String filename = saveChooser.getSelectedFile().getName();
                     drawingPanel.saveDrawing(filename);
                 }
@@ -557,14 +529,15 @@ public class ClientWhiteboard extends javax.swing.JFrame
             case "OPEN": //no check yet for: if user is client A, then only open.
                 JFileChooser openChooser = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                    ".dat files", "dat");
+                        ".dat files", "dat");
                 openChooser.setFileFilter(filter);
                 int openValue = openChooser.showOpenDialog(drawingPanel);
-                if (openValue == JFileChooser.APPROVE_OPTION) {
+                if (openValue == JFileChooser.APPROVE_OPTION)
+                {
                     String filename = openChooser.getSelectedFile().getName();
                     drawingPanel.openDrawing(filename);
                 }
-                
+
                 break;
 
             case "EXIT":
@@ -581,13 +554,10 @@ public class ClientWhiteboard extends javax.swing.JFrame
         if (!OutputStream.isEmpty())
         {
             for (String msg : OutputStream)
-            {
                 OutputString += msg + "\n";
-            }
+            chatHistoryTextArea.setText(OutputString);
         }
-        chatHistoryTextArea.setText(OutputString);
     }
-
 
     private void sendMsgBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_sendMsgBtnActionPerformed
     {//GEN-HEADEREND:event_sendMsgBtnActionPerformed

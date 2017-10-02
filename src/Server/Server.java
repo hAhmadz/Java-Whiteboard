@@ -10,7 +10,6 @@ public class Server
         {
             System.setProperty("java.rmi.server.hostname", "localhost");
             RemoteShapeList shapeList = new RemoteShapeListServant();
-            //Registry registry = LocateRegistry.getRegistry();
             Registry registry = LocateRegistry.createRegistry(6000);
             registry.bind("shapeList", shapeList);
             System.out.println("server ready");
@@ -19,7 +18,5 @@ public class Server
         {
             e.printStackTrace();
         }
-        //System.setSecurityManager(new SecurityManager());
-        // https://stackoverflow.com/questions/15685686/java-rmi-connectexception-connection-refused-to-host-127-0-1-1
     }
 }

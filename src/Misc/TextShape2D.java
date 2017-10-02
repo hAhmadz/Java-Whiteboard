@@ -1,5 +1,4 @@
 package Misc;
-
 import java.io.Serializable;
 
 public class TextShape2D implements Serializable
@@ -8,7 +7,6 @@ public class TextShape2D implements Serializable
     int x;
     int y;
     
-
     public TextShape2D(String text, int x, int y)
     {
         this.text = text;
