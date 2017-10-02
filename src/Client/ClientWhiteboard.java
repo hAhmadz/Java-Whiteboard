@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.colorchooser.ColorSelectionModel;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -544,11 +546,27 @@ public class ClientWhiteboard extends javax.swing.JFrame
         switch (menuAction)
         {
             case "SAVE": //no check yet for: if user is client A, then only save.
-                drawingPanel.saveDrawing("image.dat");
+                JFileChooser saveChooser = new JFileChooser();
+                int saveValue = saveChooser.showSaveDialog(drawingPanel);
+                if (saveValue == JFileChooser.APPROVE_OPTION) {
+                    String filename = saveChooser.getSelectedFile().getName();
+                    drawingPanel.saveDrawing(filename);
+                }
                 break;
+
             case "OPEN": //no check yet for: if user is client A, then only open.
-                drawingPanel.openDrawing("image.dat");
+                JFileChooser openChooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                    ".dat files", "dat");
+                openChooser.setFileFilter(filter);
+                int openValue = openChooser.showOpenDialog(drawingPanel);
+                if (openValue == JFileChooser.APPROVE_OPTION) {
+                    String filename = openChooser.getSelectedFile().getName();
+                    drawingPanel.openDrawing(filename);
+                }
+                
                 break;
+
             case "EXIT":
                 System.exit(0);
                 break;
