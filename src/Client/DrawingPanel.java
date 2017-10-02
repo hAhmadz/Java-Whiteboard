@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.BasicStroke;
+import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -14,6 +18,7 @@ import java.rmi.registry.Registry;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 import Misc.ColoredShape;
+import Misc.TextShape2D;
 import Server.RemoteShapeList;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -23,19 +28,25 @@ public class DrawingPanel extends JPanel
     private int startX = -1;
     private int startY = -1;
     private BrushStyle activeStyle = BrushStyle.valueOf("FREEHAND");
+    private int activeWeight = 5;
+    private Font defaultFont = new Font("TimesRoman", Font.PLAIN, 10);
     private Color activeColor = Color.BLACK;
     private Color backgroundColor = Color.WHITE;
     private ColoredShape dragShape;
+    private TextShape2D typedText;
     //private ArrayList<ColoredShape> shapes = new ArrayList<ColoredShape>();
     RemoteShapeList shapes;
+
+    DrawingListener drawing = new DrawingListener();
+    TypingListener typing = new TypingListener();
 
     private enum BrushStyle
     {
         FREEHAND,
         RECTANGLEHOLLOW,
-        RECTANGLESOLID,
+        RECTANGLEFILLED,
         CIRCLEHOLLOW,
-        CIRCLESOLID,
+        CIRCLEFILLED,
         LINE,
         TEXT,
         ERASER
@@ -47,9 +58,11 @@ public class DrawingPanel extends JPanel
      */
     public DrawingPanel()
     {
-        DrawingListener listener = new DrawingListener();
-        addMouseListener(listener);
-        addMouseMotionListener(listener);
+        /*DrawingListener drawing = new DrawingListener();
+        TypingListener typing = new TypingListener();*/
+        addMouseListener(drawing);
+        addMouseMotionListener(drawing);
+        addKeyListener(typing);
 
         try
         {
@@ -100,6 +113,11 @@ public class DrawingPanel extends JPanel
     public void setActiveStyle(String style)
     {
         activeStyle = BrushStyle.valueOf(style.toUpperCase());
+    }
+
+    public void setActiveWeight(int weight)
+    {
+        activeWeight = weight;
     }
 
     public void setActiveColor(Color color)
@@ -207,19 +225,82 @@ public class DrawingPanel extends JPanel
 
         for (ColoredShape shape : shapeList)
         {
+
             g2.setColor(shape.getColor());
-            g2.draw(shape.getShape());
+            g2.setStroke(new BasicStroke(shape.getWeight()));
+            g2.setFont(defaultFont.deriveFont(7.0f * shape.getWeight()));
+
+            // check if the ColoredShape is text or a shape
+            if (shape.getTextShape() != null) 
+            {
+                TextShape2D text = shape.getTextShape();
+                g2.drawString(text.getText(), text.getX(), text.getY());
+            }
+            else // i.e. it is a SHAPE shape, not a text shape
+            {
+                if (shape.getFilled())
+                    g2.fill(shape.getShape());
+                else
+                    g2.draw(shape.getShape());
+            }
+        }
+
+        // display text as it is being typed
+        if (typedText != null)
+        {
+            // activeColor??
+            g2.setColor(activeColor);
+            g2.setFont(defaultFont.deriveFont(7.0f * activeWeight));
+            //g2.setStroke(new BasicStroke(dragShape.getWeight()));
+            g2.drawString(typedText.getText(), typedText.getX(), typedText.getY());
+
         }
 
         // display the shape as it is being dragged, before the mouse is released
         if (dragShape != null)
         {
-            // activeColor??
             g2.setColor(dragShape.getColor());
-            g2.draw(dragShape.getShape());
+            g2.setStroke(new BasicStroke(dragShape.getWeight()));
+            if (dragShape.getFilled())
+                g2.fill(dragShape.getShape());
+            else
+                g2.draw(dragShape.getShape());
 
         }
     }
+
+    private class TypingListener extends KeyAdapter
+    {
+        boolean active = false;
+
+        public void keyTyped(KeyEvent e) 
+        {
+            if (active) {
+                Character c = e.getKeyChar();
+                typedText.append(c.toString());
+                repaint();
+            }
+        }
+
+        public void keyPressed(KeyEvent e) 
+        {
+            if (active && e.getKeyCode() == KeyEvent.VK_ENTER) {
+                //TextShape2D ts = new TextShape2D(typedText, startX, startY);
+                ColoredShape shape = new ColoredShape(typedText, activeColor, activeWeight);
+                addColoredShape(shape.clone());
+                typedText = null;
+                active = false;
+                repaint();
+            }
+        }
+
+        public void setActive(boolean status)
+        {
+            this.active = status;
+        }
+
+    }
+
 
     /**
      * DrawingListener is a listener class to handle drawing related mouse
@@ -230,8 +311,21 @@ public class DrawingPanel extends JPanel
     {
         public void mousePressed(MouseEvent e)
         {
+            requestFocusInWindow();
+
             startX = e.getX();
             startY = e.getY();
+
+
+            if (typedText != null) {
+                ColoredShape shape = new ColoredShape(typedText, activeColor, activeWeight);
+                addColoredShape(shape.clone());
+            }
+            if (activeStyle.equals(BrushStyle.valueOf("TEXT"))) {
+                typing.setActive(true);
+                typedText = new TextShape2D("", startX, startY);
+            }
+
         }
 
         public void mouseDragged(MouseEvent e)
@@ -253,7 +347,8 @@ public class DrawingPanel extends JPanel
                 case FREEHAND:
                     dragShape = new ColoredShape(
                             new Line2D.Double(startX, startY, finX, finY),
-                            activeColor);
+                            activeColor,
+                            activeWeight);
                     addColoredShape(dragShape);
                     repaint();
                     startX = finX;
@@ -263,34 +358,51 @@ public class DrawingPanel extends JPanel
                 case CIRCLEHOLLOW:
                     dragShape = new ColoredShape(
                             new Ellipse2D.Double(topX, topY, rectWidth, rectHeight),
-                            activeColor);
+                            activeColor,
+                            activeWeight);
                     break;
 
-                case CIRCLESOLID:
+                case CIRCLEFILLED:
                     dragShape = new ColoredShape(
+                            // set shape
                             new Ellipse2D.Double(topX, topY, rectWidth, rectHeight),
-                            activeColor);
+                            // set color
+                            activeColor,
+                            // set weight
+                            activeWeight,
+                            //set fill
+                            true);
                     break;
 
                 case RECTANGLEHOLLOW:
                     dragShape = new ColoredShape(
                             new Rectangle2D.Double(topX, topY, rectWidth, rectHeight),
-                            activeColor);
+                            activeColor,
+                            activeWeight);
                     break;
 
-                case RECTANGLESOLID:
+                case RECTANGLEFILLED:
                     dragShape = new ColoredShape(
+                            // set shape
                             new Rectangle2D.Double(topX, topY, rectWidth, rectHeight),
-                            activeColor);
+                            // set color
+                            activeColor,
+                            // set weight
+                            activeWeight,
+                            // set fill
+                            true);
                     break;
 
                 case LINE:
                     dragShape = new ColoredShape(
                             new Line2D.Double(startX, startY, finX, finY),
-                            activeColor);
+                            activeColor,
+                            activeWeight);
                     break;
+
                 case TEXT:
-                    //Text Implementation
+                    
+
                     break;
             }
             repaint();
