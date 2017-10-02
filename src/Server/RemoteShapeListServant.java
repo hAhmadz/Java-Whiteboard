@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import java.io.*;
 
 public class RemoteShapeListServant extends UnicastRemoteObject implements RemoteShapeList
 {
@@ -38,16 +39,61 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     }
 
     @Override
-    public void saveDrawing()
+    public void saveDrawing(String filename)
     {
-        //
+        try 
+        {
+            ObjectOutputStream shapesWriter =
+                new ObjectOutputStream(new FileOutputStream(filename));
+        
+            // write the shapes list to file.
+            shapesWriter.writeObject(shapes);
+            shapesWriter.close();
+        }
+        catch(FileNotFoundException e)
+        {
+            System.out.println("Problem writing to " + filename);
+        }
+        catch(IOException e)
+        {
+            System.out.println("Problem writing file");
+        }
     }
 
     @Override
-    public void openDrawing()
+    public void openDrawing(String filename)
     {
-        //
+        ArrayList<ColoredShape> temp = new ArrayList<ColoredShape>();
+        try 
+        {
+            // check that the file exists.
+            File file = new File(filename);
+            if (file.exists()) {
+                ObjectInputStream shapesReader =
+                    new ObjectInputStream(new FileInputStream(file));
+        
+                // read the shapes list from the file
+                temp = (ArrayList<ColoredShape>) shapesReader.readObject();
+                shapesReader.close();
+            }
+            
+        }
+        catch(FileNotFoundException e)
+        {
+            System.out.println("Problem reading from " + filename);
+        }
+        catch(ClassNotFoundException e)
+        {
+            System.out.println("Problem reading file.");
+        }
+        catch(IOException e)
+        {
+            System.out.println("Problem reading file.");
+        }
+
+        this.shapes = temp;
     }
+    
 
     @Override
     public synchronized ArrayList<String> messageStream(String newMessage)

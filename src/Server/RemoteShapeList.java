@@ -9,8 +9,8 @@ public interface RemoteShapeList extends Remote
     public void addColoredShape(ColoredShape shape) throws RemoteException;
     public void clear() throws RemoteException;
     public ArrayList<ColoredShape> getShapes() throws RemoteException;
-    public void saveDrawing() throws RemoteException;
-    public void openDrawing() throws RemoteException;
+    public void saveDrawing(String filename) throws RemoteException;
+    public void openDrawing(String filename) throws RemoteException;
     public ArrayList<String> messageStream(String message) throws RemoteException;
     //ArrayList<ColoredShape> shapes = new ArrayList<ColoredShape>();
     //public void update();

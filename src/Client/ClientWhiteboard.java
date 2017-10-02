@@ -544,10 +544,10 @@ public class ClientWhiteboard extends javax.swing.JFrame
         switch (menuAction)
         {
             case "SAVE": //no check yet for: if user is client A, then only save.
-                drawingPanel.saveDrawing();
+                drawingPanel.saveDrawing("image.dat");
                 break;
             case "OPEN": //no check yet for: if user is client A, then only open.
-                drawingPanel.openDrawing();
+                drawingPanel.openDrawing("image.dat");
                 break;
             case "EXIT":
                 System.exit(0);

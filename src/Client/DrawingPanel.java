@@ -67,7 +67,7 @@ public class DrawingPanel extends JPanel
         try
         {
             // if(System.getSecurityManager() == null) {
-            // 	   System.setSecurityManager(new SecurityManager());
+            //     System.setSecurityManager(new SecurityManager());
             // }
             //LocateRegistry.getRegistry("localhost");
             //Registry registry = LocateRegistry.getRegistry(null); 
@@ -148,11 +148,11 @@ public class DrawingPanel extends JPanel
         //shapes.add(shape);
     }
 
-    public void saveDrawing()
+    public void saveDrawing(String filename)
     {
         try
         {
-            shapes.saveDrawing();
+            shapes.saveDrawing(filename);
         }
         catch (RemoteException e)
         {
@@ -160,15 +160,19 @@ public class DrawingPanel extends JPanel
         }
     }
 
-    public void openDrawing()
+    public void openDrawing(String filename)
     {
         try
         {
-            shapes.openDrawing();
+            shapes.openDrawing(filename);
         }
         catch (RemoteException e)
         {
             e.printStackTrace();
+        }
+        finally
+        {
+            repaint();
         }
     }
 
