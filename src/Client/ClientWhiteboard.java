@@ -4,6 +4,7 @@ import Client.jiconfont.FontAwesome;
 import Client.jiconfont.IconFontSwing;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import javax.swing.Icon;
