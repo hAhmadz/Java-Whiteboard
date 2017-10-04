@@ -52,6 +52,8 @@ public class ClientWhiteboard extends javax.swing.JFrame
     // End of variables declaration//GEN-END:variables
     private Icon icon;
     private File currentFile;
+    //to be implemented
+    private boolean unsavedChanges;
 
     public ClientWhiteboard()
     {
@@ -626,7 +628,8 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 }
                 break;
 
-            case "NEW": 
+            case "NEW":
+                currentFile = null; 
                 drawingPanel.newDiagram();
                 break;
                 
