@@ -24,6 +24,7 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     public void addColoredShape(ColoredShape shape)
     {
         shapes.push(shape);
+        tempShapes.clear();
     }
 
     @Override
