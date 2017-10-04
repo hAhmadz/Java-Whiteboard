@@ -222,6 +222,19 @@ public class DrawingPanel extends JPanel
         }
         repaint();
     }
+    
+    public void newDiagram()
+    {
+        try
+        {
+            shapes.newDiagram();
+        }
+        catch (RemoteException e)
+        {
+            e.printStackTrace();
+        }
+        repaint();
+    }
 
     @Override
     protected void paintComponent(Graphics g)

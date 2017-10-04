@@ -583,7 +583,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_clearBtnActionPerformed
     {//GEN-HEADEREND:event_clearBtnActionPerformed
-        //
+        drawingPanel.clear();
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void menuBarAction(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuBarAction
@@ -616,7 +616,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 break;
 
             case "NEW": 
-                drawingPanel.clear();
+                drawingPanel.newDiagram();
                 break;
 
             case "SAVEAS": 

@@ -29,10 +29,19 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     @Override
     public void clear()
     {
+        tempShapes.clear();
+        while(!shapes.isEmpty())
+            tempShapes.push(shapes.pop());
+    }
+
+    @Override
+    public void newDiagram()
+    {
         shapes.clear();
         tempShapes.clear();
     }
-
+    
+    
     @Override
     public Stack<ColoredShape> getShapes()
     {

@@ -9,6 +9,7 @@ public interface RemoteShapeList extends Remote
 {
     public void addColoredShape(ColoredShape shape) throws RemoteException;
     public void clear() throws RemoteException;
+    public void newDiagram() throws RemoteException;
     public Stack<ColoredShape> getShapes() throws RemoteException;
     public void undoDrawing() throws RemoteException;
     public void redoDrawing() throws RemoteException;
