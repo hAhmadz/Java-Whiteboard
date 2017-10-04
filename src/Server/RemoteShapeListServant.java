@@ -13,7 +13,6 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
 {
     private Stack<ColoredShape> shapes = new Stack<ColoredShape>();
     private Stack<ColoredShape> tempShapes = new Stack<ColoredShape>();
-    //private ArrayList<ColoredShape> shapes = new ArrayList<ColoredShape>();
     private ArrayList<String> messages = new ArrayList<String>();
 
     public RemoteShapeListServant() throws RemoteException
@@ -31,7 +30,7 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     public void clear()
     {
         shapes.clear();
-        //shapes = new ArrayList<ColoredShape>();
+        tempShapes.clear();
     }
 
     @Override
