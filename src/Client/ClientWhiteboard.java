@@ -596,7 +596,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 int saveValue = saveChooser.showSaveDialog(drawingPanel);
                 if (saveValue == JFileChooser.APPROVE_OPTION)
                 {
-                    String filename = saveChooser.getSelectedFile().getName();
+                    String filename = saveChooser.getSelectedFile().getPath();
                     drawingPanel.saveDrawing(filename);
                 }
                 break;
@@ -609,7 +609,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 int openValue = openChooser.showOpenDialog(drawingPanel);
                 if (openValue == JFileChooser.APPROVE_OPTION)
                 {
-                    String filename = openChooser.getSelectedFile().getName();
+                    String filename = openChooser.getSelectedFile().getPath();
                     drawingPanel.openDrawing(filename);
                 }
 
