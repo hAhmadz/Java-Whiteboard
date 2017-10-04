@@ -7,10 +7,13 @@ import Misc.ColoredShape;
 import java.io.File;
 import java.io.IOException;
 import java.io.*;
+import java.util.Stack;
 
 public class RemoteShapeListServant extends UnicastRemoteObject implements RemoteShapeList
 {
-    private ArrayList<ColoredShape> shapes = new ArrayList<ColoredShape>();
+    private Stack<ColoredShape> shapes = new Stack<ColoredShape>();
+    private Stack<ColoredShape> tempShapes = new Stack<ColoredShape>();
+    //private ArrayList<ColoredShape> shapes = new ArrayList<ColoredShape>();
     private ArrayList<String> messages = new ArrayList<String>();
 
     public RemoteShapeListServant() throws RemoteException
@@ -21,19 +24,39 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     @Override
     public void addColoredShape(ColoredShape shape)
     {
-        shapes.add(shape);
+        shapes.push(shape);
     }
 
     @Override
     public void clear()
     {
-        shapes = new ArrayList<ColoredShape>();
+        shapes.clear();
+        //shapes = new ArrayList<ColoredShape>();
     }
 
     @Override
-    public ArrayList<ColoredShape> getShapes()
+    public Stack<ColoredShape> getShapes()
     {
         return shapes;
+    }
+    
+    @Override
+    public synchronized void undoDrawing()
+    {
+        if(!shapes.isEmpty())
+        {
+            ColoredShape temp = shapes.pop();
+            if(tempShapes.size()>20)
+                tempShapes.remove(0);
+            tempShapes.push(temp);
+        }
+    }
+    
+    @Override
+    public synchronized void redoDrawing()
+    {
+        if(!tempShapes.isEmpty())
+            shapes.push(tempShapes.pop());
     }
 
     @Override
@@ -59,7 +82,7 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     @Override
     public void openDrawing(String filename)
     {
-        ArrayList<ColoredShape> temp = new ArrayList<ColoredShape>();
+        Stack<ColoredShape> temp = new Stack<ColoredShape>();
         try 
         {
             File file = new File(filename);
@@ -67,7 +90,7 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
                 ObjectInputStream shapesReader =
                     new ObjectInputStream(new FileInputStream(file));
         
-                temp = (ArrayList<ColoredShape>) shapesReader.readObject();
+                temp = (Stack<ColoredShape>) shapesReader.readObject();
                 shapesReader.close();
             }
             

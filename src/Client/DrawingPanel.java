@@ -20,6 +20,7 @@ import javax.swing.event.MouseInputAdapter;
 import Misc.ColoredShape;
 import Misc.TextShape2D;
 import Server.RemoteShapeList;
+import java.util.Stack;
 
 public class DrawingPanel extends JPanel
 {
@@ -155,6 +156,38 @@ public class DrawingPanel extends JPanel
             repaint();
         }
     }
+    
+    public void undoDraw()
+    {
+        try
+        {
+            shapes.undoDrawing();
+        }
+        catch (RemoteException ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            repaint();
+        }
+    }
+    
+    public void redoDraw()
+    {
+        try
+        {
+            shapes.redoDrawing();
+        }
+        catch (RemoteException ex)
+        {
+            ex.printStackTrace();
+        }
+        finally
+        {
+            repaint();
+        }
+    }
 
     public ArrayList<String> messageStream(String message)
     {
@@ -195,7 +228,7 @@ public class DrawingPanel extends JPanel
     {
         super.paintComponent(g); //paints the background and image
         Graphics2D g2 = (Graphics2D) g;
-        ArrayList<ColoredShape> shapeList = null;
+        Stack<ColoredShape> shapeList = null;
         try
         {
             shapeList = shapes.getShapes();
