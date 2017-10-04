@@ -38,16 +38,19 @@ public class ClientWhiteboard extends javax.swing.JFrame
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton lineBtn;
+    private javax.swing.JMenuItem newBtn;
     private javax.swing.JMenuItem openBtn;
     private javax.swing.JButton rectangleBtnFilled;
     private javax.swing.JButton rectangleBtnHollow;
     private javax.swing.JButton redoBtn;
+    private javax.swing.JMenuItem saveAsBtn;
     private javax.swing.JMenuItem saveBtn;
     private javax.swing.JButton sendMsgBtn;
     private javax.swing.JButton textDrawBtn;
     private javax.swing.JButton undoBtn;
     // End of variables declaration//GEN-END:variables
     private Icon icon;
+
     public ClientWhiteboard()
     {
         initComponents(); //Auto generated UI ONLY
@@ -105,7 +108,9 @@ public class ClientWhiteboard extends javax.swing.JFrame
         drawingPanel = new Client.DrawingPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        newBtn = new javax.swing.JMenuItem();
         openBtn = new javax.swing.JMenuItem();
+        saveAsBtn = new javax.swing.JMenuItem();
         saveBtn = new javax.swing.JMenuItem();
         exitBtn = new javax.swing.JMenuItem();
 
@@ -205,9 +210,9 @@ public class ClientWhiteboard extends javax.swing.JFrame
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(brushSizeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 9, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(brushSizeSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         clearBtn.setBackground(new java.awt.Color(207, 207, 207));
@@ -379,13 +384,13 @@ public class ClientWhiteboard extends javax.swing.JFrame
                             .addComponent(rectangleBtnFilled, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(eraseBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(redoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(25, 25, 25)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(262, Short.MAX_VALUE))
+                .addContainerGap(255, Short.MAX_VALUE))
         );
 
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 48)); // NOI18N
@@ -471,6 +476,17 @@ public class ClientWhiteboard extends javax.swing.JFrame
         jMenu1.setText("File");
         jMenu1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
 
+        newBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        newBtn.setText("New");
+        newBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                menuBarAction(evt);
+            }
+        });
+        jMenu1.add(newBtn);
+
         openBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         openBtn.setText("Open");
         openBtn.addActionListener(new java.awt.event.ActionListener()
@@ -482,8 +498,21 @@ public class ClientWhiteboard extends javax.swing.JFrame
         });
         jMenu1.add(openBtn);
 
+        saveAsBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        saveAsBtn.setText("Save As");
+        saveAsBtn.setActionCommand("SAVEAS");
+        saveAsBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                menuBarAction(evt);
+            }
+        });
+        jMenu1.add(saveAsBtn);
+
         saveBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         saveBtn.setText("Save");
+        saveBtn.setActionCommand("SAVE");
         saveBtn.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -554,7 +583,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_clearBtnActionPerformed
     {//GEN-HEADEREND:event_clearBtnActionPerformed
-        drawingPanel.clear();
+        //
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void menuBarAction(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuBarAction
@@ -562,7 +591,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         String menuAction = evt.getActionCommand().toUpperCase();
         switch (menuAction)
         {
-            case "SAVE": //no check yet for: if user is client A, then only save.
+            case "SAVE": 
                 JFileChooser saveChooser = new JFileChooser();
                 int saveValue = saveChooser.showSaveDialog(drawingPanel);
                 if (saveValue == JFileChooser.APPROVE_OPTION)
@@ -572,7 +601,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 }
                 break;
 
-            case "OPEN": //no check yet for: if user is client A, then only open.
+            case "OPEN": 
                 JFileChooser openChooser = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
                         ".dat files", "dat");
@@ -584,6 +613,14 @@ public class ClientWhiteboard extends javax.swing.JFrame
                     drawingPanel.openDrawing(filename);
                 }
 
+                break;
+
+            case "NEW": 
+                drawingPanel.clear();
+                break;
+
+            case "SAVEAS": 
+                
                 break;
 
             case "EXIT":
@@ -600,7 +637,9 @@ public class ClientWhiteboard extends javax.swing.JFrame
         if (!OutputStream.isEmpty())
         {
             for (String msg : OutputStream)
+            {
                 OutputString += msg + "\n";
+            }
             chatHistoryTextArea.setText(OutputString);
         }
     }
