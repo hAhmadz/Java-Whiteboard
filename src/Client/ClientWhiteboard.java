@@ -4,6 +4,7 @@ import Client.jiconfont.FontAwesome;
 import Client.jiconfont.IconFontSwing;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import javax.swing.Icon;
@@ -50,6 +51,9 @@ public class ClientWhiteboard extends javax.swing.JFrame
     private javax.swing.JButton undoBtn;
     // End of variables declaration//GEN-END:variables
     private Icon icon;
+    private File currentFile;
+    //to be implemented
+    private boolean unsavedChanges;
 
     public ClientWhiteboard()
     {
@@ -591,12 +595,21 @@ public class ClientWhiteboard extends javax.swing.JFrame
         String menuAction = evt.getActionCommand().toUpperCase();
         switch (menuAction)
         {
-            case "SAVE": 
+            case "SAVE":
+                if (currentFile != null)
+                { 
+                    drawingPanel.saveDrawing(currentFile.getPath());
+                    break;
+                    // break only if current file != null
+                }
+
+            case "SAVEAS": 
                 JFileChooser saveChooser = new JFileChooser();
                 int saveValue = saveChooser.showSaveDialog(drawingPanel);
                 if (saveValue == JFileChooser.APPROVE_OPTION)
                 {
-                    String filename = saveChooser.getSelectedFile().getPath();
+                    currentFile = saveChooser.getSelectedFile();
+                    String filename = currentFile.getPath();
                     drawingPanel.saveDrawing(filename);
                 }
                 break;
@@ -609,19 +622,17 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 int openValue = openChooser.showOpenDialog(drawingPanel);
                 if (openValue == JFileChooser.APPROVE_OPTION)
                 {
-                    String filename = openChooser.getSelectedFile().getPath();
+                    currentFile = openChooser.getSelectedFile();
+                    String filename = currentFile.getPath();
                     drawingPanel.openDrawing(filename);
                 }
-
                 break;
 
-            case "NEW": 
+            case "NEW":
+                currentFile = null; 
                 drawingPanel.newDiagram();
                 break;
-
-            case "SAVEAS": 
                 
-                break;
 
             case "EXIT":
                 System.exit(0);
