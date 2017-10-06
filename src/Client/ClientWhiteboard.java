@@ -412,7 +412,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         chatHistoryTextArea.setToolTipText("");
         chatHistoryTextArea.setWrapStyleWord(true);
         jScrollPane1.setViewportView(chatHistoryTextArea);
-        messageAction("ClientJoined123");
+        //messageAction("ClientJoined123");
 
         chatTextField.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         chatTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
@@ -420,6 +420,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
+            	System.out.println("here2");
                 sendMsgBtnActionPerformed(evt);
             }
         });
@@ -433,6 +434,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
             {
+            	System.out.println("here");
                 sendMsgBtnActionPerformed(evt);
             }
         });
@@ -652,12 +654,14 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 OutputString += msg + "\n";
             }
             chatHistoryTextArea.setText(OutputString);
+            System.out.println("here44");
         }
     }
 
     private void sendMsgBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_sendMsgBtnActionPerformed
     {//GEN-HEADEREND:event_sendMsgBtnActionPerformed
-        String message = chatTextField.getText();
+    	System.out.println("here3");
+        String message = drawingPanel.name + ": " + chatTextField.getText();
         messageAction(message);
     }//GEN-LAST:event_sendMsgBtnActionPerformed
 

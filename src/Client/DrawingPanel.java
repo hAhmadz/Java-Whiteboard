@@ -1,6 +1,7 @@
 package Client;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -36,6 +37,7 @@ public class DrawingPanel extends JPanel
     RemoteShapeList shapes;
     DrawingListener drawing = new DrawingListener();
     TypingListener typing = new TypingListener();
+    String name;
 
     private enum BrushStyle
     {
@@ -62,6 +64,9 @@ public class DrawingPanel extends JPanel
         {
             Registry registry = LocateRegistry.getRegistry("localhost", 6000);
             shapes = (RemoteShapeList) registry.lookup("shapeList");
+            Random randName = new Random();
+            int n = randName.nextInt(500);
+            name = ""+n;
        }
         catch (Exception e)
         {
@@ -203,6 +208,7 @@ public class DrawingPanel extends JPanel
                 e.printStackTrace();
             }
         }
+        System.out.println("here5");
         return OutputArr;
     }
 
