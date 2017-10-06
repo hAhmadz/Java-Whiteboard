@@ -64,9 +64,9 @@ public class DrawingPanel extends JPanel
         {
             Registry registry = LocateRegistry.getRegistry("localhost", 6000);
             shapes = (RemoteShapeList) registry.lookup("shapeList");
-            Random randName = new Random();
-            int n = randName.nextInt(500);
-            name = ""+n;
+            //Random randName = new Random();
+            //int n = randName.nextInt(500);
+            //name = ""+n;
        }
         catch (Exception e)
         {

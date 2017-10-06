@@ -63,6 +63,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
     //to be implemented
     private boolean unsavedChanges;
     static ArrayList<String> OutputStreamtest = null;
+    int login = 0;
 
     public ClientWhiteboard()
     {
@@ -85,7 +86,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
         			public void run() {
         				Runnable test = new Runnable() {
         					public void run() {
-        						System.out.println("hello oiwjerije");
         						ArrayList<String> OutputStream = null;
 								try {
 									OutputStream = drawingPanel.getMsg();
@@ -101,7 +101,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
         				                OutputString += msg + "\n";
         				            }
         				            chatHistoryTextArea.setText(OutputString);
-        				            System.out.println("here44");
         				        }
         					}
         				};
@@ -703,9 +702,15 @@ public class ClientWhiteboard extends javax.swing.JFrame
 
     private void sendMsgBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_sendMsgBtnActionPerformed
     {//GEN-HEADEREND:event_sendMsgBtnActionPerformed
-    	System.out.println("here3");
-        String message = drawingPanel.name + ": " + chatTextField.getText();
-        messageAction(message);
+    	if(login == 0) {
+    		drawingPanel.name = chatTextField.getText();
+    		login = 1;
+    		chatTextField.setText("");
+    	} else {
+        	System.out.println("here3");
+            String message = drawingPanel.name + ": " + chatTextField.getText();
+            messageAction(message);
+    	}
     }//GEN-LAST:event_sendMsgBtnActionPerformed
 
     private void undoBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_undoBtnActionPerformed
