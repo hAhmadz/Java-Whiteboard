@@ -2,11 +2,19 @@ package Client;
 
 import Client.jiconfont.FontAwesome;
 import Client.jiconfont.IconFontSwing;
+import sun.misc.Timer;
+
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.OutputStream;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.Icon;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.colorchooser.ColorSelectionModel;
@@ -21,12 +29,12 @@ public class ClientWhiteboard extends javax.swing.JFrame
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSlider brushSizeSlider;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JTextArea chatHistoryTextArea;
-    private javax.swing.JTextField chatTextField;
+    private static javax.swing.JTextArea chatHistoryTextArea;
+    private static javax.swing.JTextField chatTextField;
     private javax.swing.JButton circleBtnFilled;
     private javax.swing.JButton circleBtnHollow;
     private javax.swing.JButton clearBtn;
-    private Client.DrawingPanel drawingPanel;
+    private static Client.DrawingPanel drawingPanel;
     private javax.swing.JButton eraseBtn;
     private javax.swing.JMenuItem exitBtn;
     private javax.swing.JButton freeHandBtn;
@@ -54,6 +62,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
     private File currentFile;
     //to be implemented
     private boolean unsavedChanges;
+    static ArrayList<String> OutputStreamtest = null;
 
     public ClientWhiteboard()
     {
@@ -69,6 +78,40 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 new ClientWhiteboard().setVisible(true);
             }
         });
+        
+        
+        java.awt.EventQueue.invokeLater(
+        		new Runnable() {
+        			public void run() {
+        				Runnable test = new Runnable() {
+        					public void run() {
+        						System.out.println("hello oiwjerije");
+        						ArrayList<String> OutputStream = null;
+								try {
+									OutputStream = drawingPanel.getMsg();
+								} catch (RemoteException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+        				        String OutputString = "";
+        				        if (!OutputStream.isEmpty())
+        				        {
+        				            for (String msg : OutputStream)
+        				            {
+        				                OutputString += msg + "\n";
+        				            }
+        				            chatHistoryTextArea.setText(OutputString);
+        				            System.out.println("here44");
+        				        }
+        					}
+        				};
+        				
+        				ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        				executor.scheduleAtFixedRate(test, 0, 500, TimeUnit.MILLISECONDS);
+        			}
+        		});
+        
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -399,7 +442,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
 
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel1.setText("Whiteboard");
+        jLabel1.setText(drawingPanel.name + " <- You // Whiteboard");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 

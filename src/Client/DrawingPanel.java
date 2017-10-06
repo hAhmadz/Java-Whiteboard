@@ -439,4 +439,8 @@ public class DrawingPanel extends JPanel
             }
         }
     }
+
+	public ArrayList<String> getMsg() throws RemoteException {
+		return shapes.getMsgs();
+	}
 }

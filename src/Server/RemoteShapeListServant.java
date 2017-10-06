@@ -129,4 +129,9 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
         return messages;
     }
 
+	@Override
+	public ArrayList<String> getMsgs() throws RemoteException {
+		// TODO Auto-generated method stub
+		return messages;
+	}
 }
