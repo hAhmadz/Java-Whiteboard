@@ -4,13 +4,21 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import Misc.ColoredShape;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.*;
 import java.util.Stack;
+import java.util.Vector;
+
+import Client.PanelExInt;
+
 
 public class RemoteShapeListServant extends UnicastRemoteObject implements RemoteShapeList
 {
+	/** Contains a list of all the DrawingPanels clients */
+	private Vector<PanelExInt> drawClients = new Vector<PanelExInt>();
+	
     private Stack<ColoredShape> shapes = new Stack<ColoredShape>();
     private Stack<ColoredShape> tempShapes = new Stack<ColoredShape>();
     private ArrayList<String> messages = new ArrayList<String>();
@@ -21,36 +29,33 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     }
 
     @Override
-    public void addColoredShape(ColoredShape shape)
+    public void addColoredShape(ColoredShape shape) throws RemoteException
     {
         shapes.push(shape);
+        publish();
         tempShapes.clear();
     }
 
     @Override
-    public void clear()
+    public void clear() throws RemoteException
     {
         tempShapes.clear();
         while(!shapes.isEmpty())
             tempShapes.push(shapes.pop());
+        publish();
     }
 
     @Override
-    public void newDiagram()
+    public void newDiagram() throws RemoteException
     {
         shapes.clear();
+        publish();
         tempShapes.clear();
     }
     
     
     @Override
-    public Stack<ColoredShape> getShapes()
-    {
-        return shapes;
-    }
-    
-    @Override
-    public synchronized void undoDrawing()
+    public synchronized void undoDrawing() throws RemoteException
     {
         if(!shapes.isEmpty())
         {
@@ -59,13 +64,15 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
                 tempShapes.remove(0);
             tempShapes.push(temp);
         }
+        publish();
     }
     
     @Override
-    public synchronized void redoDrawing()
+    public synchronized void redoDrawing() throws RemoteException
     {
         if(!tempShapes.isEmpty())
             shapes.push(tempShapes.pop());
+        publish();
     }
 
     @Override
@@ -89,7 +96,7 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     }
 
     @Override
-    public void openDrawing(String filename)
+    public void openDrawing(String filename) throws RemoteException
     {
         Stack<ColoredShape> temp = new Stack<ColoredShape>();
         try 
@@ -118,6 +125,7 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
         }
 
         this.shapes = temp;
+        publish();
     }
     
 
@@ -131,7 +139,31 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
 
 	@Override
 	public ArrayList<String> getMsgs() throws RemoteException {
-		// TODO Auto-generated method stub
 		return messages;
 	}
+	
+	/** adds the client to a list of subscribers */
+	public boolean subscribe(PanelExInt drawClient) throws RemoteException{
+		drawClients.add(drawClient);
+		drawClient.updatePanel(shapes);
+		System.out.println("client added");
+		return true;		
+	}
+	
+	
+	/** Updates the clients. */
+	public void publish() throws RemoteException{
+
+		for(int i=0; i<drawClients.size(); i++){
+		    try{
+		    	PanelExInt tmp=(PanelExInt)drawClients.get(i);
+				tmp.updatePanel(shapes);
+		    }catch(Exception e){
+		    	//problem with the client not connected; so remove it		    	
+		    	drawClients.remove(i);
+		    	
+		    }
+		}
+	}
+
 }
