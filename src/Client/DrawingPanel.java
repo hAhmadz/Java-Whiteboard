@@ -13,8 +13,6 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 import Misc.ColoredShape;
@@ -33,10 +31,15 @@ public class DrawingPanel extends JPanel
     private Color backgroundColor = Color.WHITE;
     private ColoredShape dragShape;
     private TextShape2D typedText;
-    RemoteShapeList shapes;
+    private RemoteShapeList shapes;
     DrawingListener drawing = new DrawingListener();
     TypingListener typing = new TypingListener();
+    String name;
+    
+    /** local version of the server's 'shapes' stack */
+    private Stack<ColoredShape> localShapes = new Stack<ColoredShape>();
 
+    
     private enum BrushStyle
     {
         FREEHAND,
@@ -51,23 +54,14 @@ public class DrawingPanel extends JPanel
 
     /**
      * handles drawing related mouse events
+     * @throws RemoteException 
      */
     public DrawingPanel()
     {
         addMouseListener(drawing);
         addMouseMotionListener(drawing);
         addKeyListener(typing);
-
-        try
-        {
-            Registry registry = LocateRegistry.getRegistry("localhost", 6000);
-            shapes = (RemoteShapeList) registry.lookup("shapeList");
-       }
-        catch (Exception e)
-        {
-            System.out.println(e);
-        }
-
+       
     }
 
     // these co-ordinate getters and setters aren't necessary at the moment,
@@ -241,17 +235,8 @@ public class DrawingPanel extends JPanel
     {
         super.paintComponent(g); //paints the background and image
         Graphics2D g2 = (Graphics2D) g;
-        Stack<ColoredShape> shapeList = null;
-        try
-        {
-            shapeList = shapes.getShapes();
-        }
-        catch (RemoteException e)
-        {
-            e.printStackTrace();
-        }
-
-        for (ColoredShape shape : shapeList)
+       
+        for (ColoredShape shape : localShapes)
         {
             g2.setColor(shape.getColor());
             g2.setStroke(new BasicStroke(shape.getWeight()));
@@ -433,4 +418,24 @@ public class DrawingPanel extends JPanel
             }
         }
     }
+
+	public ArrayList<String> getMsg() throws RemoteException {
+		return shapes.getMsgs();
+	}
+	
+	
+	/** Updates the local stack of shapes to that of the server's.
+	 * Could possibly change this in future to just have the changes passed across,
+	 * not the whole stack */
+	public void update(Stack<ColoredShape> shapes) throws RemoteException{
+		localShapes = shapes;
+		repaint();
+	}
+	
+	/** Changes this class' stack of shapes to match that of the parameter. */
+	public void setShapes (RemoteShapeList shapes) {
+		this.shapes = shapes;
+	}
+	
+	
 }

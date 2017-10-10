@@ -2,11 +2,19 @@ package Client;
 
 import Client.jiconfont.FontAwesome;
 import Client.jiconfont.IconFontSwing;
-import java.awt.Color;
-import java.awt.event.KeyEvent;
+import Misc.ColoredShape;
+import Server.RemoteShapeList;
+
 import java.io.File;
-import java.io.OutputStream;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.Stack;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.Icon;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.colorchooser.ColorSelectionModel;
@@ -20,14 +28,13 @@ public class ClientWhiteboard extends javax.swing.JFrame
 {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSlider brushSizeSlider;
-    private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JTextArea chatHistoryTextArea;
-    private javax.swing.JTextField chatTextField;
+    private static javax.swing.JTextArea chatHistoryTextArea;
+    private static javax.swing.JTextField chatTextField;
     private javax.swing.JButton circleBtnFilled;
     private javax.swing.JButton circleBtnHollow;
     private javax.swing.JButton clearBtn;
     private javax.swing.JMenuItem connectBtn;
-    private Client.DrawingPanel drawingPanel;
+    private static Client.DrawingPanel drawingPanel;
     private javax.swing.JButton eraseBtn;
     private javax.swing.JMenuItem exitBtn;
     private javax.swing.JButton freeHandBtn;
@@ -52,8 +59,15 @@ public class ClientWhiteboard extends javax.swing.JFrame
     // End of variables declaration//GEN-END:variables
     private Icon icon;
     private File currentFile;
+    
+    
+    private PanelEx panelex;
+    
+    
     //to be implemented
     private boolean unsavedChanges;
+    static ArrayList<String> OutputStreamtest = null;
+    int login = 0;
 
     public ClientWhiteboard()
     {
@@ -69,6 +83,38 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 new ClientWhiteboard().setVisible(true);
             }
         });
+        
+        
+        java.awt.EventQueue.invokeLater(
+        		new Runnable() {
+        			public void run() {
+        				Runnable test = new Runnable() {
+        					public void run() {
+        						ArrayList<String> OutputStream = null;
+								try {
+									OutputStream = drawingPanel.getMsg();
+								} catch (RemoteException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+        				        String OutputString = "";
+        				        if (!OutputStream.isEmpty())
+        				        {
+        				            for (String msg : OutputStream)
+        				            {
+        				                OutputString += msg + "\n";
+        				            }
+        				            chatHistoryTextArea.setText(OutputString);
+        				        }
+        					}
+        				};
+        				
+        				ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+        				executor.scheduleAtFixedRate(test, 0, 500, TimeUnit.MILLISECONDS);
+        			}
+        		});
+        
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -76,7 +122,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
     private void initComponents()
     {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
+        new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         IconFontSwing.register(FontAwesome.getIconFont());
         icon = IconFontSwing.buildIcon(FontAwesome.SQUARE_O, 28);
@@ -108,7 +154,34 @@ public class ClientWhiteboard extends javax.swing.JFrame
         chatTextField = new javax.swing.JTextField();
         icon = IconFontSwing.buildIcon(FontAwesome.REPLY_ALL, 28);
         sendMsgBtn = new javax.swing.JButton(icon);
-        drawingPanel = new Client.DrawingPanel();
+        
+        
+        /* Moved registry to ClientWhiteboard, should be able to make a remote object
+         * for the messages here too. */
+        RemoteShapeList shapes = null;
+        drawingPanel = new DrawingPanel();
+        
+        try
+        {
+            panelex = new PanelEx();
+            panelex.setDrawPan(drawingPanel);
+            
+            Registry registry = LocateRegistry.getRegistry("localhost", 6000);
+            shapes = (RemoteShapeList) registry.lookup("shapeList");
+            
+            shapes.subscribe(panelex);
+       }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        drawingPanel.setShapes(shapes);
+        
+        
+        
+       
+        
+        
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         newBtn = new javax.swing.JMenuItem();
@@ -397,6 +470,10 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 .addContainerGap(324, Short.MAX_VALUE))
         );
 
+        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 48)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel1.setText(drawingPanel.name + " <- You // Whiteboard");
+
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
         chatHistoryTextArea.setEditable(false);
@@ -408,7 +485,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         chatHistoryTextArea.setToolTipText("");
         chatHistoryTextArea.setWrapStyleWord(true);
         jScrollPane1.setViewportView(chatHistoryTextArea);
-        messageAction("ClientJoined123");
+        //messageAction("ClientJoined123");
 
         chatTextField.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         chatTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
@@ -658,8 +735,14 @@ public class ClientWhiteboard extends javax.swing.JFrame
 
     private void sendMsgBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_sendMsgBtnActionPerformed
     {//GEN-HEADEREND:event_sendMsgBtnActionPerformed
-        String message = chatTextField.getText();
-        messageAction(message);
+    	if(login == 0) {
+    		drawingPanel.name = chatTextField.getText();
+    		login = 1;
+    		chatTextField.setText("");
+    	} else {
+            String message = drawingPanel.name + ": " + chatTextField.getText();
+            messageAction(message);
+    	}
     }//GEN-LAST:event_sendMsgBtnActionPerformed
 
     private void undoBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_undoBtnActionPerformed
@@ -672,8 +755,14 @@ public class ClientWhiteboard extends javax.swing.JFrame
         drawingPanel.redoDraw();
     }//GEN-LAST:event_redoBtnActionPerformed
 
+
     private void connectBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_connectBtnActionPerformed
     {//GEN-HEADEREND:event_connectBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_connectBtnActionPerformed
+    
+    /** Updates the list of shapes which the drawingPanel paints in the GUI. */
+	public void updatePanel(Stack<ColoredShape> shapes) throws RemoteException {
+		drawingPanel.update(shapes);
+	}
 }
