@@ -4,20 +4,14 @@ import Client.jiconfont.FontAwesome;
 import Client.jiconfont.IconFontSwing;
 import Misc.ColoredShape;
 import Server.RemoteShapeList;
-
 import java.io.File;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Stack;
-import java.util.Vector;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
-
 import javax.swing.Icon;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.colorchooser.ColorSelectionModel;
