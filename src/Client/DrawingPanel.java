@@ -289,27 +289,39 @@ public class DrawingPanel extends JPanel
     private class TypingListener extends KeyAdapter
     {
         boolean active = false;
-
-        public void keyTyped(KeyEvent e)
+        public void keyTyped(KeyEvent e) 
         {
-            if (active)
+            if (active) 
             {
                 Character c = e.getKeyChar();
-                typedText.append(c.toString());
-                repaint();
+                if (! Character.isISOControl(c))
+                {
+                    typedText.append(c.toString());
+                    repaint();
+                }
             }
         }
 
-        public void keyPressed(KeyEvent e)
+
+        public void keyReleased(KeyEvent e) 
         {
-            if (active && e.getKeyCode() == KeyEvent.VK_ENTER)
+            if (active)
             {
-                ColoredShape shape = new ColoredShape(typedText, activeColor, activeWeight);
-                addColoredShape(shape.clone());
-                typedText = null;
-                active = false;
-                repaint();
+                if (e.getKeyCode() == KeyEvent.VK_BACK_SPACE)
+                {
+                    typedText.backspace();
+                    repaint();
+                }
+                else if (e.getKeyCode() == KeyEvent.VK_ENTER) 
+                {
+                    ColoredShape shape = new ColoredShape(typedText, activeColor, activeWeight);
+                    addColoredShape(shape.clone());
+                    typedText = null;
+                    active = false;
+                    repaint();
+                }
             }
+
         }
 
         public void setActive(boolean status)
@@ -334,6 +346,7 @@ public class DrawingPanel extends JPanel
             {
                 ColoredShape shape = new ColoredShape(typedText, activeColor, activeWeight);
                 addColoredShape(shape.clone());
+                typedText = null;
             }
             if (activeStyle.equals(BrushStyle.valueOf("TEXT")))
             {

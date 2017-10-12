@@ -3,9 +3,9 @@ import java.io.Serializable;
 
 public class TextShape2D implements Serializable
 {
-    String text = "";
-    int x;
-    int y;
+    private String text = "";
+    private int x;
+    private int y;
     
     public TextShape2D(String text, int x, int y)
     {
@@ -32,5 +32,12 @@ public class TextShape2D implements Serializable
     public void append(String str)
     {
         text = text + str;
+    }
+
+    public void backspace()
+    {
+        int len = text.length();
+        if (len > 0)
+            text = text.substring(0, len-1);
     }
 }
