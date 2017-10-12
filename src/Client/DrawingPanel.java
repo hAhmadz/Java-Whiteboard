@@ -217,6 +217,7 @@ public class DrawingPanel extends JPanel
         {
             e.printStackTrace();
         }
+        typedText = null;
         repaint();
     }
 
