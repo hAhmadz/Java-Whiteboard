@@ -25,6 +25,6 @@ public interface RemoteShapeList extends Remote
     public ArrayList<String> messageStream(String message) throws RemoteException;
 
     public ArrayList<String> getMsgs() throws RemoteException;
-
+    
     public boolean subscribe(PanelExInt drawClient) throws RemoteException;
 }

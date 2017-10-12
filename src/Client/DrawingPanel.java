@@ -184,7 +184,7 @@ public class DrawingPanel extends JPanel
             repaint();
         }
     }
-
+    
     public ArrayList<String> messageStream(String message)
     {
         ArrayList<String> OutputArr = new ArrayList<String>();
