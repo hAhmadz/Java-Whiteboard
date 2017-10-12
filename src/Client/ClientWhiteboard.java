@@ -14,11 +14,14 @@ import java.util.Stack;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 import javax.swing.Icon;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.colorchooser.ColorSelectionModel;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -388,7 +391,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
 
         jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel1.setText("Not Connected");
+        jLabel1.setText("Not Connected to Chat");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -537,7 +540,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         drawingPanel.setLayout(drawingPanelLayout);
         drawingPanelLayout.setHorizontalGroup(
             drawingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 978, Short.MAX_VALUE)
         );
         drawingPanelLayout.setVerticalGroup(
             drawingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -659,7 +662,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_clearBtnActionPerformed
     {//GEN-HEADEREND:event_clearBtnActionPerformed
-        drawingPanel.clear();
+        drawingPanel.clear();        
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void menuBarAction(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuBarAction
@@ -728,10 +731,10 @@ public class ClientWhiteboard extends javax.swing.JFrame
         if (login == 0)
         {
             drawingPanel.name = chatTextField.getText();
-            jLabel1.setText(chatTextField.getText());
             login = 1;
+            jLabel1.setText(chatTextField.getText());
+            JOptionPane.showMessageDialog(null, "Username set to " + chatTextField.getText(), "Chat Connection", JOptionPane.INFORMATION_MESSAGE);
             chatTextField.setText("");
-            
         }
         else
         {
