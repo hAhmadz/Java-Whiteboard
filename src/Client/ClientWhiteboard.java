@@ -39,6 +39,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
     private javax.swing.JMenuItem exitBtn;
     private javax.swing.JButton freeHandBtn;
     private javax.swing.JColorChooser jColorChooser;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
@@ -59,11 +60,8 @@ public class ClientWhiteboard extends javax.swing.JFrame
     // End of variables declaration//GEN-END:variables
     private Icon icon;
     private File currentFile;
-    
-    
     private PanelEx panelex;
-    
-    
+
     //to be implemented
     private boolean unsavedChanges;
     static ArrayList<String> OutputStreamtest = null;
@@ -83,38 +81,43 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 new ClientWhiteboard().setVisible(true);
             }
         });
-        
-        
+
         java.awt.EventQueue.invokeLater(
-        		new Runnable() {
-        			public void run() {
-        				Runnable test = new Runnable() {
-        					public void run() {
-        						ArrayList<String> OutputStream = null;
-								try {
-									OutputStream = drawingPanel.getMsg();
-								} catch (RemoteException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-        				        String OutputString = "";
-        				        if (!OutputStream.isEmpty())
-        				        {
-        				            for (String msg : OutputStream)
-        				            {
-        				                OutputString += msg + "\n";
-        				            }
-        				            chatHistoryTextArea.setText(OutputString);
-        				        }
-        					}
-        				};
-        				
-        				ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
-        				executor.scheduleAtFixedRate(test, 0, 500, TimeUnit.MILLISECONDS);
-        			}
-        		});
-        
-        
+                new Runnable()
+        {
+            public void run()
+            {
+                Runnable test = new Runnable()
+                {
+                    public void run()
+                    {
+                        ArrayList<String> OutputStream = null;
+                        try
+                        {
+                            OutputStream = drawingPanel.getMsg();
+                        }
+                        catch (RemoteException e)
+                        {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        String OutputString = "";
+                        if (!OutputStream.isEmpty())
+                        {
+                            for (String msg : OutputStream)
+                            {
+                                OutputString += msg + "\n";
+                            }
+                            chatHistoryTextArea.setText(OutputString);
+                        }
+                    }
+                };
+
+                ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+                executor.scheduleAtFixedRate(test, 0, 500, TimeUnit.MILLISECONDS);
+            }
+        });
+
     }
 
     @SuppressWarnings("unchecked")
@@ -122,7 +125,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
     private void initComponents()
     {
 
-        new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         IconFontSwing.register(FontAwesome.getIconFont());
         icon = IconFontSwing.buildIcon(FontAwesome.SQUARE_O, 28);
@@ -148,40 +150,14 @@ public class ClientWhiteboard extends javax.swing.JFrame
         undoBtn = new javax.swing.JButton(icon);
         icon = IconFontSwing.buildIcon(FontAwesome.REPEAT, 28);
         redoBtn = new javax.swing.JButton(icon);
+        jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         chatHistoryTextArea = new javax.swing.JTextArea();
         chatTextField = new javax.swing.JTextField();
         icon = IconFontSwing.buildIcon(FontAwesome.REPLY_ALL, 28);
         sendMsgBtn = new javax.swing.JButton(icon);
-        
-        
-        /* Moved registry to ClientWhiteboard, should be able to make a remote object
-         * for the messages here too. */
-        RemoteShapeList shapes = null;
-        drawingPanel = new DrawingPanel();
-        
-        try
-        {
-            panelex = new PanelEx();
-            panelex.setDrawPan(drawingPanel);
-            
-            Registry registry = LocateRegistry.getRegistry("localhost", 6000);
-            shapes = (RemoteShapeList) registry.lookup("shapeList");
-            
-            shapes.subscribe(panelex);
-       }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        drawingPanel.setShapes(shapes);
-        
-        
-        
-       
-        
-        
+        drawingPanel = new Client.DrawingPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         newBtn = new javax.swing.JMenuItem();
@@ -197,6 +173,22 @@ public class ClientWhiteboard extends javax.swing.JFrame
 
         jPanel1.setBackground(new java.awt.Color(223, 223, 223));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Toolbar"));
+        RemoteShapeList shapes = null;
+        try
+        {
+            panelex = new PanelEx();
+            panelex.setDrawPan(drawingPanel);
+
+            Registry registry = LocateRegistry.getRegistry("localhost", 6000);
+            shapes = (RemoteShapeList) registry.lookup("shapeList");
+
+            shapes.subscribe(panelex);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        drawingPanel.setShapes(shapes);
 
         rectangleBtnHollow.setBackground(new java.awt.Color(207, 207, 207));
         rectangleBtnHollow.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -394,6 +386,10 @@ public class ClientWhiteboard extends javax.swing.JFrame
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(153, 153, 153));
+        jLabel1.setText("Not Connected");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -405,34 +401,38 @@ public class ClientWhiteboard extends javax.swing.JFrame
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGap(8, 8, 8)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(textDrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(rectangleBtnHollow, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(freeHandBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(textDrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                .addComponent(rectangleBtnHollow, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(freeHandBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(circleBtnHollow, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(18, 18, 18)
-                                        .addComponent(circleBtnHollow, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(circleBtnFilled, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                .addComponent(circleBtnFilled, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(lineBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                                .addComponent(rectangleBtnFilled, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(eraseBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addGap(18, 18, 18)
-                                        .addComponent(lineBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(rectangleBtnFilled, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(eraseBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(undoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(redoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(undoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(redoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jLabel1))
+                        .addGap(0, 8, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -441,38 +441,33 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(circleBtnFilled, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                            .addComponent(undoBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                            .addComponent(lineBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(16, 16, 16)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(eraseBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rectangleBtnFilled, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(redoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(freeHandBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(circleBtnHollow, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(rectangleBtnHollow, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textDrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lineBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(circleBtnFilled, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(undoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 24, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(rectangleBtnFilled, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(eraseBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(redoBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(25, 25, 25)
+                            .addComponent(textDrawBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                    .addComponent(clearBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jColorChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(324, Short.MAX_VALUE))
+                .addGap(281, 281, 281)
+                .addComponent(jLabel1)
+                .addContainerGap())
         );
-
-        jLabel1.setFont(new java.awt.Font("Trebuchet MS", 0, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(153, 153, 153));
-        jLabel1.setText(drawingPanel.name + " <- You // Whiteboard");
 
         jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
 
@@ -485,7 +480,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
         chatHistoryTextArea.setToolTipText("");
         chatHistoryTextArea.setWrapStyleWord(true);
         jScrollPane1.setViewportView(chatHistoryTextArea);
-        //messageAction("ClientJoined123");
 
         chatTextField.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         chatTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
@@ -521,7 +515,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
                         .addComponent(chatTextField)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(sendMsgBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 952, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 944, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -644,7 +638,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 8, Short.MAX_VALUE)
                         .addComponent(drawingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -675,13 +669,13 @@ public class ClientWhiteboard extends javax.swing.JFrame
         {
             case "SAVE":
                 if (currentFile != null)
-                { 
+                {
                     drawingPanel.saveDrawing(currentFile.getPath());
                     break;
                     // break only if current file != null
                 }
 
-            case "SAVEAS": 
+            case "SAVEAS":
                 JFileChooser saveChooser = new JFileChooser();
                 int saveValue = saveChooser.showSaveDialog(drawingPanel);
                 if (saveValue == JFileChooser.APPROVE_OPTION)
@@ -692,7 +686,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 }
                 break;
 
-            case "OPEN": 
+            case "OPEN":
                 JFileChooser openChooser = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter(
                         ".dat files", "dat");
@@ -707,10 +701,9 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 break;
 
             case "NEW":
-                currentFile = null; 
+                currentFile = null;
                 drawingPanel.newDiagram();
                 break;
-                
 
             case "EXIT":
                 System.exit(0);
@@ -724,25 +717,27 @@ public class ClientWhiteboard extends javax.swing.JFrame
         chatTextField.setText("");
         String OutputString = "";
         if (!OutputStream.isEmpty())
-        {
-            for (String msg : OutputStream)
-            {
+        {    for (String msg : OutputStream)
                 OutputString += msg + "\n";
-            }
             chatHistoryTextArea.setText(OutputString);
         }
     }
 
     private void sendMsgBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_sendMsgBtnActionPerformed
     {//GEN-HEADEREND:event_sendMsgBtnActionPerformed
-    	if(login == 0) {
-    		drawingPanel.name = chatTextField.getText();
-    		login = 1;
-    		chatTextField.setText("");
-    	} else {
+        if (login == 0)
+        {
+            drawingPanel.name = chatTextField.getText();
+            jLabel1.setText(chatTextField.getText());
+            login = 1;
+            chatTextField.setText("");
+            
+        }
+        else
+        {
             String message = drawingPanel.name + ": " + chatTextField.getText();
             messageAction(message);
-    	}
+        }
     }//GEN-LAST:event_sendMsgBtnActionPerformed
 
     private void undoBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_undoBtnActionPerformed
@@ -760,9 +755,12 @@ public class ClientWhiteboard extends javax.swing.JFrame
     {//GEN-HEADEREND:event_connectBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_connectBtnActionPerformed
-    
-    /** Updates the list of shapes which the drawingPanel paints in the GUI. */
-	public void updatePanel(Stack<ColoredShape> shapes) throws RemoteException {
-		drawingPanel.update(shapes);
-	}
+
+    /**
+     * Updates the list of shapes which the drawingPanel paints in the GUI.
+     */
+    public void updatePanel(Stack<ColoredShape> shapes) throws RemoteException
+    {
+        drawingPanel.update(shapes);
+    }
 }
