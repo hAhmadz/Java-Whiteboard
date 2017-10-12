@@ -6,8 +6,7 @@ import java.util.Stack;
 
 import Misc.ColoredShape;
 
-public interface PanelExInt extends Remote{
-
-	void updatePanel(Stack<ColoredShape> shapes) throws RemoteException;
-
+public interface PanelExInt extends Remote
+{
+    void updatePanel(Stack<ColoredShape> shapes) throws RemoteException;
 }

@@ -35,11 +35,12 @@ public class DrawingPanel extends JPanel
     DrawingListener drawing = new DrawingListener();
     TypingListener typing = new TypingListener();
     String name;
-    
-    /** local version of the server's 'shapes' stack */
+
+    /**
+     * local version of the server's 'shapes' stack
+     */
     private Stack<ColoredShape> localShapes = new Stack<ColoredShape>();
 
-    
     private enum BrushStyle
     {
         FREEHAND,
@@ -54,14 +55,15 @@ public class DrawingPanel extends JPanel
 
     /**
      * handles drawing related mouse events
-     * @throws RemoteException 
+     *
+     * @throws RemoteException
      */
     public DrawingPanel()
     {
         addMouseListener(drawing);
         addMouseMotionListener(drawing);
         addKeyListener(typing);
-       
+
     }
 
     // these co-ordinate getters and setters aren't necessary at the moment,
@@ -150,7 +152,7 @@ public class DrawingPanel extends JPanel
             repaint();
         }
     }
-    
+
     public void undoDraw()
     {
         try
@@ -166,7 +168,7 @@ public class DrawingPanel extends JPanel
             repaint();
         }
     }
-    
+
     public void redoDraw()
     {
         try
@@ -216,7 +218,7 @@ public class DrawingPanel extends JPanel
         }
         repaint();
     }
-    
+
     public void newDiagram()
     {
         try
@@ -235,7 +237,7 @@ public class DrawingPanel extends JPanel
     {
         super.paintComponent(g); //paints the background and image
         Graphics2D g2 = (Graphics2D) g;
-       
+
         for (ColoredShape shape : localShapes)
         {
             g2.setColor(shape.getColor());
@@ -243,18 +245,20 @@ public class DrawingPanel extends JPanel
             g2.setFont(defaultFont.deriveFont(7.0f * shape.getWeight()));
 
             // check if the ColoredShape is text or a shape
-            if (shape.getTextShape() != null) 
+            if (shape.getTextShape() != null)
             {
                 TextShape2D text = shape.getTextShape();
                 g2.drawString(text.getText(), text.getX(), text.getY());
             }
             else // i.e. it is a SHAPE shape, not a text shape
-            {
-                if (shape.getFilled())
+             if (shape.getFilled())
+                {
                     g2.fill(shape.getShape());
+                }
                 else
+                {
                     g2.draw(shape.getShape());
-            }
+                }
         }
 
         // display text as it is being typed
@@ -271,9 +275,13 @@ public class DrawingPanel extends JPanel
             g2.setColor(dragShape.getColor());
             g2.setStroke(new BasicStroke(dragShape.getWeight()));
             if (dragShape.getFilled())
+            {
                 g2.fill(dragShape.getShape());
+            }
             else
+            {
                 g2.draw(dragShape.getShape());
+            }
 
         }
     }
@@ -281,9 +289,10 @@ public class DrawingPanel extends JPanel
     private class TypingListener extends KeyAdapter
     {
         boolean active = false;
-        public void keyTyped(KeyEvent e) 
+
+        public void keyTyped(KeyEvent e)
         {
-            if (active) 
+            if (active)
             {
                 Character c = e.getKeyChar();
                 typedText.append(c.toString());
@@ -291,9 +300,9 @@ public class DrawingPanel extends JPanel
             }
         }
 
-        public void keyPressed(KeyEvent e) 
+        public void keyPressed(KeyEvent e)
         {
-            if (active && e.getKeyCode() == KeyEvent.VK_ENTER) 
+            if (active && e.getKeyCode() == KeyEvent.VK_ENTER)
             {
                 ColoredShape shape = new ColoredShape(typedText, activeColor, activeWeight);
                 addColoredShape(shape.clone());
@@ -321,12 +330,12 @@ public class DrawingPanel extends JPanel
             requestFocusInWindow();
             startX = e.getX();
             startY = e.getY();
-            if (typedText != null) 
+            if (typedText != null)
             {
                 ColoredShape shape = new ColoredShape(typedText, activeColor, activeWeight);
                 addColoredShape(shape.clone());
             }
-            if (activeStyle.equals(BrushStyle.valueOf("TEXT"))) 
+            if (activeStyle.equals(BrushStyle.valueOf("TEXT")))
             {
                 typing.setActive(true);
                 typedText = new TextShape2D("", startX, startY);
@@ -419,23 +428,28 @@ public class DrawingPanel extends JPanel
         }
     }
 
-	public ArrayList<String> getMsg() throws RemoteException {
-		return shapes.getMsgs();
-	}
-	
-	
-	/** Updates the local stack of shapes to that of the server's.
-	 * Could possibly change this in future to just have the changes passed across,
-	 * not the whole stack */
-	public void update(Stack<ColoredShape> shapes) throws RemoteException{
-		localShapes = shapes;
-		repaint();
-	}
-	
-	/** Changes this class' stack of shapes to match that of the parameter. */
-	public void setShapes (RemoteShapeList shapes) {
-		this.shapes = shapes;
-	}
-	
-	
+    public ArrayList<String> getMsg() throws RemoteException
+    {
+        return shapes.getMsgs();
+    }
+
+    /**
+     * Updates the local stack of shapes to that of the server's. Could possibly
+     * change this in future to just have the changes passed across, not the
+     * whole stack
+     */
+    public void update(Stack<ColoredShape> shapes) throws RemoteException
+    {
+        localShapes = shapes;
+        repaint();
+    }
+
+    /**
+     * Changes this class' stack of shapes to match that of the parameter.
+     */
+    public void setShapes(RemoteShapeList shapes)
+    {
+        this.shapes = shapes;
+    }
+
 }
