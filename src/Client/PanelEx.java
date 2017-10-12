@@ -5,6 +5,7 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.Stack;
 
 import Misc.ColoredShape;
+import java.util.Vector;
 
 /**
  * Since DrawingPanel cannot extend UnicastRemoteObject (it already extends a
@@ -34,6 +35,13 @@ public class PanelEx extends UnicastRemoteObject implements PanelExInt
         drawPan.update(shapes);
     }
 
+    @Override
+    public void updateChatPanel(Vector<PanelExInt> drawClients) throws RemoteException
+    {
+        drawPan.updateChat(drawClients);
+    }
+    
+    
     /**
      * Sets the drawPan.
      */
@@ -41,5 +49,6 @@ public class PanelEx extends UnicastRemoteObject implements PanelExInt
     {
         this.drawPan = drawPan;
     }
+    
 
 }

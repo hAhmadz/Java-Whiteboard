@@ -19,6 +19,7 @@ import Misc.ColoredShape;
 import Misc.TextShape2D;
 import Server.RemoteShapeList;
 import java.util.Stack;
+import java.util.Vector;
 
 public class DrawingPanel extends JPanel
 {
@@ -455,6 +456,11 @@ public class DrawingPanel extends JPanel
     {
         localShapes = shapes;
         repaint();
+    }
+    
+    public Vector<PanelExInt> updateChat(Vector<PanelExInt> drawClients) throws RemoteException
+    {
+        return drawClients;
     }
 
     /**

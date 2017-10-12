@@ -156,6 +156,7 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
         drawClients.add(drawClient);
         drawClient.updatePanel(shapes);
         System.out.println("client added");
+        drawClient.updateChatPanel(drawClients);
         return true;
     }
 

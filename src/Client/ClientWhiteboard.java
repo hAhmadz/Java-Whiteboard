@@ -11,6 +11,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.Vector;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -735,7 +736,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
             chatHistoryTextArea.setText(OutputString);
         }
     }
-
+    
     private void sendMsgBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_sendMsgBtnActionPerformed
     {//GEN-HEADEREND:event_sendMsgBtnActionPerformed
         if (login == 0)
@@ -776,4 +777,14 @@ public class ClientWhiteboard extends javax.swing.JFrame
     {
         drawingPanel.update(shapes);
     }
+    
+    
+    //implementation of Client Chat Update
+  /*
+    public void updateClientsChat()
+    {
+        
+    }
+*/
 }
+
