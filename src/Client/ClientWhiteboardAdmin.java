@@ -32,11 +32,11 @@ public class ClientWhiteboardAdmin extends ClientWhiteboard
 
     public ClientWhiteboardAdmin()
     {
-        super.myPublicComponenets();
-        this.myAdminPublicComponenets();//Auto generated UI ONLY
+        super.myPublicComponents();
+        this.myAdminPublicComponents();//Auto generated UI ONLY
     }
 
-    public void myAdminPublicComponenets()
+    public void myAdminPublicComponents()
     {
         initComponents();
     }
