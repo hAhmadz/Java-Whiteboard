@@ -27,13 +27,13 @@ public class ClientWhiteboard extends javax.swing.JFrame
 {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSlider brushSizeSlider;
-    private static javax.swing.JTextArea chatHistoryTextArea;
+    public static javax.swing.JTextArea chatHistoryTextArea;
     private static javax.swing.JTextField chatTextField;
     private javax.swing.JButton circleBtnFilled;
     private javax.swing.JButton circleBtnHollow;
     private javax.swing.JButton clearBtn;
     private javax.swing.JList<String> clientList;
-    private static Client.DrawingPanel drawingPanel;
+    public static Client.DrawingPanel drawingPanel;
     private javax.swing.JButton eraseBtn;
     private javax.swing.JButton freeHandBtn;
     private javax.swing.JColorChooser jColorChooser;
@@ -62,8 +62,14 @@ public class ClientWhiteboard extends javax.swing.JFrame
 
     public ClientWhiteboard()
     {
-        initComponents(); //Auto generated UI ONLY
+        myPublicComponenets(); //Auto generated UI ONLY
     }
+    
+    public void myPublicComponenets()
+    {
+        initComponents();
+    }
+    
 
     public static void main(String[] args)
     {
