@@ -47,7 +47,7 @@ public class ClientWhiteboardAdmin extends ClientWhiteboard
         {
             public void run()
             {
-                new ClientWhiteboard().setVisible(true);
+                new ClientWhiteboardAdmin().setVisible(true);
             }
         });
 

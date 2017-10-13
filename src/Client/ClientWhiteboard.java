@@ -33,28 +33,20 @@ public class ClientWhiteboard extends javax.swing.JFrame
     private javax.swing.JButton circleBtnHollow;
     private javax.swing.JButton clearBtn;
     private javax.swing.JList<String> clientList;
-    private javax.swing.JMenuItem connectBtn;
     public static Client.DrawingPanel drawingPanel;
     private javax.swing.JButton eraseBtn;
-    private javax.swing.JMenuItem exitBtn;
     private javax.swing.JButton freeHandBtn;
     private javax.swing.JColorChooser jColorChooser;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton lineBtn;
-    private javax.swing.JMenuItem newBtn;
-    private javax.swing.JMenuItem openBtn;
     private javax.swing.JButton rectangleBtnFilled;
     private javax.swing.JButton rectangleBtnHollow;
     private javax.swing.JButton redoBtn;
-    private javax.swing.JMenuItem saveAsBtn;
-    private javax.swing.JMenuItem saveBtn;
     private javax.swing.JButton sendMsgBtn;
     private javax.swing.JButton textDrawBtn;
     private javax.swing.JButton undoBtn;
@@ -167,14 +159,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         jScrollPane2 = new javax.swing.JScrollPane();
         clientList = new javax.swing.JList<>();
         drawingPanel = new Client.DrawingPanel();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        newBtn = new javax.swing.JMenuItem();
-        openBtn = new javax.swing.JMenuItem();
-        saveAsBtn = new javax.swing.JMenuItem();
-        saveBtn = new javax.swing.JMenuItem();
-        connectBtn = new javax.swing.JMenuItem();
-        exitBtn = new javax.swing.JMenuItem();
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
@@ -559,81 +544,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
             .addGap(0, 581, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("File");
-        jMenu1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-
-        newBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        newBtn.setText("New");
-        newBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                newBtnmenuBarAction(evt);
-            }
-        });
-        jMenu1.add(newBtn);
-
-        openBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        openBtn.setText("Open");
-        openBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                openBtnmenuBarAction(evt);
-            }
-        });
-        jMenu1.add(openBtn);
-
-        saveAsBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        saveAsBtn.setText("Save As");
-        saveAsBtn.setActionCommand("SAVEAS");
-        saveAsBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                saveAsBtnmenuBarAction(evt);
-            }
-        });
-        jMenu1.add(saveAsBtn);
-
-        saveBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        saveBtn.setText("Save");
-        saveBtn.setActionCommand("SAVE");
-        saveBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                saveBtnmenuBarAction(evt);
-            }
-        });
-        jMenu1.add(saveBtn);
-
-        connectBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        connectBtn.setText("Connect");
-        connectBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                connectBtnActionPerformed(evt);
-            }
-        });
-        jMenu1.add(connectBtn);
-
-        exitBtn.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        exitBtn.setText("Exit");
-        exitBtn.addActionListener(new java.awt.event.ActionListener()
-        {
-            public void actionPerformed(java.awt.event.ActionEvent evt)
-            {
-                exitBtnmenuBarAction(evt);
-            }
-        });
-        jMenu1.add(exitBtn);
-
-        jMenuBar1.add(jMenu1);
-
-        setJMenuBar(jMenuBar1);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -654,7 +564,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 11, Short.MAX_VALUE)
                         .addComponent(drawingPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -716,256 +626,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
         drawingPanel.redoDraw();
     }//GEN-LAST:event_redoBtnActionPerformed
 
-    private void newBtnmenuBarAction(java.awt.event.ActionEvent evt)//GEN-FIRST:event_newBtnmenuBarAction
-    {//GEN-HEADEREND:event_newBtnmenuBarAction
-        String menuAction = evt.getActionCommand().toUpperCase();
-        switch (menuAction)
-        {
-            case "SAVE":
-            if (currentFile != null)
-            {
-                drawingPanel.saveDrawing(currentFile.getPath());
-                break;
-                // break only if current file != null
-            }
-
-            case "SAVEAS":
-            JFileChooser saveChooser = new JFileChooser();
-            int saveValue = saveChooser.showSaveDialog(drawingPanel);
-            if (saveValue == JFileChooser.APPROVE_OPTION)
-            {
-                currentFile = saveChooser.getSelectedFile();
-                String filename = currentFile.getPath();
-                drawingPanel.saveDrawing(filename);
-            }
-            break;
-
-            case "OPEN":
-            JFileChooser openChooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                ".dat files", "dat");
-            openChooser.setFileFilter(filter);
-            int openValue = openChooser.showOpenDialog(drawingPanel);
-            if (openValue == JFileChooser.APPROVE_OPTION)
-            {
-                currentFile = openChooser.getSelectedFile();
-                String filename = currentFile.getPath();
-                drawingPanel.openDrawing(filename);
-            }
-            break;
-
-            case "NEW":
-            currentFile = null;
-            drawingPanel.newDiagram();
-            break;
-
-            case "EXIT":
-            System.exit(0);
-            break;
-        }
-    }//GEN-LAST:event_newBtnmenuBarAction
-
-    private void openBtnmenuBarAction(java.awt.event.ActionEvent evt)//GEN-FIRST:event_openBtnmenuBarAction
-    {//GEN-HEADEREND:event_openBtnmenuBarAction
-        String menuAction = evt.getActionCommand().toUpperCase();
-        switch (menuAction)
-        {
-            case "SAVE":
-            if (currentFile != null)
-            {
-                drawingPanel.saveDrawing(currentFile.getPath());
-                break;
-                // break only if current file != null
-            }
-
-            case "SAVEAS":
-            JFileChooser saveChooser = new JFileChooser();
-            int saveValue = saveChooser.showSaveDialog(drawingPanel);
-            if (saveValue == JFileChooser.APPROVE_OPTION)
-            {
-                currentFile = saveChooser.getSelectedFile();
-                String filename = currentFile.getPath();
-                drawingPanel.saveDrawing(filename);
-            }
-            break;
-
-            case "OPEN":
-            JFileChooser openChooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                ".dat files", "dat");
-            openChooser.setFileFilter(filter);
-            int openValue = openChooser.showOpenDialog(drawingPanel);
-            if (openValue == JFileChooser.APPROVE_OPTION)
-            {
-                currentFile = openChooser.getSelectedFile();
-                String filename = currentFile.getPath();
-                drawingPanel.openDrawing(filename);
-            }
-            break;
-
-            case "NEW":
-            currentFile = null;
-            drawingPanel.newDiagram();
-            break;
-
-            case "EXIT":
-            System.exit(0);
-            break;
-        }
-    }//GEN-LAST:event_openBtnmenuBarAction
-
-    private void saveAsBtnmenuBarAction(java.awt.event.ActionEvent evt)//GEN-FIRST:event_saveAsBtnmenuBarAction
-    {//GEN-HEADEREND:event_saveAsBtnmenuBarAction
-        String menuAction = evt.getActionCommand().toUpperCase();
-        switch (menuAction)
-        {
-            case "SAVE":
-            if (currentFile != null)
-            {
-                drawingPanel.saveDrawing(currentFile.getPath());
-                break;
-                // break only if current file != null
-            }
-
-            case "SAVEAS":
-            JFileChooser saveChooser = new JFileChooser();
-            int saveValue = saveChooser.showSaveDialog(drawingPanel);
-            if (saveValue == JFileChooser.APPROVE_OPTION)
-            {
-                currentFile = saveChooser.getSelectedFile();
-                String filename = currentFile.getPath();
-                drawingPanel.saveDrawing(filename);
-            }
-            break;
-
-            case "OPEN":
-            JFileChooser openChooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                ".dat files", "dat");
-            openChooser.setFileFilter(filter);
-            int openValue = openChooser.showOpenDialog(drawingPanel);
-            if (openValue == JFileChooser.APPROVE_OPTION)
-            {
-                currentFile = openChooser.getSelectedFile();
-                String filename = currentFile.getPath();
-                drawingPanel.openDrawing(filename);
-            }
-            break;
-
-            case "NEW":
-            currentFile = null;
-            drawingPanel.newDiagram();
-            break;
-
-            case "EXIT":
-            System.exit(0);
-            break;
-        }
-    }//GEN-LAST:event_saveAsBtnmenuBarAction
-
-    private void saveBtnmenuBarAction(java.awt.event.ActionEvent evt)//GEN-FIRST:event_saveBtnmenuBarAction
-    {//GEN-HEADEREND:event_saveBtnmenuBarAction
-        String menuAction = evt.getActionCommand().toUpperCase();
-        switch (menuAction)
-        {
-            case "SAVE":
-            if (currentFile != null)
-            {
-                drawingPanel.saveDrawing(currentFile.getPath());
-                break;
-                // break only if current file != null
-            }
-
-            case "SAVEAS":
-            JFileChooser saveChooser = new JFileChooser();
-            int saveValue = saveChooser.showSaveDialog(drawingPanel);
-            if (saveValue == JFileChooser.APPROVE_OPTION)
-            {
-                currentFile = saveChooser.getSelectedFile();
-                String filename = currentFile.getPath();
-                drawingPanel.saveDrawing(filename);
-            }
-            break;
-
-            case "OPEN":
-            JFileChooser openChooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                ".dat files", "dat");
-            openChooser.setFileFilter(filter);
-            int openValue = openChooser.showOpenDialog(drawingPanel);
-            if (openValue == JFileChooser.APPROVE_OPTION)
-            {
-                currentFile = openChooser.getSelectedFile();
-                String filename = currentFile.getPath();
-                drawingPanel.openDrawing(filename);
-            }
-            break;
-
-            case "NEW":
-            currentFile = null;
-            drawingPanel.newDiagram();
-            break;
-
-            case "EXIT":
-            System.exit(0);
-            break;
-        }
-    }//GEN-LAST:event_saveBtnmenuBarAction
-
-    private void connectBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_connectBtnActionPerformed
-    {//GEN-HEADEREND:event_connectBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_connectBtnActionPerformed
-
-    private void exitBtnmenuBarAction(java.awt.event.ActionEvent evt)//GEN-FIRST:event_exitBtnmenuBarAction
-    {//GEN-HEADEREND:event_exitBtnmenuBarAction
-        String menuAction = evt.getActionCommand().toUpperCase();
-        switch (menuAction)
-        {
-            case "SAVE":
-            if (currentFile != null)
-            {
-                drawingPanel.saveDrawing(currentFile.getPath());
-                break;
-                // break only if current file != null
-            }
-
-            case "SAVEAS":
-            JFileChooser saveChooser = new JFileChooser();
-            int saveValue = saveChooser.showSaveDialog(drawingPanel);
-            if (saveValue == JFileChooser.APPROVE_OPTION)
-            {
-                currentFile = saveChooser.getSelectedFile();
-                String filename = currentFile.getPath();
-                drawingPanel.saveDrawing(filename);
-            }
-            break;
-
-            case "OPEN":
-            JFileChooser openChooser = new JFileChooser();
-            FileNameExtensionFilter filter = new FileNameExtensionFilter(
-                ".dat files", "dat");
-            openChooser.setFileFilter(filter);
-            int openValue = openChooser.showOpenDialog(drawingPanel);
-            if (openValue == JFileChooser.APPROVE_OPTION)
-            {
-                currentFile = openChooser.getSelectedFile();
-                String filename = currentFile.getPath();
-                drawingPanel.openDrawing(filename);
-            }
-            break;
-
-            case "NEW":
-            currentFile = null;
-            drawingPanel.newDiagram();
-            break;
-
-            case "EXIT":
-            System.exit(0);
-            break;
-        }
-    }//GEN-LAST:event_exitBtnmenuBarAction
-
 
     /**
      * Updates the list of shapes which the drawingPanel paints in the GUI.
@@ -984,4 +644,3 @@ public class ClientWhiteboard extends javax.swing.JFrame
     }
 */
 }
-
