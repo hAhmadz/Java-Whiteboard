@@ -847,8 +847,6 @@ public class ClientWhiteboardAdmin extends javax.swing.JFrame
                             JOptionPane.YES_NO_OPTION);
                     if (n == JOptionPane.YES_OPTION) 
                     {
-                        System.out.println(n);
-                        System.out.println("yes");
                         output.writeUTF("accept");
                         output.flush();
                         output.writeUTF("6000");
@@ -858,8 +856,6 @@ public class ClientWhiteboardAdmin extends javax.swing.JFrame
                     } 
                     else if (n == JOptionPane.NO_OPTION) 
                     {
-                        System.out.println(n);
-                        System.out.println("no");
                         output.writeUTF("reject");
                         output.flush();
                     } else {

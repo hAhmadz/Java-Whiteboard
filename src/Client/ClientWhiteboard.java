@@ -145,7 +145,6 @@ public class ClientWhiteboard extends javax.swing.JFrame
             
             /* TODO: handle the case where Manager denies access */
             String response = input.readUTF();
-            System.out.println(response);
             if (response.equals("accept"))
             {
                 String tmp = input.readUTF();
@@ -154,11 +153,11 @@ public class ClientWhiteboard extends javax.swing.JFrame
             }
             else
             {
-                System.out.print("else");
                 JOptionPane.showMessageDialog(this,
                     "Your request has been rejected.",
                     "Join Request Rejected",
                     JOptionPane.ERROR_MESSAGE);
+                // close the client
                 System.exit(1);
             }
             
