@@ -51,6 +51,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
     private javax.swing.JButton sendMsgBtn;
     private javax.swing.JButton textDrawBtn;
     private javax.swing.JButton undoBtn;
+    
     // End of variables declaration//GEN-END:variables
     private Icon icon;
     private File currentFile;
@@ -122,6 +123,7 @@ public class ClientWhiteboard extends javax.swing.JFrame
         clientList = new javax.swing.JList<>();
         drawingPanel = new Client.DrawingPanel();
 
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
         setSize(new java.awt.Dimension(0, 0));
@@ -135,24 +137,39 @@ public class ClientWhiteboard extends javax.swing.JFrame
         String ip = null;
         try(Socket socket = new Socket( "localhost", 8000);)
         {
-			DataInputStream input = new DataInputStream(socket.getInputStream());
-			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
-			
-			output.writeUTF("connect");
-			//output.flush();
-			/* TODO: handle the case where Manager denies access */
-			String tmp = input.readUTF();
-			port = Integer.parseInt(tmp);
-			ip = input.readUTF();
-			
-			
-		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+            DataInputStream input = new DataInputStream(socket.getInputStream());
+            DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+            
+            output.writeUTF("connect");
+            //output.flush();
+            
+            /* TODO: handle the case where Manager denies access */
+            String response = input.readUTF();
+            System.out.println(response);
+            if (response.equals("accept"))
+            {
+                String tmp = input.readUTF();
+                port = Integer.parseInt(tmp);
+                ip = input.readUTF();
+            }
+            else
+            {
+                System.out.print("else");
+                JOptionPane.showMessageDialog(this,
+                    "Your request has been rejected.",
+                    "Join Request Rejected",
+                    JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
+            }
+            
+            
+        } catch (UnknownHostException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         
         
         try

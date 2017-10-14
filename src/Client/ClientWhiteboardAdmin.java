@@ -44,7 +44,8 @@ public class ClientWhiteboardAdmin extends javax.swing.JFrame
     private javax.swing.JButton clearBtn;
     private javax.swing.JList<String> clientList;
     private javax.swing.JMenuItem connectBtn;
-    private static Client.DrawingPanel drawingPanel;
+    //private static Client.DrawingPanel drawingPanel;
+    private static DrawingPanel drawingPanel;
     private javax.swing.JButton eraseBtn;
     private javax.swing.JMenuItem exitBtn;
     private javax.swing.JButton freeHandBtn;
@@ -175,7 +176,8 @@ public class ClientWhiteboardAdmin extends javax.swing.JFrame
         sendMsgBtn = new javax.swing.JButton(icon);
         jScrollPane2 = new javax.swing.JScrollPane();
         clientList = new javax.swing.JList<>();
-        drawingPanel = new Client.DrawingPanel();
+        //drawingPanel = new Client.DrawingPanel();
+        drawingPanel = new DrawingPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         newBtn = new javax.swing.JMenuItem();
@@ -819,6 +821,8 @@ public class ClientWhiteboardAdmin extends javax.swing.JFrame
 
     }
 
+
+
     private class ClientTask implements Runnable {
         private final Socket clientSocket;
 
@@ -827,37 +831,53 @@ public class ClientWhiteboardAdmin extends javax.swing.JFrame
         }
 
         @Override
-        public void run() {
+        public void run() 
+        {
             System.out.println("Got a client !");
-
-            // Do whatever required to process the client's request
-
             DataInputStream input;
-			try {
-				input = new DataInputStream(clientSocket.getInputStream());
-				DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
-				
-				if (input.readUTF().equals("connect")) {
-					output.writeUTF("6000");
-					output.flush();
-					output.writeUTF("localhost");
-					output.flush();
-				}
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			
-			
+            try 
+            {
+                input = new DataInputStream(clientSocket.getInputStream());
+                DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
+                
+                if (input.readUTF().equals("connect")) {
+                    int n = JOptionPane.showConfirmDialog(
+                            null, "UsernameXXX would like to join",
+                            "Join Request",
+                            JOptionPane.YES_NO_OPTION);
+                    if (n == JOptionPane.YES_OPTION) 
+                    {
+                        System.out.println(n);
+                        System.out.println("yes");
+                        output.writeUTF("accept");
+                        output.flush();
+                        output.writeUTF("6000");
+                        output.flush();
+                        output.writeUTF("localhost");
+                        output.flush();
+                    } 
+                    else if (n == JOptionPane.NO_OPTION) 
+                    {
+                        System.out.println(n);
+                        System.out.println("no");
+                        output.writeUTF("reject");
+                        output.flush();
+                    } else {
+                        // to do?
+                    }       
+                }
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
             
-            try {
+            try 
+            {
                 clientSocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-    
     
 }
 
