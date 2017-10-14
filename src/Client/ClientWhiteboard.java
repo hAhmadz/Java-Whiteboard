@@ -3,11 +3,19 @@ package Client;
 import Client.jiconfont.FontAwesome;
 import Client.jiconfont.IconFontSwing;
 import Server.RemoteShapeList;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
 import javax.swing.Icon;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.colorchooser.ColorSelectionModel;
@@ -120,7 +128,33 @@ public class ClientWhiteboard extends javax.swing.JFrame
 
         jPanel1.setBackground(new java.awt.Color(223, 223, 223));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Toolbar"));
-        //RemoteShapeList shapes = null;
+
+
+        /* Get permission from manager to access Whiteboard.*/
+        int port = 0;
+        String ip = null;
+        try(Socket socket = new Socket( "localhost", 8000);)
+        {
+			DataInputStream input = new DataInputStream(socket.getInputStream());
+			DataOutputStream output = new DataOutputStream(socket.getOutputStream());
+			
+			output.writeUTF("connect");
+			//output.flush();
+			/* TODO: handle the case where Manager denies access */
+			String tmp = input.readUTF();
+			port = Integer.parseInt(tmp);
+			ip = input.readUTF();
+			
+			
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        
         try
         {
             panelex = new PanelEx();
@@ -129,7 +163,8 @@ public class ClientWhiteboard extends javax.swing.JFrame
             /*TODO insert messaginInt here*/
             chatPanel = new Messaging();
             chatPanel.setGui(this);
-            Registry registry = LocateRegistry.getRegistry("localhost", 6000);
+            //Registry registry = LocateRegistry.getRegistry("localhost", 6000);
+            Registry registry = LocateRegistry.getRegistry(ip, port);
             shapes = (RemoteShapeList) registry.lookup("shapeList");
 
             shapes.subscribe(panelex);

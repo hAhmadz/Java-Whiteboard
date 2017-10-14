@@ -4,15 +4,25 @@ import Client.jiconfont.FontAwesome;
 import Client.jiconfont.IconFontSwing;
 import Misc.ColoredShape;
 import Server.RemoteShapeList;
+
+import java.awt.EventQueue;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ServerSocketFactory;
 import javax.swing.Icon;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.colorchooser.ColorSelectionModel;
@@ -118,6 +128,11 @@ public class ClientWhiteboardAdmin extends javax.swing.JFrame
                 executor.scheduleAtFixedRate(test, 0, 500, TimeUnit.MILLISECONDS);
             }
         });
+        
+        
+        
+        new ClientWhiteboardAdmin().startServer();
+        	
 
     }
 
@@ -774,12 +789,75 @@ public class ClientWhiteboardAdmin extends javax.swing.JFrame
     }
     
     
-    //implementation of Client Chat Update
-  /*
-    public void updateClientsChat()
-    {
-        
+ 
+    
+    
+    /* Below bits based off code from:
+     * https://stackoverflow.com/questions/15541804/creating-the-serversocket-in-a-separate-thread */
+    
+    public void startServer() {
+        final ExecutorService clientProcessingPool = Executors.newFixedThreadPool(10);
+
+        Runnable serverTask = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ServerSocket serverSocket = new ServerSocket(8000);
+                    System.out.println("Waiting for clients to connect...");
+                    while (true) {
+                        Socket clientSocket = serverSocket.accept();
+                        clientProcessingPool.submit(new ClientTask(clientSocket));
+                    }
+                } catch (IOException e) {
+                    System.err.println("Unable to process client request");
+                    e.printStackTrace();
+                }
+            }
+        };
+        Thread serverThread = new Thread(serverTask);
+        serverThread.start();
+
     }
-*/
+
+    private class ClientTask implements Runnable {
+        private final Socket clientSocket;
+
+        private ClientTask(Socket clientSocket) {
+            this.clientSocket = clientSocket;
+        }
+
+        @Override
+        public void run() {
+            System.out.println("Got a client !");
+
+            // Do whatever required to process the client's request
+
+            DataInputStream input;
+			try {
+				input = new DataInputStream(clientSocket.getInputStream());
+				DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
+				
+				if (input.readUTF().equals("connect")) {
+					output.writeUTF("6000");
+					output.flush();
+					output.writeUTF("localhost");
+					output.flush();
+				}
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
+            
+            try {
+                clientSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    
 }
 
