@@ -130,11 +130,7 @@ public class ClientWhiteboardAdmin extends javax.swing.JFrame
             }
         });
         
-        
-        
         new ClientWhiteboardAdmin().startServer();
-        	
-
     }
 
     @SuppressWarnings("unchecked")
