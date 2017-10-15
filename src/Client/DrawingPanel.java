@@ -9,6 +9,8 @@ import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
@@ -64,7 +66,7 @@ public class DrawingPanel extends JPanel
         addMouseListener(drawing);
         addMouseMotionListener(drawing);
         addKeyListener(typing);
-
+        addFocusListener(typing);
     }
 
     // these co-ordinate getters and setters aren't necessary at the moment,
@@ -288,7 +290,7 @@ public class DrawingPanel extends JPanel
         }
     }
 
-    private class TypingListener extends KeyAdapter
+    private class TypingListener extends KeyAdapter implements FocusListener
     {
         boolean active = false;
         public void keyTyped(KeyEvent e) 
@@ -331,6 +333,29 @@ public class DrawingPanel extends JPanel
             this.active = status;
         }
 
+        public void focusGained(FocusEvent e)
+        {
+            System.out.println("focus gained");
+            if (typedText != null)
+            {
+                ColoredShape shape = new ColoredShape(typedText, activeColor, activeWeight);
+                addColoredShape(shape.clone());
+                typedText = new TextShape2D("", startX, startY);
+            }
+            
+        }
+
+        public void focusLost(FocusEvent e)
+        {
+            System.out.println("Focus Lost");
+            if (typedText != null)
+            {
+                ColoredShape shape = new ColoredShape(typedText, activeColor, activeWeight);
+                addColoredShape(shape.clone());
+                typedText = null;
+            }
+        }
+
     }
 
     /**
@@ -341,20 +366,27 @@ public class DrawingPanel extends JPanel
     {
         public void mousePressed(MouseEvent e)
         {
-            requestFocusInWindow();
+            System.out.println("focus before");
+            requestFocusInWindow(true);
+            System.out.println("focus after");
             startX = e.getX();
             startY = e.getY();
+
+
+
             if (typedText != null)
             {
                 ColoredShape shape = new ColoredShape(typedText, activeColor, activeWeight);
                 addColoredShape(shape.clone());
                 typedText = null;
             }
+
             if (activeStyle.equals(BrushStyle.valueOf("TEXT")))
             {
                 typing.setActive(true);
                 typedText = new TextShape2D("", startX, startY);
             }
+
 
         }
 
