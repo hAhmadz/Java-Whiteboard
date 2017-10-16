@@ -459,9 +459,9 @@ public class DrawingPanel extends JPanel
         repaint();
     }
     
-    public Vector<PanelExInt> updateChat(Vector<PanelExInt> drawClients) throws RemoteException
+    public Vector<ClientExInt> updateChat(Vector<ClientExInt> clients) throws RemoteException
     {
-        return drawClients;
+        return clients;
     }
 
     /**
