@@ -35,7 +35,7 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class ClientWhiteboardAdmin extends Whiteboard
+public class AdminWhiteboard extends Whiteboard
 {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem connectBtn;
@@ -56,7 +56,7 @@ public class ClientWhiteboardAdmin extends Whiteboard
     private int serverPort;
     private int managerPort;
 
-    public ClientWhiteboardAdmin()
+    public AdminWhiteboard()
     {
         super();
         this.initAdminComponents();
@@ -67,7 +67,7 @@ public class ClientWhiteboardAdmin extends Whiteboard
     // args: <port>
     public static void main(String[] args)
     {
-        ClientWhiteboardAdmin admin = new ClientWhiteboardAdmin();
+        AdminWhiteboard admin = new AdminWhiteboard();
         java.awt.EventQueue.invokeLater(new Runnable()
         {
             public void run()
@@ -79,8 +79,14 @@ public class ClientWhiteboardAdmin extends Whiteboard
 
         if (args.length != 2)
         {
-            System.out.println("usage: ClientWhiteboardAdmin <server port> <manager port>");
+            System.out.println("usage: AdminWhiteboard <server port> <manager port>");
             System.exit(0);
+        }
+
+	if (args[0] == args[1])
+        {
+            System.out.println("the manager and server ports must be different. exiting.");
+            System.exit(1);
         }
 
         try

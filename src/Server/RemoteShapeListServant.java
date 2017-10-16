@@ -13,7 +13,6 @@ import java.util.Vector;
 import Client.ClientEx;
 import Client.ClientExInt;
 
-
 public class RemoteShapeListServant extends UnicastRemoteObject implements RemoteShapeList
 {
     
@@ -23,9 +22,9 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     private Stack<ColoredShape> tempShapes = new Stack<ColoredShape>();
     private ArrayList<String> messages = new ArrayList<String>();
 
-    public RemoteShapeListServant() throws RemoteException
+    public RemoteShapeListServant(int port) throws RemoteException
     {
-        super();
+        super(port);
     }
 
     @Override
