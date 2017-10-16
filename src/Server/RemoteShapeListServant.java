@@ -42,11 +42,16 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     @Override
     public void clear() throws RemoteException
     {
+    	Stack<ColoredShape> tempUndoClear = new Stack<ColoredShape>();
         tempShapes.clear();
+        undoClear.clear();
         undoClearStatus = true;
         while (!shapes.isEmpty())
         {
-        	undoClear.push(shapes.pop());
+        	tempUndoClear.push(shapes.pop());
+        }
+        while(!tempUndoClear.isEmpty()) {
+        	undoClear.push(tempUndoClear.pop());
         }
         publish();
     }

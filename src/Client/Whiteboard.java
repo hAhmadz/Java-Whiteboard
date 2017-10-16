@@ -4,6 +4,10 @@ import Client.jiconfont.FontAwesome;
 import Client.jiconfont.IconFontSwing;
 import Server.RemoteShapeList;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
@@ -18,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 import java.io.Serializable;
 
 import javax.swing.Icon;
+import javax.swing.JFrame;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.colorchooser.ColorSelectionModel;
 import javax.swing.JOptionPane;
