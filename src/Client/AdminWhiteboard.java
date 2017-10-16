@@ -83,6 +83,12 @@ public class AdminWhiteboard extends Whiteboard
             System.exit(0);
         }
 
+	if (args[0] == args[1])
+        {
+            System.out.println("the manager and server ports must be different. exiting.");
+            System.exit(1);
+        }
+
         try
         {
             admin.serverPort = Integer.parseInt(args[0]);
