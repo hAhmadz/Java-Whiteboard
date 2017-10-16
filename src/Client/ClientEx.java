@@ -45,11 +45,11 @@ public class ClientEx extends UnicastRemoteObject implements ClientExInt
     }
 
     @Override
-    public void updateChatPanel(Vector<ClientExInt> clients) throws RemoteException
+    public void updateClientList(Vector<ClientExInt> clients) throws RemoteException
     {
         try
         {
-            drawPan.updateChat(clients);
+            gui.updateClientList(clients);
         }
         catch (Exception e)
         {
@@ -87,6 +87,11 @@ public class ClientEx extends UnicastRemoteObject implements ClientExInt
     public Whiteboard getGui() 
     {
         return gui;
+    }
+    
+    
+    public String getName() throws RemoteException{
+    	return gui.getUsername();
     }
     
 
