@@ -443,10 +443,10 @@ public class DrawingPanel extends JPanel
         }
     }
 
-    public ArrayList<String> getMsg() throws RemoteException
+    /*public ArrayList<String> getMsg() throws RemoteException
     {
         return shapes.getMsgs();
-    }
+    }*/
 
     /**
      * Updates the local stack of shapes to that of the server's. Could possibly
@@ -470,6 +470,11 @@ public class DrawingPanel extends JPanel
     public void setShapes(RemoteShapeList shapes)
     {
         this.shapes = shapes;
+    }
+    
+    
+    public String getName() {
+    	return name;
     }
 
 }
