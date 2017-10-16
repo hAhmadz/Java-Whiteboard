@@ -248,3 +248,4 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     	publishChat();
     }
 }
+

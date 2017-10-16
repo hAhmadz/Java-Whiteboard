@@ -291,6 +291,8 @@ public class DrawingPanel extends JPanel
     private class TypingListener extends KeyAdapter
     {
         boolean active = false;
+        Color tempColor = activeColor;
+        
         public void keyTyped(KeyEvent e) 
         {
             if (active) 
@@ -316,7 +318,7 @@ public class DrawingPanel extends JPanel
                 }
                 else if (e.getKeyCode() == KeyEvent.VK_ENTER) 
                 {
-                    ColoredShape shape = new ColoredShape(typedText, activeColor, activeWeight);
+                    ColoredShape shape = new ColoredShape(typedText, tempColor, activeWeight);
                     addColoredShape(shape.clone());
                     typedText = null;
                     active = false;
@@ -346,14 +348,16 @@ public class DrawingPanel extends JPanel
             startY = e.getY();
             if (typedText != null)
             {
-                ColoredShape shape = new ColoredShape(typedText, activeColor, activeWeight);
+                ColoredShape shape = new ColoredShape(typedText, typing.tempColor, activeWeight);
                 addColoredShape(shape.clone());
                 typedText = null;
             }
             if (activeStyle.equals(BrushStyle.valueOf("TEXT")))
             {
                 typing.setActive(true);
+                typing.tempColor = activeColor;
                 typedText = new TextShape2D("", startX, startY);
+                repaint();
             }
 
         }
@@ -474,7 +478,7 @@ public class DrawingPanel extends JPanel
     
     
     public String getName() {
-    	return name;
+        return name;
     }
 
 }

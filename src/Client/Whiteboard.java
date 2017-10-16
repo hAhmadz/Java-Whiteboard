@@ -612,3 +612,4 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
         
     }
 }
+
