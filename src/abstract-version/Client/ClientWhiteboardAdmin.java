@@ -82,7 +82,6 @@ public class ClientWhiteboardAdmin extends Whiteboard
 
     public void connect()
     {
-        RemoteShapeList shapes = null;
         try
         {
             panelex = new PanelEx();
