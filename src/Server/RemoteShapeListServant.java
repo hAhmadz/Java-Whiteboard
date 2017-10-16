@@ -21,8 +21,6 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     private Stack<ColoredShape> shapes = new Stack<ColoredShape>();
     private Stack<ColoredShape> tempShapes = new Stack<ColoredShape>();
     private ArrayList<String> messages = new ArrayList<String>();
-    private Stack<ColoredShape> undoClear = new Stack<ColoredShape>();
-    private boolean undoClearStatus = false;
 
     public RemoteShapeListServant(int port) throws RemoteException
     {
@@ -35,23 +33,15 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
         shapes.push(shape);
         publish();
         tempShapes.clear();
-        undoClear.clear();
-        undoClearStatus = false;
     }
 
     @Override
     public void clear() throws RemoteException
     {
-    	Stack<ColoredShape> tempUndoClear = new Stack<ColoredShape>();
         tempShapes.clear();
-        undoClear.clear();
-        undoClearStatus = true;
         while (!shapes.isEmpty())
         {
-        	tempUndoClear.push(shapes.pop());
-        }
-        while(!tempUndoClear.isEmpty()) {
-        	undoClear.push(tempUndoClear.pop());
+            tempShapes.push(shapes.pop());
         }
         publish();
     }
@@ -67,7 +57,7 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     @Override
     public synchronized void undoDrawing() throws RemoteException
     {
-        if (!shapes.isEmpty() && undoClearStatus == false)
+        if (!shapes.isEmpty())
         {
             ColoredShape temp = shapes.pop();
             if (tempShapes.size() > 20)
@@ -75,8 +65,6 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
                 tempShapes.remove(0);
             }
             tempShapes.push(temp);
-        } else if(!undoClear.isEmpty() && undoClearStatus == true) {
-        	shapes.push(undoClear.pop());
         }
         publish();
     }
@@ -84,11 +72,9 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     @Override
     public synchronized void redoDrawing() throws RemoteException
     {
-        if (!tempShapes.isEmpty() && undoClearStatus == false)
+        if (!tempShapes.isEmpty())
         {
             shapes.push(tempShapes.pop());
-        } else if (!shapes.isEmpty() && undoClearStatus == true) {
-        	undoClear.push(shapes.pop());
         }
         publish();
     }
@@ -174,7 +160,13 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
         clientEx.updateChat(messages);
 
         System.out.println("client added");
-        clientEx.updateChatPanel(clients);
+        //clientEx.updateClientList(clients);
+        publishClientList();
+        
+        //TODO: When client connects up, need to update everyone's local list of clients
+        //publishNames
+        //calls an updateClientList on each client, passing clients as a param
+        // clientWhite reads each client's drawpan to get name and prints name to Whiteboard's Jlist ClientList
 
         return true;
     }
@@ -226,12 +218,33 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     
     
     /**
+     * Updates the clients with clientList changes.
+     */
+    public void publishClientList() throws RemoteException
+    {
+
+        for (int i = 0; i < clients.size(); i++)
+        {
+            try
+            {
+                ClientExInt tmp = (ClientExInt) clients.get(i);
+                tmp.updateClientList(clients);
+            }
+            catch (Exception e)
+            {
+                //problem with the client not connected; so remove it               
+                clients.remove(i);
+
+            }
+        }
+    }
+    
+    /**
      * Adds a message to the list of messages
      * @throws RemoteException 
      * */
     public void addMessage(String message) throws RemoteException{
-    	messages.add(message);
-    	publishChat();
+        messages.add(message);
+        publishChat();
     }
 }
-
