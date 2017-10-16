@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -29,19 +30,22 @@ public class ClientWhiteboard extends Whiteboard
     // End of variables declaration//GEN-END:variables
     private Icon icon;
     private File currentFile;
+    //private PanelEx panelex;
+    //private Messaging chatPanel;
     private ClientEx clientEx;
     private RemoteShapeList shapes = null;
     
     //to be implemented
     private boolean unsavedChanges;
     static ArrayList<String> OutputStreamtest = null;
-
+    int login = 0;
 
     public ClientWhiteboard()
     {
         super(); //Auto generated UI ONLY
     }
 
+    // arg format:
     public static void main(String[] args)
     {
 
@@ -54,18 +58,36 @@ public class ClientWhiteboard extends Whiteboard
             }
         });
 
-        client.connect();
+        if (args.length != 2)
+        {
+            System.out.println("Usage: ClientWhiteboard <managerHost> <managerPort>");
+            System.exit(0);
+        }
+
+        String managerHost = args[0];
+        try
+        {
+            int managerPort = Integer.parseInt(args[1]);
+            client.connect(managerHost, managerPort);
+        }
+        catch (NumberFormatException ex)
+        {
+            System.out.println("Port must be an integer in the range 0 to 65535");
+            System.out.println("Client is quitting.");
+            System.exit(1);
+        }
+        
     }
 
  
-    public void connect()
+    public void connect(String managerHost, int managerPort)
     {
         /* Get permission from manager to access Whiteboard.*/
-        int port = 0;
-        String ip = null;
-        try(Socket socket = new Socket("localhost", 8000);)
-
+        String serverHost = null;
+        int serverPort = 0;
+        try 
         {
+            Socket socket = new Socket(managerHost, managerPort);
             DataInputStream input = new DataInputStream(socket.getInputStream());
             DataOutputStream output = new DataOutputStream(socket.getOutputStream());
             
@@ -79,8 +101,8 @@ public class ClientWhiteboard extends Whiteboard
             if (response.equals("accept"))
             {
                 String tmp = input.readUTF();
-                port = Integer.parseInt(tmp);
-                ip = input.readUTF();
+                serverPort = Integer.parseInt(tmp);
+                serverHost = input.readUTF();
             }
             else
             {
@@ -107,12 +129,8 @@ public class ClientWhiteboard extends Whiteboard
             clientEx.setDrawPan(drawingPanel);
             clientEx.setGui(this);
 
-            /*TODO insert messaginInt here*/
-            //chatPanel = new Messaging();
-            //chatPanel.setGui(this);
-
             //Registry registry = LocateRegistry.getRegistry("localhost", 6000);
-            Registry registry = LocateRegistry.getRegistry(ip, port);
+            Registry registry = LocateRegistry.getRegistry(serverHost, serverPort);
             shapes = (RemoteShapeList) registry.lookup("shapeList");
 
             shapes.subscribe(clientEx);

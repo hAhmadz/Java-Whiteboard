@@ -54,6 +54,8 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
     // End of variables declaration//GEN-END:variables
     private String username;
    	private Icon icon;
+    //private PanelEx panelex;
+    //private Messaging chatPanel;
     private RemoteShapeList shapes = null;
 
     //to be implemented
@@ -68,7 +70,9 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
     }
 
 
-    public abstract void connect();
+    public abstract void connect(String host, int port);
+
+    public abstract void messageAction(String message);
 
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
@@ -523,8 +527,6 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
     {//GEN-HEADEREND:event_clearBtnActionPerformed
         drawingPanel.clear();        
     }//GEN-LAST:event_clearBtnActionPerformed
-
-    public abstract void messageAction(String message);
     
     private void sendMsgBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_sendMsgBtnActionPerformed
     {//GEN-HEADEREND:event_sendMsgBtnActionPerformed

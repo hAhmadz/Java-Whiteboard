@@ -12,6 +12,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.Inet4Address;
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -51,14 +53,18 @@ public class ClientWhiteboardAdmin extends Whiteboard
     private ClientEx clientEx;
     private RemoteShapeList shapes = null;
 
+    private int serverPort;
+    private int managerPort;
 
     public ClientWhiteboardAdmin()
     {
         super();
         this.initAdminComponents();
-        this.connect();
+        //this.connect();
     }
 
+
+    // args: <port>
     public static void main(String[] args)
     {
         ClientWhiteboardAdmin admin = new ClientWhiteboardAdmin();
@@ -69,11 +75,33 @@ public class ClientWhiteboardAdmin extends Whiteboard
                 admin.setVisible(true);
             }
         });
+
+
+        if (args.length != 2)
+        {
+            System.out.println("usage: ClientWhiteboardAdmin <server port> <manager port>");
+            System.exit(0);
+        }
+
+        try
+        {
+            admin.serverPort = Integer.parseInt(args[0]);
+            admin.connect("localhost", admin.serverPort);
+            admin.managerPort = Integer.parseInt(args[1]);
+            admin.startServer(admin.managerPort);
+        }
+        catch (NumberFormatException ex)
+        {
+            System.out.println("Port must be an integer in the range 0 to 65535");
+            System.out.println("Client is quitting.");
+            System.exit(1);
+        }
+
         
-        admin.startServer();
+        
     }
 
-    public void connect()
+    public void connect(String serverHost, int serverPort)
     {
         try
         {
@@ -81,12 +109,8 @@ public class ClientWhiteboardAdmin extends Whiteboard
             clientEx = new ClientEx();
             clientEx.setDrawPan(drawingPanel);
             clientEx.setGui(this);
-            
-            /*TODO insert messaginInt here*/
-            //chatPanel = new Messaging();
-            //chatPanel.setGui(this);
 
-            Registry registry = LocateRegistry.getRegistry("localhost", 6000);
+            Registry registry = LocateRegistry.getRegistry(serverHost, serverPort);
             //Registry registry = LocateRegistry.getRegistry(ip, port);
             shapes = (RemoteShapeList) registry.lookup("shapeList");
 
@@ -247,14 +271,14 @@ public class ClientWhiteboardAdmin extends Whiteboard
     /* Below bits based off code from:
      * https://stackoverflow.com/questions/15541804/creating-the-serversocket-in-a-separate-thread */
     
-    public void startServer() {
+    public void startServer(int port) {
         final ExecutorService clientProcessingPool = Executors.newFixedThreadPool(10);
 
         Runnable serverTask = new Runnable() {
             @Override
             public void run() {
                 try {
-                    ServerSocket serverSocket = new ServerSocket(8000);
+                    ServerSocket serverSocket = new ServerSocket(port);
                     System.out.println("Waiting for clients to connect...");
                     while (true) {
                         Socket clientSocket = serverSocket.accept();
@@ -300,9 +324,10 @@ public class ClientWhiteboardAdmin extends Whiteboard
                     {
                         output.writeUTF("accept");
                         output.flush();
-                        output.writeUTF("6000");
+                        output.writeUTF(String.valueOf(serverPort));
                         output.flush();
-                        output.writeUTF("localhost");
+                        String serverHost = Inet4Address.getLocalHost().getHostAddress();
+                        output.writeUTF(serverHost);
                         output.flush();
                     } 
                     else if (n == JOptionPane.NO_OPTION) 
