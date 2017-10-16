@@ -26,6 +26,8 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     private Stack<ColoredShape> shapes = new Stack<ColoredShape>();
     private Stack<ColoredShape> tempShapes = new Stack<ColoredShape>();
     private ArrayList<String> messages = new ArrayList<String>();
+    private Stack<ColoredShape> undoClear = new Stack<ColoredShape>();
+    private boolean undoClearStatus = false;
 
     public RemoteShapeListServant() throws RemoteException
     {
@@ -38,15 +40,18 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
         shapes.push(shape);
         publish();
         tempShapes.clear();
+        undoClear.clear();
+        undoClearStatus = false;
     }
 
     @Override
     public void clear() throws RemoteException
     {
         tempShapes.clear();
+        undoClearStatus = true;
         while (!shapes.isEmpty())
         {
-            tempShapes.push(shapes.pop());
+        	undoClear.push(shapes.pop());
         }
         publish();
     }
@@ -62,7 +67,7 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     @Override
     public synchronized void undoDrawing() throws RemoteException
     {
-        if (!shapes.isEmpty())
+        if (!shapes.isEmpty() && undoClearStatus == false)
         {
             ColoredShape temp = shapes.pop();
             if (tempShapes.size() > 20)
@@ -70,6 +75,8 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
                 tempShapes.remove(0);
             }
             tempShapes.push(temp);
+        } else if(!undoClear.isEmpty() && undoClearStatus == true) {
+        	shapes.push(undoClear.pop());
         }
         publish();
     }
@@ -77,9 +84,11 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     @Override
     public synchronized void redoDrawing() throws RemoteException
     {
-        if (!tempShapes.isEmpty())
+        if (!tempShapes.isEmpty() && undoClearStatus == false)
         {
             shapes.push(tempShapes.pop());
+        } else if (!shapes.isEmpty() && undoClearStatus == true) {
+        	undoClear.push(shapes.pop());
         }
         publish();
     }
