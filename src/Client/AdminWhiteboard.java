@@ -35,6 +35,8 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+
+
 public class AdminWhiteboard extends Whiteboard
 {
     // Variables declaration - do not modify//GEN-BEGIN:variables
