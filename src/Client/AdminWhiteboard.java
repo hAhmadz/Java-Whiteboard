@@ -155,8 +155,9 @@ public class AdminWhiteboard extends Whiteboard
         openBtn = new javax.swing.JMenuItem();
         saveAsBtn = new javax.swing.JMenuItem();
         saveBtn = new javax.swing.JMenuItem();
-        connectBtn = new javax.swing.JMenuItem();
+        //connectBtn = new javax.swing.JMenuItem();
         exitBtn = new javax.swing.JMenuItem();
+        //kickBtn = new javax.swing.JButton();
 
         jMenu1.setText("File");
         jMenu1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -222,8 +223,17 @@ public class AdminWhiteboard extends Whiteboard
 
         setJMenuBar(jMenuBar1);
 
+        kickBtn.setBackground(new java.awt.Color(207, 207, 207));
+        kickBtn.setText("Kick");
+        
+
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>//GEN-END:initComponents// </editor-fold>//GEN-END:initComponents
+
+    private void kickBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_undoBtnActionPerformed
+    {
+        // DO NOTHING
+    }
 
     private void menuBarAction(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuBarAction
     {//GEN-HEADEREND:event_menuBarAction

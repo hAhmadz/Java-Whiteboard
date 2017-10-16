@@ -11,6 +11,7 @@ import java.util.Vector;
 public interface ClientExInt extends Remote
 {
     void updatePanel(Stack<ColoredShape> shapes) throws RemoteException;
-    void updateChatPanel(Vector<ClientExInt> clients) throws RemoteException;
+    void updateClientList(Vector<ClientExInt> clients) throws RemoteException;
     void updateChat(ArrayList<String> messages) throws RemoteException;
+    public String getName() throws RemoteException;
 }
