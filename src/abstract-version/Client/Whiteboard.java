@@ -1,8 +1,8 @@
-//package Client;
+package Client;
 
-//import Client.jiconfont.FontAwesome;
-//import Client.jiconfont.IconFontSwing;
-//import Server.RemoteShapeList;
+import Client.jiconfont.FontAwesome;
+import Client.jiconfont.IconFontSwing;
+import Server.RemoteShapeList;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -33,8 +33,7 @@ public abstract class Whiteboard extends javax.swing.JFrame
     private javax.swing.JButton circleBtnHollow;
     private javax.swing.JButton clearBtn;
     private javax.swing.JList<String> clientList;
-    public static DrawingPanel drawingPanel;
-    //public static Client.DrawingPanel drawingPanel;
+    public static Client.DrawingPanel drawingPanel;
     private javax.swing.JButton eraseBtn;
     private javax.swing.JButton freeHandBtn;
     private javax.swing.JColorChooser jColorChooser;
@@ -113,9 +112,9 @@ public abstract class Whiteboard extends javax.swing.JFrame
         sendMsgBtn = new javax.swing.JButton(icon);
         jScrollPane2 = new javax.swing.JScrollPane();
         clientList = new javax.swing.JList<>();
-        //drawingPanel = new Client.DrawingPanel();
-        drawingPanel = new DrawingPanel();
+        drawingPanel = new Client.DrawingPanel();
 
+        
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
         setSize(new java.awt.Dimension(0, 0));
@@ -526,20 +525,7 @@ public abstract class Whiteboard extends javax.swing.JFrame
         drawingPanel.clear();        
     }//GEN-LAST:event_clearBtnActionPerformed
 
-    private void messageAction(String message)
-    {
-        try 
-        {
-            shapes.addMessage(message);
-        } 
-        catch (RemoteException e) 
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        chatTextField.setText("");
-        
-    }
+    public abstract void messageAction(String message);
     
     private void sendMsgBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_sendMsgBtnActionPerformed
     {//GEN-HEADEREND:event_sendMsgBtnActionPerformed
@@ -547,6 +533,7 @@ public abstract class Whiteboard extends javax.swing.JFrame
         String message = username + ": " + chatTextField.getText();
         System.out.println(message);
         messageAction(message);
+        chatTextField.setText("");
     }//GEN-LAST:event_sendMsgBtnActionPerformed
 
     private void undoBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_undoBtnActionPerformed
@@ -571,6 +558,9 @@ public abstract class Whiteboard extends javax.swing.JFrame
     		chatHistoryTextArea.setText(OutputString);
     	}
     }
+
+
+    //public JTextField getChatTextField() { return chatTextField; }
 
     public PanelEx getPanelEx() { return panelex; }
     public void setPanelEx(PanelEx p) { panelex = p; }

@@ -1,8 +1,8 @@
-//package Client;
+package Client;
 
-//import Client.jiconfont.FontAwesome;
-//import Client.jiconfont.IconFontSwing;
-//import Server.RemoteShapeList;
+import Client.jiconfont.FontAwesome;
+import Client.jiconfont.IconFontSwing;
+import Server.RemoteShapeList;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -75,7 +75,9 @@ public class ClientWhiteboard extends Whiteboard
             DataOutputStream output = new DataOutputStream(socket.getOutputStream());
             
             output.writeUTF("connect");
-            //output.flush();
+            output.flush();
+            output.writeUTF(getUsername());
+            output.flush();
             
             /* TODO: handle the case where Manager denies access */
             String response = input.readUTF();
@@ -124,6 +126,19 @@ public class ClientWhiteboard extends Whiteboard
             e.printStackTrace();
         }
         drawingPanel.setShapes(shapes);
+    }
+
+    public void messageAction(String message)
+    {
+        try 
+        {
+            shapes.addMessage(message);
+        }
+        catch (RemoteException e) 
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }        
     }
 }
 

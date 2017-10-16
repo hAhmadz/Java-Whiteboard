@@ -1,9 +1,9 @@
-//package Client;
+package Client;
 
-//import Client.jiconfont.FontAwesome;
-//import Client.jiconfont.IconFontSwing;
-//import Misc.ColoredShape;
-//import Server.RemoteShapeList;
+import Client.jiconfont.FontAwesome;
+import Client.jiconfont.IconFontSwing;
+import Misc.ColoredShape;
+import Server.RemoteShapeList;
 
 import java.awt.EventQueue;
 import java.io.DataInputStream;
@@ -48,6 +48,9 @@ public class ClientWhiteboardAdmin extends Whiteboard
     private javax.swing.JMenuItem saveBtn;
     // End of variables declaration//GEN-END:variables
     private File currentFile;
+    private PanelEx panelex;
+    private Messaging chatPanel;
+    private RemoteShapeList shapes = null;
 
 
     public ClientWhiteboardAdmin()
@@ -82,24 +85,39 @@ public class ClientWhiteboardAdmin extends Whiteboard
         RemoteShapeList shapes = null;
         try
         {
-            setPanelEx(new PanelEx());
-            getPanelEx().setDrawPan(drawingPanel);
+            panelex = new PanelEx();
+            panelex.setDrawPan(drawingPanel);
             
             /*TODO insert messaginInt here*/
-            setChatPanel(new Messaging());
-            getChatPanel().setGui(this);
+            chatPanel = new Messaging();
+            chatPanel.setGui(this);
+
             Registry registry = LocateRegistry.getRegistry("localhost", 6000);
             //Registry registry = LocateRegistry.getRegistry(ip, port);
             shapes = (RemoteShapeList) registry.lookup("shapeList");
 
-            shapes.subscribe(getPanelEx());
-            shapes.subscribeChat(getChatPanel());
+            shapes.subscribe(panelex);
+            boolean chatResult = shapes.subscribeChat(chatPanel);
+            System.out.println(chatResult);
         }
         catch (Exception e)
         {
             e.printStackTrace();
         }
         drawingPanel.setShapes(shapes);
+    }
+
+    public void messageAction(String message)
+    {
+        try
+        {
+            shapes.addMessage(message);
+        }
+        catch (RemoteException e) 
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }   
     }
 
     @SuppressWarnings("unchecked")
@@ -116,37 +134,6 @@ public class ClientWhiteboardAdmin extends Whiteboard
         saveBtn = new javax.swing.JMenuItem();
         connectBtn = new javax.swing.JMenuItem();
         exitBtn = new javax.swing.JMenuItem();
-
-        /*setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(204, 204, 204));
-        setSize(new java.awt.Dimension(0, 0));
-
-        jPanel1.setBackground(new java.awt.Color(223, 223, 223));
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Toolbar"));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 468, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 846, Short.MAX_VALUE)
-        );
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 974, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 287, Short.MAX_VALUE)
-        );*/
 
         jMenu1.setText("File");
         jMenu1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -311,8 +298,9 @@ public class ClientWhiteboardAdmin extends Whiteboard
                 DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
                 
                 if (input.readUTF().equals("connect")) {
+                    String clientUsername = input.readUTF();
                     int n = JOptionPane.showConfirmDialog(
-                            null, "UsernameXXX would like to join",
+                            null, clientUsername + " would like to join.",
                             "Join Request",
                             JOptionPane.YES_NO_OPTION);
                     if (n == JOptionPane.YES_OPTION) 
