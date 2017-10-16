@@ -26,14 +26,14 @@ import javax.swing.event.ChangeListener;
 
 public abstract class Whiteboard extends javax.swing.JFrame
 {
-	private javax.swing.JSlider brushSizeSlider;
+    private javax.swing.JSlider brushSizeSlider;
     private static javax.swing.JTextArea chatHistoryTextArea;
     private static javax.swing.JTextField chatTextField;
     private javax.swing.JButton circleBtnFilled;
     private javax.swing.JButton circleBtnHollow;
     private javax.swing.JButton clearBtn;
     private javax.swing.JList<String> clientList;
-    public static Client.DrawingPanel drawingPanel;
+    public static DrawingPanel drawingPanel;
     private javax.swing.JButton eraseBtn;
     private javax.swing.JButton freeHandBtn;
     private javax.swing.JColorChooser jColorChooser;
@@ -52,7 +52,7 @@ public abstract class Whiteboard extends javax.swing.JFrame
     private javax.swing.JButton undoBtn;
     // End of variables declaration//GEN-END:variables
     private String username;
-   	private Icon icon;
+    private Icon icon;
     private PanelEx panelex;
     private Messaging chatPanel;
     private RemoteShapeList shapes = null;
@@ -65,6 +65,7 @@ public abstract class Whiteboard extends javax.swing.JFrame
     public Whiteboard()
     {
         initComponents(); //Auto generated UI ONLY
+        username = JOptionPane.showInputDialog("Please enter your username");
     }
 
 
@@ -74,7 +75,7 @@ public abstract class Whiteboard extends javax.swing.JFrame
     public void setUsername(String username) { this.username = username; }
 
 
-	@SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     public void initComponents()
     {
@@ -112,9 +113,8 @@ public abstract class Whiteboard extends javax.swing.JFrame
         sendMsgBtn = new javax.swing.JButton(icon);
         jScrollPane2 = new javax.swing.JScrollPane();
         clientList = new javax.swing.JList<>();
-        drawingPanel = new Client.DrawingPanel();
+        drawingPanel = new DrawingPanel();
 
-        
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
         setSize(new java.awt.Dimension(0, 0));
@@ -529,9 +529,7 @@ public abstract class Whiteboard extends javax.swing.JFrame
     
     private void sendMsgBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_sendMsgBtnActionPerformed
     {//GEN-HEADEREND:event_sendMsgBtnActionPerformed
-        System.out.println(username);
         String message = username + ": " + chatTextField.getText();
-        System.out.println(message);
         messageAction(message);
         chatTextField.setText("");
     }//GEN-LAST:event_sendMsgBtnActionPerformed
@@ -548,15 +546,15 @@ public abstract class Whiteboard extends javax.swing.JFrame
     
     public void updateChatHistory(ArrayList<String> OutputStream) {
     
-    	String OutputString = "";
-    	if (!OutputStream.isEmpty())
-    	{
-    		for (String msg : OutputStream)
-    		{
-    			OutputString += msg + "\n";
-    		}
-    		chatHistoryTextArea.setText(OutputString);
-    	}
+        String OutputString = "";
+        if (!OutputStream.isEmpty())
+        {
+            for (String msg : OutputStream)
+            {
+                OutputString += msg + "\n";
+            }
+            chatHistoryTextArea.setText(OutputString);
+        }
     }
 
 

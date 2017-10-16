@@ -10,7 +10,7 @@ public class Messaging extends UnicastRemoteObject implements MessagingInt{
 	/**
      * The drawingPanel which this object will be connected to.
      */
-    private ClientWhiteboard gui;
+    private Whiteboard gui;
 	
 	protected Messaging() throws RemoteException {
 		super();
@@ -23,7 +23,7 @@ public class Messaging extends UnicastRemoteObject implements MessagingInt{
 		gui.updateChatHistory(messages);
 	}
 
-	public void setGui(ClientWhiteboard gui) {
+	public void setGui(Whiteboard gui) {
 		this.gui = gui;
 	}
 
