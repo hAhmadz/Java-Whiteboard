@@ -18,9 +18,11 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.concurrent.TimeUnit;
 import java.io.Serializable;
 
+import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
@@ -62,6 +64,7 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
     //private PanelEx panelex;
     //private Messaging chatPanel;
     private RemoteShapeList shapes = null;
+    private DefaultListModel<String> dlm;
 
     //to be implemented
     private boolean unsavedChanges;
@@ -125,7 +128,8 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
         icon = IconFontSwing.buildIcon(FontAwesome.REPLY_ALL, 28);
         sendMsgBtn = new javax.swing.JButton(icon);
         jScrollPane2 = new javax.swing.JScrollPane();
-        clientList = new javax.swing.JList<>();
+        dlm = new DefaultListModel<String>();
+        clientList = new javax.swing.JList<>(dlm);
         drawingPanel = new DrawingPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -448,7 +452,7 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
                 sendMsgBtnActionPerformed(evt);
             }
         });
-
+//TODO:
         clientList.setBackground(new java.awt.Color(240, 240, 240));
         jScrollPane2.setViewportView(clientList);
 
@@ -574,6 +578,31 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
         }
     }
 
+    
+    public void updateClientList(Vector<ClientExInt> clients) {
+    	dlm.clear();
+    	for (int i = 0; i < clients.size(); i++)
+        {
+            
+            ClientExInt tmp = (ClientExInt) clients.get(i);
+            try {
+                	
+            	dlm.addElement(tmp.getName());
+				System.out.println(tmp.getName());
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
+        }
+    	
+    }
+    	
+    /*public String getUsername(){
+    	return username;
+    }*/
+    
+    	
 
     //public JTextField getChatTextField() { return chatTextField; }
 
