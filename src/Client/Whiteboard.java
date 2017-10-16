@@ -130,7 +130,9 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
+        setMinimumSize(new java.awt.Dimension(1280, 800));
         setSize(new java.awt.Dimension(0, 0));
+        
 
         jPanel1.setBackground(new java.awt.Color(223, 223, 223));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Toolbar"));
@@ -508,11 +510,11 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
         drawingPanel.setLayout(drawingPanelLayout);
         drawingPanelLayout.setHorizontalGroup(
             drawingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 978, Short.MAX_VALUE)
+            .addGap(0, 778, Short.MAX_VALUE)
         );
         drawingPanelLayout.setVerticalGroup(
             drawingPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 581, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
