@@ -1,17 +1,17 @@
-//package Server;
+package Server;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-//import Misc.ColoredShape;
+import Misc.ColoredShape;
 import java.io.File;
 import java.io.IOException;
 import java.io.*;
 import java.util.Stack;
 import java.util.Vector;
 
-//import Client.MessagingInt;
-//import Client.PanelExInt;
+import Client.MessagingInt;
+import Client.PanelExInt;
 
 public class RemoteShapeListServant extends UnicastRemoteObject implements RemoteShapeList
 {

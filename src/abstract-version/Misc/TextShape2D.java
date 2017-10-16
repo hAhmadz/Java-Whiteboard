@@ -1,4 +1,4 @@
-//package Misc;
+package Misc;
 import java.io.Serializable;
 
 public class TextShape2D implements Serializable

@@ -1,11 +1,11 @@
-//package Server;
+package Server;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-//import Misc.ColoredShape;
-//import Client.MessagingInt;
-//import Client.PanelExInt;
+import Misc.ColoredShape;
+import Client.MessagingInt;
+import Client.PanelExInt;
 
 public interface RemoteShapeList extends Remote
 {

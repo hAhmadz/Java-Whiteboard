@@ -1,10 +1,10 @@
-//package Client;
+package Client;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Stack;
 
-//import Misc.ColoredShape;
+import Misc.ColoredShape;
 import java.util.Vector;
 
 public interface PanelExInt extends Remote

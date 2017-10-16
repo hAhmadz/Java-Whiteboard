@@ -1,4 +1,4 @@
-//package Misc;
+package Misc;
 
 import java.awt.Color;
 import java.awt.Shape;
