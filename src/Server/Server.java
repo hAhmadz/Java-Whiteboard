@@ -2,6 +2,7 @@ package Server;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.net.Inet4Address;
 
 public class Server
 {
@@ -18,9 +19,10 @@ public class Server
         {
             int port = Integer.parseInt(args[0]);
             
-            System.setProperty("java.rmi.server.hostname", "localhost");
-            RemoteShapeList shapeList = new RemoteShapeListServant();
+            String hostname = Inet4Address.getLocalHost().getHostAddress();
+            System.setProperty("java.rmi.server.hostname", hostname);
             Registry registry = LocateRegistry.createRegistry(port);
+            RemoteShapeList shapeList = new RemoteShapeListServant(port);
             registry.bind("shapeList", shapeList);
             System.out.println("server ready");
         }
