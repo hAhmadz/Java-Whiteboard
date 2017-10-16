@@ -15,3 +15,4 @@ public interface ClientExInt extends Remote
     void updateChat(ArrayList<String> messages) throws RemoteException;
     public String getName() throws RemoteException;
 }
+

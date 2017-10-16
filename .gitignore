@@ -1,1 +1,21 @@
+<<<<<<< HEAD
 /bin/
+=======
+.project
+.classpath
+dist/whiteboard_browser.jnlp
+dist/whiteboard.jnlp
+dist/whiteboard.jar
+dist/whiteboard.html
+dist/web-files/upgrade_javafx.png
+dist/web-files/upgrade_java.png
+dist/web-files/javafx-loading-25x25.gif
+dist/web-files/javafx-loading-100x100.gif
+dist/web-files/javafx-chrome.png
+dist/web-files/get_javafx.png
+dist/web-files/get_java.png
+dist/web-files/error.png
+dist/web-files/dtjava.js
+dist/lib/beansbinding-1.2.1.jar
+dist/lib/AbsoluteLayout.jar
+>>>>>>> ea5af588d608fe2852e8a7f21559e68dcd8d0e0d

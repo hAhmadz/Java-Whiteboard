@@ -34,27 +34,13 @@ public class ClientEx extends UnicastRemoteObject implements ClientExInt
     @Override
     public void updatePanel(Stack<ColoredShape> shapes) throws RemoteException
     {
-        try
-        {
-            drawPan.update(shapes);
-        }
-        catch (Exception e)
-        {
-            System.out.println("here is is 1");
-        }
+        drawPan.update(shapes);
     }
 
     @Override
     public void updateClientList(Vector<ClientExInt> clients) throws RemoteException
     {
-        try
-        {
-            gui.updateClientList(clients);
-        }
-        catch (Exception e)
-        {
-            System.out.println("here is is 3");
-        }
+        gui.updateClientList(clients);
     }
     
     
@@ -69,15 +55,7 @@ public class ClientEx extends UnicastRemoteObject implements ClientExInt
 
     @Override
     public void updateChat(ArrayList<String> messages) throws RemoteException {
-        // TODO Auto-generated method stub
-        try
-        {
-            gui.updateChatHistory(messages);
-        }
-        catch (Exception e)
-        {
-            System.out.println("here is is 2");
-        }
+        gui.updateChatHistory(messages);
     }
 
     public void setGui(Whiteboard gui) {
