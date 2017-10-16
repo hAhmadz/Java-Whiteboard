@@ -4,8 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import Misc.ColoredShape;
-import Client.MessagingInt;
-import Client.PanelExInt;
+import Client.ClientEx;
 
 public interface RemoteShapeList extends Remote
 {
@@ -27,9 +26,9 @@ public interface RemoteShapeList extends Remote
 
     public ArrayList<String> getMsgs() throws RemoteException;
     
-    public boolean subscribe(PanelExInt drawClient) throws RemoteException;
+    public boolean subscribe(ClientExInt clientEx) throws RemoteException;
     
-    public boolean subscribeChat(MessagingInt chatClient) throws RemoteException;
+    // public boolean subscribeChat(MessagingInt chatClient) throws RemoteException;
     
     public void publishChat() throws RemoteException;
     

@@ -48,15 +48,14 @@ public class ClientWhiteboardAdmin extends Whiteboard
     private javax.swing.JMenuItem saveBtn;
     // End of variables declaration//GEN-END:variables
     private File currentFile;
-    private PanelEx panelex;
-    private Messaging chatPanel;
+    private ClientEx clientEx;
     private RemoteShapeList shapes = null;
 
 
     public ClientWhiteboardAdmin()
     {
         super();
-        this.initAdminComponents();//Auto generated UI ONLY
+        this.initAdminComponents();
         this.connect();
     }
 
@@ -78,20 +77,21 @@ public class ClientWhiteboardAdmin extends Whiteboard
     {
         try
         {
-            panelex = new PanelEx();
-            panelex.setDrawPan(drawingPanel);
+
+            clientEx = new ClientEx();
+            clientEx.setDrawPan(drawingPanel);
+            clientEx.setGui(this);
             
             /*TODO insert messaginInt here*/
-            chatPanel = new Messaging();
-            chatPanel.setGui(this);
+            //chatPanel = new Messaging();
+            //chatPanel.setGui(this);
 
             Registry registry = LocateRegistry.getRegistry("localhost", 6000);
             //Registry registry = LocateRegistry.getRegistry(ip, port);
             shapes = (RemoteShapeList) registry.lookup("shapeList");
 
-            shapes.subscribe(panelex);
-            boolean chatResult = shapes.subscribeChat(chatPanel);
-            System.out.println(chatResult);
+            shapes.subscribe(clientEx);
+            //shapes.subscribeChat(chatPanel);
         }
         catch (Exception e)
         {
@@ -104,10 +104,7 @@ public class ClientWhiteboardAdmin extends Whiteboard
     {
         try
         {
-            if (shapes != null)
-                shapes.addMessage(message);
-            else
-                System.out.println("nully wully");
+            shapes.addMessage(message);
         }
         catch (RemoteException e) 
         {
@@ -328,6 +325,6 @@ public class ClientWhiteboardAdmin extends Whiteboard
             }
         }
     }
-    
+
 }
 

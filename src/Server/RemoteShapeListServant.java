@@ -10,19 +10,14 @@ import java.io.*;
 import java.util.Stack;
 import java.util.Vector;
 
-import Client.MessagingInt;
-import Client.PanelExInt;
+import Client.ClientEx;
+
 
 public class RemoteShapeListServant extends UnicastRemoteObject implements RemoteShapeList
 {
-    /**
-     * Contains a list of all the DrawingPanels clients
-     */
-    private Vector<PanelExInt> drawClients = new Vector<PanelExInt>();
-    /**
-     * Contains a list of all the Messaging clients
-     */
-    private Vector<MessagingInt> chatClients = new Vector<MessagingInt>();
+    
+
+    private Vector<ClientExInt> clients = new Vector<ClientExInt>();
     private Stack<ColoredShape> shapes = new Stack<ColoredShape>();
     private Stack<ColoredShape> tempShapes = new Stack<ColoredShape>();
     private ArrayList<String> messages = new ArrayList<String>();
@@ -154,27 +149,19 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
         return messages;
     }
     
-    /**
-     * adds the client to a list of chat subscribers
-     */
-    public boolean subscribeChat(MessagingInt chatClient) throws RemoteException
-    {
-        chatClients.add(chatClient);
-        chatClient.updateChat(messages);
-        System.out.println("client added");
-        return true;
-    }
-    
 
     /**
      * adds the client to a list of subscribers
      */
-    public boolean subscribe(PanelExInt drawClient) throws RemoteException
+    public boolean subscribe(ClientExInt clientEx) throws RemoteException
     {
-        drawClients.add(drawClient);
-        drawClient.updatePanel(shapes);
+        clients.add(clientEx);
+        clientEx.updatePanel(shapes);
+        clientEx.updateChat(messages);
+
         System.out.println("client added");
-        drawClient.updateChatPanel(drawClients);
+        clientEx.updateChatPanel(clients);
+
         return true;
     }
 
@@ -184,17 +171,17 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     public void publish() throws RemoteException
     {
 
-        for (int i = 0; i < drawClients.size(); i++)
+        for (int i = 0; i < clients.size(); i++)
         {
             try
             {
-                PanelExInt tmp = (PanelExInt) drawClients.get(i);
+                ClientExInt tmp = (ClientExInt) clients.get(i);
                 tmp.updatePanel(shapes);
             }
             catch (Exception e)
             {
-                //problem with the client not connected; so remove it		    	
-                drawClients.remove(i);
+                //problem with the client not connected; so remove it               
+                clients.remove(i);
 
             }
         }
@@ -207,17 +194,17 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     public void publishChat() throws RemoteException
     {
 
-        for (int i = 0; i < chatClients.size(); i++)
+        for (int i = 0; i < clients.size(); i++)
         {
             try
             {
-                MessagingInt tmp = (MessagingInt) chatClients.get(i);
+                ClientExInt tmp = (ClientExInt) clients.get(i);
                 tmp.updateChat(messages);
             }
             catch (Exception e)
             {
-                //problem with the client not connected; so remove it		    	
-                chatClients.remove(i);
+                //problem with the client not connected; so remove it               
+                clients.remove(i);
 
             }
         }

@@ -15,6 +15,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+import java.io.Serializable;
 
 import javax.swing.Icon;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
@@ -24,9 +25,9 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public abstract class Whiteboard extends javax.swing.JFrame
+public abstract class Whiteboard extends javax.swing.JFrame implements Serializable
 {
-    private javax.swing.JSlider brushSizeSlider;
+	private javax.swing.JSlider brushSizeSlider;
     private static javax.swing.JTextArea chatHistoryTextArea;
     private static javax.swing.JTextField chatTextField;
     private javax.swing.JButton circleBtnFilled;
@@ -52,9 +53,7 @@ public abstract class Whiteboard extends javax.swing.JFrame
     private javax.swing.JButton undoBtn;
     // End of variables declaration//GEN-END:variables
     private String username;
-    private Icon icon;
-    private PanelEx panelex;
-    private Messaging chatPanel;
+   	private Icon icon;
     private RemoteShapeList shapes = null;
 
     //to be implemented
@@ -75,7 +74,7 @@ public abstract class Whiteboard extends javax.swing.JFrame
     public void setUsername(String username) { this.username = username; }
 
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     public void initComponents()
     {
@@ -545,24 +544,30 @@ public abstract class Whiteboard extends javax.swing.JFrame
     }//GEN-LAST:event_redoBtnActionPerformed
     
     public void updateChatHistory(ArrayList<String> OutputStream) {
-    
-        String OutputString = "";
-        if (!OutputStream.isEmpty())
+        try
         {
-            for (String msg : OutputStream)
-            {
-                OutputString += msg + "\n";
-            }
-            chatHistoryTextArea.setText(OutputString);
+        	String OutputString = "";
+        	if (!OutputStream.isEmpty())
+        	{
+        		for (String msg : OutputStream)
+        		{
+        			OutputString += msg + "\n";
+        		}
+        		chatHistoryTextArea.setText(OutputString);
+        	}
+        }
+        catch (Exception e)
+        {
+            System.out.println("here is is 1");
         }
     }
 
 
     //public JTextField getChatTextField() { return chatTextField; }
 
-    public PanelEx getPanelEx() { return panelex; }
-    public void setPanelEx(PanelEx p) { panelex = p; }
+    // public PanelEx getPanelEx() { return panelex; }
+    // public void setPanelEx(PanelEx p) { panelex = p; }
 
-    public Messaging getChatPanel() { return chatPanel; }
-    public void setChatPanel(Messaging m) { chatPanel = m; }
+    // public Messaging getChatPanel() { return chatPanel; }
+    // public void setChatPanel(Messaging m) { chatPanel = m; }
 }

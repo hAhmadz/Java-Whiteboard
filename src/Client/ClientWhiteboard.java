@@ -29,14 +29,13 @@ public class ClientWhiteboard extends Whiteboard
     // End of variables declaration//GEN-END:variables
     private Icon icon;
     private File currentFile;
-    private PanelEx panelex;
-    private Messaging chatPanel;
+    private ClientEx clientEx;
     private RemoteShapeList shapes = null;
     
     //to be implemented
     private boolean unsavedChanges;
     static ArrayList<String> OutputStreamtest = null;
-    int login = 0;
+
 
     public ClientWhiteboard()
     {
@@ -65,8 +64,6 @@ public class ClientWhiteboard extends Whiteboard
         int port = 0;
         String ip = null;
         try(Socket socket = new Socket("localhost", 8000);)
-
-
 
         {
             DataInputStream input = new DataInputStream(socket.getInputStream());
@@ -106,18 +103,20 @@ public class ClientWhiteboard extends Whiteboard
         
         try
         {
-            panelex = new PanelEx();
-            panelex.setDrawPan(drawingPanel);
-            
+            clientEx = new ClientEx();
+            clientEx.setDrawPan(drawingPanel);
+            clientEx.setGui(this);
+
             /*TODO insert messaginInt here*/
-            chatPanel = new Messaging();
-            chatPanel.setGui(this);
+            //chatPanel = new Messaging();
+            //chatPanel.setGui(this);
+
             //Registry registry = LocateRegistry.getRegistry("localhost", 6000);
             Registry registry = LocateRegistry.getRegistry(ip, port);
             shapes = (RemoteShapeList) registry.lookup("shapeList");
 
-            shapes.subscribe(panelex);
-            shapes.subscribeChat(chatPanel);
+            shapes.subscribe(clientEx);
+            //shapes.subscribeChat(chatPanel);
         }
         catch (Exception e)
         {
@@ -146,6 +145,8 @@ public class ClientWhiteboard extends Whiteboard
             "The Whiteboard Manager has removed you!",
             "Goodbye!",
             JOptionPane.ERROR_MESSAGE);
+        System.exit(1);
     }
+
 }
 
