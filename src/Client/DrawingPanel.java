@@ -291,13 +291,6 @@ public class DrawingPanel extends JPanel
     private class TypingListener extends KeyAdapter
     {
         boolean active = false;
-<<<<<<< HEAD
-    	Color tempColor = activeColor;
-    	
-=======
-        Color tempColor = activeColor;
-        
->>>>>>> ea5af588d608fe2852e8a7f21559e68dcd8d0e0d
         public void keyTyped(KeyEvent e) 
         {
             if (active) 
