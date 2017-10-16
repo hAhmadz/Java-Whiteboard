@@ -11,6 +11,7 @@ import java.util.Stack;
 import java.util.Vector;
 
 import Client.ClientEx;
+import Client.ClientExInt;
 
 
 public class RemoteShapeListServant extends UnicastRemoteObject implements RemoteShapeList
