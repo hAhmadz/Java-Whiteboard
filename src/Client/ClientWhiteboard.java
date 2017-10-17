@@ -128,12 +128,14 @@ public class ClientWhiteboard extends Whiteboard
             output.close();
             socket.close();
             
-        } catch (UnknownHostException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        } 
+        catch (Exception e)
+        {
+            JOptionPane.showMessageDialog(this,
+                "There was an issue connecting to the server.\n Please check your settings and try again.",
+                "Connection error",
+                JOptionPane.ERROR_MESSAGE);
+            System.exit(101);
         }
         
         try
@@ -151,7 +153,11 @@ public class ClientWhiteboard extends Whiteboard
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            JOptionPane.showMessageDialog(this,
+                "There was an issue connecting to the server.\n Please check your settings and try again.",
+                "Connection error",
+                JOptionPane.ERROR_MESSAGE);
+            System.exit(101);
         }
         drawingPanel.setShapes(shapes);
     }
