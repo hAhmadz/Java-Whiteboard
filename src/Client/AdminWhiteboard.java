@@ -108,16 +108,21 @@ public class AdminWhiteboard extends Whiteboard
         }
 
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-        	public void run() {
-        		System.out.println("shutting down");
-        		try {
-					shapes.addMessage("Admin has left");
-				} catch (RemoteException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					//theres no server so this will be called
-				}
-        	}
+            public void run() {
+                System.out.println("shutting down");
+                try 
+                {
+                    ListModel clientLM = admin.clientList.getModel();
+                    for (int i = 0; i < clientLM.getSize(); i++)
+                    {
+                        String target = (String) clientLM.getElementAt(i);
+                        shapes.unsubscribe(target);    
+                    } 
+                }
+                catch (RemoteException e) {
+                    //theres no server so this will be called
+                }
+            }
         },"Shutdown-thread"));
         
     }
