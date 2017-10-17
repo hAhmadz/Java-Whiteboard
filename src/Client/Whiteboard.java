@@ -72,6 +72,7 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
         do
         {
             username = JOptionPane.showInputDialog(prompt);
+            username = username.trim();
             prompt = "Username must be provided!";
 
             if (username == null)
