@@ -140,7 +140,10 @@ public class AdminWhiteboard extends Whiteboard
         }
         catch (Exception e)
         {
-            System.out.println("No Server");
+            JOptionPane.showMessageDialog(this,
+                "There was an issue connecting to the server.\n Please check your settings and try again.",
+                "Connection error",
+                JOptionPane.ERROR_MESSAGE);
             System.exit(101);
         }
         drawingPanel.setShapes(shapes);
