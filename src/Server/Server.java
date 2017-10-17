@@ -1,5 +1,6 @@
 package Server;
 
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.net.Inet4Address;
@@ -36,5 +37,12 @@ public class Server
         {
             e.printStackTrace();
         }
+        
+        
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+        	public void run() {
+        		System.out.println("shutting down");
+        	}
+        },"Shutdown-thread"));
     }
 }

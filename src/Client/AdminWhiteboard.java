@@ -54,7 +54,7 @@ public class AdminWhiteboard extends Whiteboard
     // End of variables declaration//GEN-END:variables
     private File currentFile;
     private ClientEx clientEx;
-    private RemoteShapeList shapes = null;
+    private static RemoteShapeList shapes = null;
 
     private int serverPort;
     private int managerPort;
@@ -106,7 +106,17 @@ public class AdminWhiteboard extends Whiteboard
             System.exit(1);
         }
 
-        
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+        	public void run() {
+        		System.out.println("shutting down");
+        		try {
+					shapes.addMessage("Admin has left");
+				} catch (RemoteException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        	}
+        },"Shutdown-thread"));
         
     }
 
