@@ -13,6 +13,8 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.rmi.RemoteException;
+
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 import Misc.ColoredShape;
@@ -122,11 +124,21 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException e)
         {
-            e.printStackTrace();
+            //e.printStackTrace();
+        	onExit();
         }
     }
 
-    public void saveDrawing(String filename)
+    private void onExit() {
+    	System.out.println("No Server");
+    	JOptionPane.showMessageDialog(this,
+                "Server has gone down!",
+                "Goodbye!",
+                JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+	}
+
+	public void saveDrawing(String filename)
     {
         try
         {
@@ -134,7 +146,8 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException e)
         {
-            e.printStackTrace();
+            //e.printStackTrace();
+        	onExit();
         }
     }
 
@@ -146,7 +159,8 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException e)
         {
-            e.printStackTrace();
+            //e.printStackTrace();
+        	onExit();
         }
         finally
         {
@@ -162,7 +176,8 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException ex)
         {
-            ex.printStackTrace();
+            //ex.printStackTrace();
+        	onExit();
         }
         finally
         {
@@ -178,7 +193,8 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException ex)
         {
-            ex.printStackTrace();
+            //ex.printStackTrace();
+        	onExit();
         }
         finally
         {
@@ -197,7 +213,8 @@ public class DrawingPanel extends JPanel
             }
             catch (RemoteException e)
             {
-                e.printStackTrace();
+                //e.printStackTrace();
+            	onExit();
             }
         }
         return OutputArr;
@@ -215,7 +232,8 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException e)
         {
-            e.printStackTrace();
+            //e.printStackTrace();
+        	onExit();
         }
         typedText = null;
         repaint();
@@ -229,7 +247,8 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException e)
         {
-            e.printStackTrace();
+            //e.printStackTrace();
+        	onExit();
         }
         repaint();
     }

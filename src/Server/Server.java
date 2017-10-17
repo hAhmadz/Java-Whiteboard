@@ -37,12 +37,5 @@ public class Server
         {
             e.printStackTrace();
         }
-        
-        
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-        	public void run() {
-        		System.out.println("shutting down");
-        	}
-        },"Shutdown-thread"));
     }
 }

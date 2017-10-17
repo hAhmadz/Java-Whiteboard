@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.ConnectException;
 import java.net.Inet4Address;
 
 import java.rmi.RemoteException;
@@ -114,6 +115,7 @@ public class AdminWhiteboard extends Whiteboard
 				} catch (RemoteException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+					//theres no server so this will be called
 				}
         	}
         },"Shutdown-thread"));
@@ -138,7 +140,8 @@ public class AdminWhiteboard extends Whiteboard
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            System.out.println("No Server");
+            System.exit(101);
         }
         drawingPanel.setShapes(shapes);
     }
