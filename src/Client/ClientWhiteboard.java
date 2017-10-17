@@ -179,7 +179,7 @@ public class ClientWhiteboard extends Whiteboard
     public void kick()
     {
         JOptionPane.showMessageDialog(this,
-            "The Whiteboard Manager has removed you!",
+            "The Whiteboard Manager has terminated your session!",
             "Goodbye!",
             JOptionPane.ERROR_MESSAGE);
         
