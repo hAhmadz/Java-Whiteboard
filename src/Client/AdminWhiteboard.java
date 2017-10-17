@@ -255,19 +255,22 @@ public class AdminWhiteboard extends Whiteboard
 
     private void kickBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_undoBtnActionPerformed
     {
-        String username = clientList.getSelectedValue();
+        String kickUsername = clientList.getSelectedValue();
 
         // don't kick yourself!
-        if (!username.equals(getUsername()));
-        {
-            System.out.println("kicking " + username);
-            try
+        if (kickUsername != null)
+        { 
+            if (!(kickUsername.equals(getUsername())))
             {
-                shapes.unsubscribe(username);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
+                System.out.println("kicking " + kickUsername);
+                try
+                {
+                    shapes.unsubscribe(kickUsername);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
         }
 
