@@ -67,11 +67,20 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
     public Whiteboard()
     {
         initComponents(); //Auto generated UI ONLY
-        username = JOptionPane.showInputDialog("Please enter your username");
-        while (username == null)
+        String prompt = "Please enter your username";
+        
+        do
         {
-            username = JOptionPane.showInputDialog("Username must be provided!");
-        }
+            username = JOptionPane.showInputDialog(prompt);
+            prompt = "Username must be provided!";
+
+            if (username == null)
+            {
+                System.out.println("Username selection cancelled. System exiting.");
+                System.exit(1);
+            }
+        
+        } while(username.equals(""));
     }
 
 
