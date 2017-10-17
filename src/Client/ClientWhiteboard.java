@@ -183,16 +183,8 @@ public class ClientWhiteboard extends Whiteboard
             "Goodbye!",
             JOptionPane.ERROR_MESSAGE);
         
-        try
-        {
-            UnicastRemoteObject.unexportObject(shapes, true);
-        }
-        catch (Exception e)
-        {
-            System.out.println(e.getMessage());
-        }
-        
-
+        shapes = null;
+        clientEx = null;
         System.gc();
         System.runFinalization();
         System.exit(0);
