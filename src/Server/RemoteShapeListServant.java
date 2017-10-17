@@ -174,23 +174,30 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
     public boolean unsubscribe(String username) throws RemoteException
     {
         Vector<ClientExInt> removals = new Vector<ClientExInt>();
-        for (ClientExInt client : clients)
-        {
-            if (client.getName().equals(username))
-                removals.add(client);
-        }
-
-        for (ClientExInt removal : removals)
-        {
-            removal.kick();
-        }
         
-        clients.removeAll(removals);
+        try
+        {
+            for (ClientExInt client : clients)
+            {
+                if (client.getName().equals(username))
+                    removals.add(client);
+            }
 
-        System.out.println("client removed");
-        publishClientList();
+            for (ClientExInt removal : removals)
+            {
+                removal.kick();
+            }
+        }
+        catch (Exception e) { }
+        finally
+        {
+            clients.removeAll(removals);
 
-        return true;
+            System.out.println("client removed");
+            publishClientList();
+
+            return true;
+        }
     }
 
     /**
