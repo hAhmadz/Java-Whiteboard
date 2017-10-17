@@ -29,6 +29,8 @@ public interface RemoteShapeList extends Remote
     public ArrayList<String> getMsgs() throws RemoteException;
     
     public boolean subscribe(ClientExInt clientEx) throws RemoteException;
+
+    public boolean unsubscribe(String username) throws RemoteException;
     
     // public boolean subscribeChat(MessagingInt chatClient) throws RemoteException;
     

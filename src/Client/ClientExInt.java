@@ -14,5 +14,7 @@ public interface ClientExInt extends Remote
     void updateClientList(Vector<ClientExInt> clients) throws RemoteException;
     void updateChat(ArrayList<String> messages) throws RemoteException;
     public String getName() throws RemoteException;
+    public void kick() throws RemoteException;
+}
 }
 

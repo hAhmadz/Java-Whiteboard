@@ -252,7 +252,21 @@ public class AdminWhiteboard extends Whiteboard
 
     private void kickBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_undoBtnActionPerformed
     {
-        int index = clientList.getSelectedIndex();
+        String username = clientList.getSelectedValue();
+
+        // don't kick yourself!
+        if (!username.equals(getUsername()));
+        {
+            System.out.println("kicking " + username);
+            try
+            {
+                shapes.unsubscribe(username);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
 
         //String s = (String) clientList.getSelectedValue();
         //System.out.println("Value Selected: " + s);
@@ -408,5 +422,10 @@ public class AdminWhiteboard extends Whiteboard
         }
     }
 
+
+    public void kick()
+    {
+        // can't kick the manager
+    }
 }
 
