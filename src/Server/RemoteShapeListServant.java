@@ -1,3 +1,12 @@
+/**
+ * Distributed Individuals
+ *	David William Ripper	694807
+ *	Haaris Nazir Ahmad 		869969
+ *	Luis Jason Jacildo		907034
+ *	Joshua James Clark		537660
+ *
+ * */
+
 package Server;
 
 import java.rmi.RemoteException;
@@ -10,9 +19,9 @@ import java.io.*;
 import java.util.Stack;
 import java.util.Vector;
 
-import Client.ClientEx;
 import Client.ClientExInt;
 
+/** Servant for the RMI connection. Holds data structures containing the shapes, clients and messages. */
 public class RemoteShapeListServant extends UnicastRemoteObject implements RemoteShapeList
 {
     
@@ -160,7 +169,6 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
         clientEx.updateChat(messages);
 
         System.out.println("client added");
-        //clientEx.updateClientList(clients);
         publishClientList();
         
         //TODO: When client connects up, need to update everyone's local list of clients

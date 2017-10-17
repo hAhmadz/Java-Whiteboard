@@ -1,45 +1,31 @@
+/**
+ * Distributed Individuals
+ *	David William Ripper	694807
+ *	Haaris Nazir Ahmad 		869969
+ *	Luis Jason Jacildo		907034
+ *	Joshua James Clark		537660
+ *
+ * */
+
 package Client;
 
-import Client.jiconfont.FontAwesome;
-import Client.jiconfont.IconFontSwing;
 import Server.RemoteShapeList;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
-
-
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
-import javax.swing.Icon;
-import javax.swing.colorchooser.AbstractColorChooserPanel;
-import javax.swing.colorchooser.ColorSelectionModel;
 import javax.swing.JOptionPane;
-import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
+
+/** The user interface for the normal clients. */
 public class ClientWhiteboard extends Whiteboard
 { 
-    // End of variables declaration//GEN-END:variables
-    private Icon icon;
-    private File currentFile;
     private ClientEx clientEx;
     private RemoteShapeList shapes = null;
     
-    //to be implemented
-    private boolean unsavedChanges;
-    static ArrayList<String> OutputStreamtest = null;
-    int login = 0;
-
     public ClientWhiteboard()
     {
         super(); //Auto generated UI ONLY
@@ -96,7 +82,6 @@ public class ClientWhiteboard extends Whiteboard
             output.writeUTF(getUsername());
             output.flush();
             
-            /* TODO: handle the case where Manager denies access */
             String response = input.readUTF();
 
             while (response.equals("nametaken"))
@@ -170,8 +155,7 @@ public class ClientWhiteboard extends Whiteboard
         }
         catch (RemoteException e) 
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        	System.out.println("Problem adding message to server");
         }        
     }
 

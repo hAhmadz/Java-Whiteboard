@@ -1,18 +1,28 @@
+/**
+ * Distributed Individuals
+ *	David William Ripper	694807
+ *	Haaris Nazir Ahmad 		869969
+ *	Luis Jason Jacildo		907034
+ *	Joshua James Clark		537660
+ *
+ * */
+
 package Misc;
 
 import java.awt.Color;
 import java.awt.Shape;
 import java.io.Serializable;
 
+/** The shape which will be printed on the Whiteboard. */
 public class ColoredShape implements Cloneable, Serializable
 {
-    Shape shape = null;
+    private Shape shape = null;
     // text for a text object (so that drawn shapes and drawn text can both live in the ArrayList)
-    TextShape2D text = null;
-    Color color;
-    int weight;
+    private TextShape2D text = null;
+    private Color color;
+    private int weight;
     // default for fill is false
-    boolean filled = false;
+    private boolean filled = false;
     
 
     /** constructor for a SHAPE to be drawn */

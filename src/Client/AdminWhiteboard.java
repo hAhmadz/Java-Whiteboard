@@ -1,48 +1,39 @@
+/**
+ * Distributed Individuals
+ *	David William Ripper	694807
+ *	Haaris Nazir Ahmad 		869969
+ *	Luis Jason Jacildo		907034
+ *	Joshua James Clark		537660
+ *
+ * */
+
 package Client;
 
-import Client.jiconfont.FontAwesome;
-import Client.jiconfont.IconFontSwing;
-import Misc.ColoredShape;
 import Server.RemoteShapeList;
 
-import java.awt.EventQueue;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.ConnectException;
 import java.net.Inet4Address;
 
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.ArrayList;
-import java.util.Stack;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
-import javax.net.ServerSocketFactory;
-import javax.swing.Icon;
-import javax.swing.colorchooser.AbstractColorChooserPanel;
-import javax.swing.colorchooser.ColorSelectionModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.ListModel;
 
 
-
+/** User interface for the Manager. Has special powers over the normal client
+ * including the ability to save the images, or kick clients off the server. */
 public class AdminWhiteboard extends Whiteboard
 {
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuItem connectBtn;
     private javax.swing.JMenuItem exitBtn;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
@@ -64,7 +55,6 @@ public class AdminWhiteboard extends Whiteboard
     {
         super();
         this.initAdminComponents();
-        //this.connect();
     }
 
 
@@ -162,8 +152,7 @@ public class AdminWhiteboard extends Whiteboard
         }
         catch (RemoteException e) 
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println("Problem adding message to server");
         }   
     }
 
@@ -179,9 +168,7 @@ public class AdminWhiteboard extends Whiteboard
         openBtn = new javax.swing.JMenuItem();
         saveAsBtn = new javax.swing.JMenuItem();
         saveBtn = new javax.swing.JMenuItem();
-        //connectBtn = new javax.swing.JMenuItem();
         exitBtn = new javax.swing.JMenuItem();
-        //kickBtn = new javax.swing.JButton();
 
         jMenu1.setText("File");
         jMenu1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -277,13 +264,13 @@ public class AdminWhiteboard extends Whiteboard
                 }
                 catch (Exception e)
                 {
-                    e.printStackTrace();
+                	System.out.println("problem unsubscribing client. Exiting");
+                	System.exit(0);
                 }
             }
         }
 
-        //String s = (String) clientList.getSelectedValue();
-        //System.out.println("Value Selected: " + s);
+
     }
 
     private void menuBarAction(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuBarAction
@@ -335,9 +322,7 @@ public class AdminWhiteboard extends Whiteboard
         }
     }//GEN-LAST:event_menuBarAction
     
-    /* Below bits based off code from:
-     * https://stackoverflow.com/questions/15541804/creating-the-serversocket-in-a-separate-thread */
-    
+      
     public void startServer(int port) {
         final ExecutorService clientProcessingPool = Executors.newFixedThreadPool(10);
 
@@ -353,7 +338,6 @@ public class AdminWhiteboard extends Whiteboard
                     }
                 } catch (IOException e) {
                     System.err.println("Unable to process client request");
-                    e.printStackTrace();
                 }
             }
         };
@@ -392,7 +376,7 @@ public class AdminWhiteboard extends Whiteboard
                         for (int i = 0; i < clientLM.getSize(); i++)
                         {
                             String target = (String) clientLM.getElementAt(i);
-                            //System.out.println("target: " + target);
+
                             if (clientUsername.equals(target))
                             {
                                 nameOK = false;
@@ -430,7 +414,8 @@ public class AdminWhiteboard extends Whiteboard
             } 
             catch (IOException e1) 
             {
-                e1.printStackTrace();
+                System.out.println("issue connecting");
+                System.exit(0);
             }
             
         }

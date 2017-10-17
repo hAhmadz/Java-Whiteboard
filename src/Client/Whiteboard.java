@@ -1,21 +1,20 @@
+/**
+ * Distributed Individuals
+ *	David William Ripper	694807
+ *	Haaris Nazir Ahmad 		869969
+ *	Luis Jason Jacildo		907034
+ *	Joshua James Clark		537660
+ *
+ * */
+
 package Client;
 
 import Client.jiconfont.FontAwesome;
 import Client.jiconfont.IconFontSwing;
-import Server.RemoteShapeList;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.Vector;
-import java.util.concurrent.TimeUnit;
 import java.io.Serializable;
 
 import javax.swing.DefaultListModel;
@@ -27,6 +26,8 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+
+/** Abstact class containing the details for the GUI and the whiteboard. */
 public abstract class Whiteboard extends javax.swing.JFrame implements Serializable
 {
     private javax.swing.JSlider brushSizeSlider;
@@ -57,12 +58,8 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
     // End of variables declaration//GEN-END:variables
     private String username;
     private Icon icon;
-    private RemoteShapeList shapes = null;
     private DefaultListModel<String> dlm;
 
-    //to be implemented
-    private boolean unsavedChanges;
-    static ArrayList<String> OutputStreamtest = null;
 
     public Whiteboard()
     {
@@ -95,7 +92,7 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
     public void setUsername(String username) { this.username = username; }
 
 
-    @SuppressWarnings("unchecked")
+    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     public void initComponents()
     {
@@ -616,10 +613,8 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
             try {
                     
                 dlm.addElement(tmp.getName());
-                System.out.println(tmp.getName());
             } catch (RemoteException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
+                System.out.println("Could not get client's name from server");
             }
             
         }

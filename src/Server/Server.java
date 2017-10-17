@@ -1,10 +1,19 @@
+/**
+ * Distributed Individuals
+ *	David William Ripper	694807
+ *	Haaris Nazir Ahmad 		869969
+ *	Luis Jason Jacildo		907034
+ *	Joshua James Clark		537660
+ *
+ * */
+
 package Server;
 
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.net.Inet4Address;
 
+/** The server which the clients connect to. Is on the same computer as AdminWhiteboard. */
 public class Server
 {
     // arguments: <port>

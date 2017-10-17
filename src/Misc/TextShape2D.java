@@ -1,6 +1,17 @@
+/**
+ * Distributed Individuals
+ *	David William Ripper	694807
+ *	Haaris Nazir Ahmad 		869969
+ *	Luis Jason Jacildo		907034
+ *	Joshua James Clark		537660
+ *
+ * */
+
 package Misc;
 import java.io.Serializable;
 
+
+/** A 2D shape version of text. */
 public class TextShape2D implements Serializable
 {
     private String text = "";

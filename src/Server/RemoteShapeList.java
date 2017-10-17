@@ -1,3 +1,12 @@
+/**
+ * Distributed Individuals
+ *	David William Ripper	694807
+ *	Haaris Nazir Ahmad 		869969
+ *	Luis Jason Jacildo		907034
+ *	Joshua James Clark		537660
+ *
+ * */
+
 package Server;
 
 import java.rmi.Remote;
@@ -5,9 +14,9 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import Misc.ColoredShape;
 
-import Client.ClientEx;
 import Client.ClientExInt;
 
+/** Interface for RemoteShapeListServant */
 public interface RemoteShapeList extends Remote
 {
     public void addColoredShape(ColoredShape shape) throws RemoteException;
@@ -31,9 +40,7 @@ public interface RemoteShapeList extends Remote
     public boolean subscribe(ClientExInt clientEx) throws RemoteException;
 
     public boolean unsubscribe(String username) throws RemoteException;
-    
-    // public boolean subscribeChat(MessagingInt chatClient) throws RemoteException;
-    
+        
     public void publishChat() throws RemoteException;
     
     public void addMessage(String message) throws RemoteException;

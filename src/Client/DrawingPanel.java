@@ -1,3 +1,12 @@
+/**
+ * Distributed Individuals
+ *	David William Ripper	694807
+ *	Haaris Nazir Ahmad 		869969
+ *	Luis Jason Jacildo		907034
+ *	Joshua James Clark		537660
+ *
+ * */
+
 package Client;
 
 import java.util.ArrayList;
@@ -23,6 +32,7 @@ import Server.RemoteShapeList;
 import java.util.Stack;
 import java.util.Vector;
 
+/** Represents the actual Whiteboard part of the application. */
 public class DrawingPanel extends JPanel
 {
     private int startX = -1;
@@ -35,9 +45,9 @@ public class DrawingPanel extends JPanel
     private ColoredShape dragShape;
     private TextShape2D typedText;
     private RemoteShapeList shapes;
-    DrawingListener drawing = new DrawingListener();
-    TypingListener typing = new TypingListener();
-    String name;
+    private DrawingListener drawing = new DrawingListener();
+    private TypingListener typing = new TypingListener();
+    private String name;
 
     /**
      * local version of the server's 'shapes' stack
@@ -124,7 +134,6 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException e)
         {
-            //e.printStackTrace();
         	onExit();
         }
     }
@@ -146,7 +155,6 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException e)
         {
-            //e.printStackTrace();
         	onExit();
         }
     }
@@ -159,7 +167,6 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException e)
         {
-            //e.printStackTrace();
         	onExit();
         }
         finally
@@ -176,7 +183,6 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException ex)
         {
-            //ex.printStackTrace();
         	onExit();
         }
         finally
@@ -193,7 +199,6 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException ex)
         {
-            //ex.printStackTrace();
         	onExit();
         }
         finally
@@ -213,7 +218,6 @@ public class DrawingPanel extends JPanel
             }
             catch (RemoteException e)
             {
-                //e.printStackTrace();
             	onExit();
             }
         }
@@ -232,7 +236,6 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException e)
         {
-            //e.printStackTrace();
         	onExit();
         }
         typedText = null;
@@ -247,7 +250,6 @@ public class DrawingPanel extends JPanel
         }
         catch (RemoteException e)
         {
-            //e.printStackTrace();
         	onExit();
         }
         repaint();
@@ -309,8 +311,8 @@ public class DrawingPanel extends JPanel
 
     private class TypingListener extends KeyAdapter
     {
-        boolean active = false;
-        Color tempColor = activeColor;
+        private boolean active = false;
+        private Color tempColor = activeColor;
         
         public void keyTyped(KeyEvent e) 
         {
