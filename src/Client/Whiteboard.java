@@ -80,6 +80,8 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
 
     public abstract void messageAction(String message);
 
+    public abstract void kick();
+
     public String getUsername() { return username; }
     public void setUsername(String username) { this.username = username; }
 

@@ -11,9 +11,11 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -122,6 +124,9 @@ public class ClientWhiteboard extends Whiteboard
                 System.exit(1);
             }
             
+            input.close();
+            output.close();
+            socket.close();
             
         } catch (UnknownHostException e) {
             // TODO Auto-generated catch block
@@ -171,7 +176,20 @@ public class ClientWhiteboard extends Whiteboard
             "The Whiteboard Manager has removed you!",
             "Goodbye!",
             JOptionPane.ERROR_MESSAGE);
-        System.exit(1);
+        
+        try
+        {
+            UnicastRemoteObject.unexportObject(shapes, true);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+        }
+        
+
+        System.gc();
+        System.runFinalization();
+        System.exit(0);
     }
 
 }

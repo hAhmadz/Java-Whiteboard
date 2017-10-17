@@ -171,6 +171,28 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
         return true;
     }
 
+    public boolean unsubscribe(String username) throws RemoteException
+    {
+        Vector<ClientExInt> removals = new Vector<ClientExInt>();
+        for (ClientExInt client : clients)
+        {
+            if (client.getName().equals(username))
+                removals.add(client);
+        }
+
+        for (ClientExInt removal : removals)
+        {
+            removal.kick();
+        }
+        
+        clients.removeAll(removals);
+
+        System.out.println("client removed");
+        publishClientList();
+
+        return true;
+    }
+
     /**
      * Updates the clients with shapelist changes.
      */
@@ -244,8 +266,8 @@ public class RemoteShapeListServant extends UnicastRemoteObject implements Remot
      * @throws RemoteException 
      * */
     public void addMessage(String message) throws RemoteException{
-    	messages.add(message);
-    	publishChat();
+        messages.add(message);
+        publishChat();
     }
 }
 

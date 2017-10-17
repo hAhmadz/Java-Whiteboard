@@ -71,6 +71,11 @@ public class ClientEx extends UnicastRemoteObject implements ClientExInt
     public String getName() throws RemoteException{
     	return gui.getUsername();
     }
+
+    public void kick() throws RemoteException
+    {
+        gui.kick(); 
+    }   
     
 
 }
