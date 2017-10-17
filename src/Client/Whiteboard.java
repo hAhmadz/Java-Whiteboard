@@ -35,7 +35,7 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
     private javax.swing.JButton circleBtnFilled;
     private javax.swing.JButton circleBtnHollow;
     private javax.swing.JButton clearBtn;
-    private javax.swing.JList<String> clientList;
+    public javax.swing.JList<String> clientList;
     public static DrawingPanel drawingPanel;
     private javax.swing.JButton eraseBtn;
     private javax.swing.JButton freeHandBtn;
@@ -130,6 +130,7 @@ public abstract class Whiteboard extends javax.swing.JFrame implements Serializa
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(204, 204, 204));
+        setMinimumSize(new java.awt.Dimension(1280, 800));
         setSize(new java.awt.Dimension(0, 0));
 
         jPanel1.setBackground(new java.awt.Color(223, 223, 223));

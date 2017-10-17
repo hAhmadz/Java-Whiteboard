@@ -1,4 +1,4 @@
-package src.Client;
+package Client;
 
 import Client.jiconfont.FontAwesome;
 import Client.jiconfont.IconFontSwing;
@@ -34,6 +34,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.ListModel;
 
 
 
@@ -85,7 +86,7 @@ public class AdminWhiteboard extends Whiteboard
             System.exit(0);
         }
 
-	if (args[0] == args[1])
+    if (args[0] == args[1])
         {
             System.out.println("the manager and server ports must be different. exiting.");
             System.exit(1);
@@ -227,6 +228,13 @@ public class AdminWhiteboard extends Whiteboard
 
         kickBtn.setBackground(new java.awt.Color(207, 207, 207));
         kickBtn.setText("Kick");
+        kickBtn.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
+                kickBtnActionPerformed(evt);
+            }
+        });
         
 
         pack();
@@ -234,7 +242,10 @@ public class AdminWhiteboard extends Whiteboard
 
     private void kickBtnActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_undoBtnActionPerformed
     {
-        // DO NOTHING
+        int index = clientList.getSelectedIndex();
+
+        //String s = (String) clientList.getSelectedValue();
+        //System.out.println("Value Selected: " + s);
     }
 
     private void menuBarAction(java.awt.event.ActionEvent evt)//GEN-FIRST:event_menuBarAction
@@ -333,7 +344,27 @@ public class AdminWhiteboard extends Whiteboard
                 DataOutputStream output = new DataOutputStream(clientSocket.getOutputStream());
                 
                 if (input.readUTF().equals("connect")) {
-                    String clientUsername = input.readUTF();
+                    boolean nameOK;
+                    String clientUsername;
+                    do
+                    {
+                        nameOK = true;
+                        clientUsername = input.readUTF();
+                        ListModel clientLM = clientList.getModel();
+                        for (int i = 0; i < clientLM.getSize(); i++)
+                        {
+                            String target = (String) clientLM.getElementAt(i);
+                            //System.out.println("target: " + target);
+                            if (clientUsername.equals(target))
+                            {
+                                nameOK = false;
+                                output.writeUTF("nametaken");
+                                output.flush();
+                            }
+                        }
+                    } while (!nameOK);
+
+
                     int n = JOptionPane.showConfirmDialog(
                             null, clientUsername + " would like to join.",
                             "Join Request",
@@ -353,19 +384,17 @@ public class AdminWhiteboard extends Whiteboard
                         output.writeUTF("reject");
                         output.flush();
                     } else {
-                        // to do?
+                        output.writeUTF("reject");
+                        output.flush();
                     }       
                 }
-            } catch (IOException e1) {
+                clientSocket.close();
+            } 
+            catch (IOException e1) 
+            {
                 e1.printStackTrace();
             }
             
-            try 
-            {
-                clientSocket.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 

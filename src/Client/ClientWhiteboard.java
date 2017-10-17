@@ -30,8 +30,6 @@ public class ClientWhiteboard extends Whiteboard
     // End of variables declaration//GEN-END:variables
     private Icon icon;
     private File currentFile;
-    //private PanelEx panelex;
-    //private Messaging chatPanel;
     private ClientEx clientEx;
     private RemoteShapeList shapes = null;
     
@@ -98,6 +96,16 @@ public class ClientWhiteboard extends Whiteboard
             
             /* TODO: handle the case where Manager denies access */
             String response = input.readUTF();
+
+            while (response.equals("nametaken"))
+            {
+                String tmpUsername = JOptionPane.showInputDialog("Name taken. Please enter another username");
+                setUsername(tmpUsername);
+                output.writeUTF(getUsername());
+                output.flush();
+                response = input.readUTF();
+            }
+
             if (response.equals("accept"))
             {
                 String tmp = input.readUTF();
