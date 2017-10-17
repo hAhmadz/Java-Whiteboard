@@ -16,5 +16,5 @@ public interface ClientExInt extends Remote
     public String getName() throws RemoteException;
     public void kick() throws RemoteException;
 }
-}
+
 
